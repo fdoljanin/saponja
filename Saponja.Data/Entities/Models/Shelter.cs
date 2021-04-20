@@ -6,7 +6,7 @@ namespace Saponja.Data.Entities.Models
     {
         public string Name { get; set; }
         public string Location { get; set; }
-        public (float x, float y) Geolocation { get; set; }
+        public Geolocation Geolocation { get; set; }
         public string ContactPhone { get; set; }
         public string ContactEmail { get; set; }
         public string Oib { get; set; }
