@@ -1,4 +1,6 @@
-﻿namespace Saponja.Data.Entities.Models
+﻿using System.Collections.Generic;
+
+namespace Saponja.Data.Entities.Models
 {
     public class Shelter : User
     {
@@ -10,6 +12,8 @@
         public string Oib { get; set; }
         public string Iban { get; set; }
         public string DocumentationLink { get; set; }
+
+        public ICollection<Animal> Animals { get; set; }
 
     }
 }

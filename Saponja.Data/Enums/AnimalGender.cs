@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Saponja.Data.Entities.Models
+namespace Saponja.Data.Enums
 {
-    public class Admin : User
+    public enum AnimalGender
     {
-
+        Male,
+        Female
     }
 }

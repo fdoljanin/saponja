@@ -10,7 +10,9 @@ namespace Saponja.Data.Entities.Models
         public int Id { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public UserRole Role { get; set; }
 
-        public UserRole UserRole { get; set; }
+        public ICollection<Notification> Notifications { get; set; }
+        public ICollection<Post> Posts { get; set; }
     }
 }
