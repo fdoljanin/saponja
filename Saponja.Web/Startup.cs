@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Saponja.Data.Entities;
 
 namespace Saponja.Web
 {
@@ -22,6 +24,9 @@ namespace Saponja.Web
         {
 
             services.AddControllersWithViews();
+
+            services.AddDbContext<SaponjaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Saponja")));
+
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
