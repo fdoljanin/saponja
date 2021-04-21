@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Saponja.Data.Entities;
 
 namespace Saponja.Data.Migrations
 {
     [DbContext(typeof(SaponjaDbContext))]
-    partial class SaponjaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210421182853_update_db")]
+    partial class update_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -69,7 +71,7 @@ namespace Saponja.Data.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<string>("DescriptionFilePath")
+                    b.Property<string>("DescriptionFileLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Gender")
@@ -102,7 +104,7 @@ namespace Saponja.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ProfilePhotoPath")
+                    b.Property<string>("ProfilePhotoLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ShelterId")
@@ -128,7 +130,7 @@ namespace Saponja.Data.Migrations
                     b.Property<int>("AnimalId")
                         .HasColumnType("int");
 
-                    b.Property<string>("PhotoPath")
+                    b.Property<string>("PhotoLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -233,10 +235,10 @@ namespace Saponja.Data.Migrations
                     b.Property<string>("ContactPhone")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DescriptionFilePath")
+                    b.Property<string>("DescriptionFileLink")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DocumentationFilePath")
+                    b.Property<string>("DocumentationFileLink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Iban")
