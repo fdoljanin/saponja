@@ -7,6 +7,7 @@ namespace Saponja.Domain.Repositories.Interfaces
     public interface IUserRepository
     {
         User GetUserById(int userId);
-        ResponseResult<User> GetUserIfValidCredentials(LoginModel model);
+        ResponseResult<User> GetUserIfValidCredentials(CredentialsModel model);
+        ResponseResult CheckEmailUnique(string email);
     }
 }

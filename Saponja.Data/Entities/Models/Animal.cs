@@ -12,8 +12,8 @@ namespace Saponja.Data.Entities.Models
         public string Name { get; set; }
         public AnimalGender Gender { get; set; }
         public AnimalAge Age { get; set; }
-        public string DescriptionLink { get; set; }
-        public string ProfilePhotoLink { get; set; }
+        public string DescriptionFilePath { get; set; }
+        public string ProfilePhotoPath { get; set; }
         public bool IsSterilized { get; set; }
         public bool IsGoodWithChildren { get; set; }
         public bool IsGoodWithCats { get; set; }

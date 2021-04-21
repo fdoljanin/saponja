@@ -24,7 +24,7 @@ namespace Saponja.Web.Controllers
 
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
-        public ActionResult<string> Login(LoginModel model)
+        public ActionResult<string> Login(CredentialsModel model)
         {
             var result = _userRepository.GetUserIfValidCredentials(model);
             if (result.IsError)

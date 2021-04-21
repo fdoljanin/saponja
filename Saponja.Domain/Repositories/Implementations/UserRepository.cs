@@ -20,7 +20,16 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public ResponseResult<User> GetUserIfValidCredentials(LoginModel model)
+        public ResponseResult CheckEmailUnique(string email)
+        {
+            var isEmailTaken = _dbContext.Users.Any(u => u.Email == email.ToLower().Trim());
+
+            return isEmailTaken
+                ? ResponseResult.Error($"{email} is already taken")
+                : ResponseResult.Ok;
+        }
+
+        public ResponseResult<User> GetUserIfValidCredentials(CredentialsModel model)
         {
             var userToLogIn = _dbContext.Users.FirstOrDefault(u => u.Email == model.Email.ToLower().Trim());
             if (userToLogIn is null)
