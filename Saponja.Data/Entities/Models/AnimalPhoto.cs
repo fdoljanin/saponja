@@ -8,7 +8,7 @@ namespace Saponja.Data.Entities.Models
     {
         public int Id { get; set; }
 
-        public string PhotoLink { get; set; }
+        public string PhotoPath { get; set; }
 
         public int AnimalId { get; set; }
 

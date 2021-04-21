@@ -39,7 +39,7 @@ namespace Saponja.Web
             services.AddHttpContextAccessor();
 
 
-            services.AddDbContext<SaponjaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("StudentMentor")));
+            services.AddDbContext<SaponjaDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("Saponja")));
 
             var jwtConfiguration = new JwtConfiguration();
             Configuration.GetSection(nameof(JwtConfiguration)).Bind(jwtConfiguration);
