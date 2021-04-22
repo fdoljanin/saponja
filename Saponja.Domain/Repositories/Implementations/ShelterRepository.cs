@@ -9,7 +9,7 @@ using Saponja.Data.Entities.Models;
 using Saponja.Data.Enums;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Helpers;
-using Saponja.Domain.Models.Shelter;
+using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
 
 namespace Saponja.Domain.Repositories.Implementations
@@ -22,10 +22,10 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public ResponseResult<Shelter> RegisterShelter(ShelterRegistrationModel shelterRegistrationModel)
+        public ResponseResult<Shelter> RegisterShelter(ShelterRegistrationModel model)
         {
-            var shelterCredentials = shelterRegistrationModel.Credentials;
-            var shelterInfo = shelterRegistrationModel.Info;
+            var shelterCredentials = model.Credentials;
+            var shelterInfo = model.Info;
 
             var passwordEncrypted = EncryptionHelper.Hash(shelterCredentials.Password);
 
@@ -37,11 +37,12 @@ namespace Saponja.Domain.Repositories.Implementations
                 Name = shelterInfo.Name,
                 City = shelterInfo.City,
                 Address = shelterInfo.Address,
-                Geolocation = shelterRegistrationModel.Geolocation,
+                Geolocation = model.Geolocation,
                 WebsiteUrl = shelterInfo.WebsiteUrl,
                 ContactPhone = shelterInfo.ContactPhone,
                 ContactEmail = shelterInfo.ContactEmail,
                 Oib = shelterInfo.Oib,
+                Iban = shelterInfo.Iban
             };
 
             _dbContext.Add(shelter);
@@ -49,6 +50,8 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var descriptionFilePath = "shelterDescription" + shelter.Id + ".txt";
             shelter.DescriptionFilePath = descriptionFilePath;
+            _dbContext.SaveChanges();
+
             File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\" + descriptionFilePath, shelterInfo.Description);
 
             return new ResponseResult<Shelter>(shelter);
@@ -60,12 +63,13 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var documentationExtension = System.IO.Path.GetExtension(documentation.FileName);
             var documentationFilePath = "shelterDocumentation" + shelter.Id + documentationExtension;
+
             shelter.DocumentationFilePath = documentationFilePath;
+            _dbContext.SaveChanges();
 
             var documentationFile = File.Create(@"C:\Users\Korisnik\Desktop\saponja\Storage\" + documentationFilePath);
             documentation.CopyTo(documentationFile);
 
-            _dbContext.SaveChanges();
             return ResponseResult.Ok;
         }
     }

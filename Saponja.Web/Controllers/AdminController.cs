@@ -8,19 +8,12 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models;
-using Saponja.Domain.Models.Shelter;
+using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
 using Saponja.Web.Infrastructure;
 
 namespace Saponja.Web.Controllers
 {
-    public class Document
-    {
-        public IFormFile File;
-        public string Name;
-    }
-
-
     //[Authorize(Policy = Policies.Admin)]
     [AllowAnonymous]
     public class AdminController : ApiController
@@ -48,6 +41,7 @@ namespace Saponja.Web.Controllers
             return Ok(registerShelterResult.Data.Id);
         }
 
+
         [HttpPost(nameof(AddShelterDocumentation))]
         public ActionResult AddShelterDocumentation([FromForm(Name = "ShelterId")] int shelterId, 
             [FromForm(Name = "DocumentationFile")] IFormFile documentation)
@@ -58,11 +52,5 @@ namespace Saponja.Web.Controllers
 
             return Ok();
         }
-
-        [HttpPost(nameof(Demo))]
-        public ActionResult<string> Demo([FromForm(Name="File")] IFormFile file, [FromForm(Name="Name")] string fileName)
-        {
-            return ("j" + fileName + "ao");
-        } 
     }
 }

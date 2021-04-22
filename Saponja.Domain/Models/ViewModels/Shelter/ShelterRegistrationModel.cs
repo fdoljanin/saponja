@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities.Models;
 
-namespace Saponja.Domain.Models.Shelter
+namespace Saponja.Domain.Models.ViewModels.Shelter
 {
     public class ShelterRegistrationModel
     {

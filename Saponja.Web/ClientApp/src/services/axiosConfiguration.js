@@ -15,7 +15,7 @@ const configureAxios = () => {
 
   const handleRedirectToLogin = () => {
     localStorage.removeItem("token");
-    history.push("/login");
+    //history.push("/login");
   };
 
   axios.interceptors.response.use(
@@ -24,7 +24,7 @@ const configureAxios = () => {
       let originalRequest = error.config;
       const token = localStorage.getItem("token");
       if (error.response && error.response.status === 401 && !token) {
-        history.push("/login");
+      //  history.push("/login");
 
         return Promise.reject(error);
       } else if (

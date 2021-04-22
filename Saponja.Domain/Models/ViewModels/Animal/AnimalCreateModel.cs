@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Text;
 using Saponja.Data.Enums;
 
-namespace Saponja.Domain.Models.ViewModels
+namespace Saponja.Domain.Models.ViewModels.Animal
 {
-    public class AnimalModelDetails : AnimalModel
+    public class AnimalCreateModel
     {
         public AnimalType Type { get; set; }
+        public string Name { get; set; }
+        public AnimalGender Gender { get; set; }
+        public AnimalAge Age { get; set; }
         public string Description { get; set; }
         public bool IsSterilized { get; set; }
         public bool IsGoodWithChildren { get; set; }
@@ -16,6 +19,5 @@ namespace Saponja.Domain.Models.ViewModels
         public bool IsVaccinated { get; set; }
         public bool IsRequiredExperience { get; set; }
         public bool IsDangerous { get; set; }
-        public int ShelterId { get; set; }
     }
 }

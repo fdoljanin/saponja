@@ -43,7 +43,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public User GetUserById(int userId)
         {
-            return default;
+            return _dbContext.Users.Find(userId);
         }
     }
 }
