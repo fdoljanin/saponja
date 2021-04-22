@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.IO;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Data.Enums;
@@ -21,7 +22,7 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext = dbContext;
         }
 
-        public ResponseResult RegisterShelter(ShelterRegistrationModel shelterRegistrationModel)
+        public ResponseResult<Shelter> RegisterShelter(ShelterRegistrationModel shelterRegistrationModel)
         {
             var shelterCredentials = shelterRegistrationModel.Credentials;
             var shelterInfo = shelterRegistrationModel.Info;
@@ -41,8 +42,6 @@ namespace Saponja.Domain.Repositories.Implementations
                 ContactPhone = shelterInfo.ContactPhone,
                 ContactEmail = shelterInfo.ContactEmail,
                 Oib = shelterInfo.Oib,
-                Iban = shelterInfo.Iban,
-                DocumentationFilePath = "fui"
             };
 
             _dbContext.Add(shelter);
@@ -50,8 +49,21 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var descriptionFilePath = "shelterDescription" + shelter.Id + ".txt";
             shelter.DescriptionFilePath = descriptionFilePath;
+            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\" + descriptionFilePath, shelterInfo.Description);
 
-            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage" + descriptionFilePath, shelterInfo.Description);
+            return new ResponseResult<Shelter>(shelter);
+        }
+
+        public ResponseResult AddShelterDocumentation(int shelterId, IFormFile documentation)
+        {
+            var shelter = _dbContext.Shelters.Find(shelterId);
+
+            var documentationExtension = System.IO.Path.GetExtension(documentation.FileName);
+            var documentationFilePath = "shelterDocumentation" + shelter.Id + documentationExtension;
+            shelter.DocumentationFilePath = documentationFilePath;
+
+            var documentationFile = File.Create(@"C:\Users\Korisnik\Desktop\saponja\Storage\" + documentationFilePath);
+            documentation.CopyTo(documentationFile);
 
             _dbContext.SaveChanges();
             return ResponseResult.Ok;
