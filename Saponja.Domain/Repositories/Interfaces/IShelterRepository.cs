@@ -4,7 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
-using Saponja.Domain.Models.Shelter;
+using Saponja.Domain.Models.ViewModels.Shelter;
 
 namespace Saponja.Domain.Repositories.Interfaces
 {

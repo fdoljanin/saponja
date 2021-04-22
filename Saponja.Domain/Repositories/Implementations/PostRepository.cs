@@ -26,8 +26,8 @@ namespace Saponja.Domain.Repositories.Implementations
                 Id = model.Id,
                 Title = model.Title,
                 DateTime = model.DateTime,
-                ContentLink = model.ContentLink,
-                ImageLink = model.ImageLink,
+                ContentPath = model.ContentLink,
+                ImagePath = model.ImageLink,
                 UserId = shelterId
             };
             _dbContext.Add(post);
@@ -57,9 +57,9 @@ namespace Saponja.Domain.Repositories.Implementations
                     Id = p.Id,
                     Title = p.Title,
                     DateTime = p.DateTime,
-                    ContentLink = p.ContentLink,
+                   /* ContentLink = p.ContentLink,
                     ImageLink = p.ImageLink,
-                    ShelterName = p.UserId.Name
+                    ShelterName = p.UserId.Name*/
                 })
                 .SingleOrDefault();
 
@@ -77,8 +77,8 @@ namespace Saponja.Domain.Repositories.Implementations
                     Id = p.Id,
                     Title = p.Title,
                     DateTime = p.DateTime,
-                    ContentLink = p.ContentLink,
-                    ImageLink = p.ImageLink
+                    /*ContentLink = p.ContentLink,
+                    ImageLink = p.ImageLink*/
                 })
                 .ToList();
 
@@ -93,8 +93,8 @@ namespace Saponja.Domain.Repositories.Implementations
                     Id = p.Id,
                     Title = p.Title,
                     DateTime = p.DateTime,
-                    ContentLink = p.ContentLink,
-                    ImageLink = p.ImageLink
+                    /*ContentLink = p.ContentLink,
+                    ImageLink = p.ImageLink*/
                 })
                 .Take(3)
                 .ToList();

@@ -3,41 +3,59 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
-using Saponja.Data.Enums;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels;
+using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Repositories.Interfaces;
+using Saponja.Domain.Services.Interfaces;
 
 namespace Saponja.Domain.Repositories.Implementations
 {
     public class AnimalRepository : IAnimalRepository
     {
         private readonly SaponjaDbContext _dbContext;
+        private readonly IClaimProvider _claimProvider;
 
-        public AnimalRepository(SaponjaDbContext dbContext)
+        public AnimalRepository(SaponjaDbContext dbContext, IClaimProvider claimProvider)
         {
             _dbContext = dbContext;
+            _claimProvider = claimProvider;
         }
 
-        public ResponseResult CreateAnimal(AnimalModelDetails model, int shelterId)
+
+        public ResponseResult EditAnimalDetails(int animalId, AnimalCreateModel model)
         {
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId);
+            var shelterId = _claimProvider.GetUserId();
+
+            if (animal is null || animal.ShelterId != shelterId)
+                return ResponseResult.Error("Invalid animal");
+
+            animal.Name = model.Name;
+            animal.Age = model.Age;
+            animal.Gender = model.Gender;
+            animal.IsSterilized = model.IsSterilized;
+            animal.IsGoodWithChildren = model.IsGoodWithChildren;
+            animal.IsGoodWithCats = model.IsGoodWithCats;
+            animal.IsGoodWithDogs = model.IsGoodWithDogs;
+            animal.IsVaccinated = model.IsVaccinated;
+            animal.IsRequiredExperience = model.IsRequiredExperience;
+            animal.IsDangerous = model.IsDangerous;
+
+            _dbContext.SaveChanges();
+            return ResponseResult.Ok;
+        }
+
+        public ResponseResult<Animal> CreateAnimal(AnimalCreateModel model)
+        {
+            var shelterId = _claimProvider.GetUserId();
+
             var animal = new Animal
             {
-                Name = model.Name,
-                ProfilePhotoPath = model.ProfilePhotoPath,
-                Age = model.Age,
-                Gender = model.Gender,
-                DescriptionFilePath = "nesto",
-                IsSterilized = model.IsSterilized,
-                IsGoodWithChildren = model.IsGoodWithChildren,
-                IsGoodWithCats = model.IsGoodWithCats,
-                IsGoodWithDogs = model.IsGoodWithDogs,
-                IsVaccinated = model.IsVaccinated,
-                IsRequiredExperience = model.IsRequiredExperience,
-                IsDangerous = model.IsDangerous,
                 ShelterId = shelterId,
                 HasBeenAdopted = false
             };
@@ -45,15 +63,45 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.Add(animal);
             _dbContext.SaveChanges();
 
+            var descriptionFilePath = "animalDescription" + animal.Id + ".txt";
+            animal.DescriptionFilePath = descriptionFilePath;
+
+            EditAnimalDetails(animal.Id, model);
+            _dbContext.SaveChanges();
+
+            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\AnimalDescription\" + descriptionFilePath, model.Description);
+
+            return new ResponseResult<Animal>(animal);
+        }
+
+        public ResponseResult AddAnimalProfilePhoto(int animalId, IFormFile profilePhoto)
+        {
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId);
+            var shelterId = _claimProvider.GetUserId();
+
+            if (animal is null || animal.ShelterId != shelterId)
+                return ResponseResult.Error("Invalid animal");
+
+            var profilePhotoExtension = System.IO.Path.GetExtension(profilePhoto.FileName);
+            var profilePhotoFilePath = "animalProfilePicture" + animal.Id + profilePhotoExtension;
+
+            animal.ProfilePhotoPath = profilePhotoFilePath;
+            _dbContext.SaveChanges();
+
+            var profilePhotoFile = File.Create(@"C:\Users\Korisnik\Desktop\saponja\Storage\AnimalPhotos\" + profilePhotoFilePath);
+            profilePhoto.CopyTo(profilePhotoFile);
+
             return ResponseResult.Ok;
         }
 
-        public ResponseResult DeleteAnimal(int animalId)
-        {
-            var animal = _dbContext.Animals.Find(animalId);
 
-            if (animal is null)
-                return ResponseResult.Error("Not found");
+        public ResponseResult RemoveAnimal(int animalId)
+        {
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId);
+            var shelterId = _claimProvider.GetUserId();
+
+            if (animal is null || animal.ShelterId != shelterId)
+                return ResponseResult.Error("Invalid animal");
 
             _dbContext.Animals.Remove(animal);
             _dbContext.SaveChanges();
@@ -61,6 +109,7 @@ namespace Saponja.Domain.Repositories.Implementations
             return ResponseResult.Ok;
         }
 
+        /*
         public ResponseResult<AnimalModelDetails> GetAnimal(int animalId)
         {
             var animal = _dbContext.Animals
@@ -68,9 +117,10 @@ namespace Saponja.Domain.Repositories.Implementations
                 .Select(a => new AnimalModelDetails
                 {
                     Id = a.Id,
-                    ProfilePhotoPath = a.ProfilePhotoPath,
+                    ProfilePhotoLink = a.ProfilePhotoLink,
                     Age = a.Age,
                     Gender = a.Gender,
+                    DescriptionLink = a.DescriptionLink,
                     IsSterilized = a.IsSterilized,
                     IsGoodWithChildren = a.IsGoodWithChildren,
                     IsGoodWithCats = a.IsGoodWithCats,
@@ -93,52 +143,19 @@ namespace Saponja.Domain.Repositories.Implementations
                 .Select(a => new AnimalModel
                 {
                     Id = a.Id,
-                    ProfilePhotoPath = a.ProfilePhotoPath,
+                    ProfilePhotoLink = a.ProfilePhotoLink,
                     Age = a.Age,
                     Gender = a.Gender,
-                    ShelterName = a.Shelter.Name
-                })
+                    Shelter = new ShelterModel
+                    {
+                        Name = a.Shelter.Name
+                    }
+                })s
                 .ToList();
 
             return animals;
         }
 
-        public ICollection<AnimalModel> GetAnimalsByShelter(int shelterId)
-        {
-
-            var animals = _dbContext.Animals
-                .Where(a => a.ShelterId == shelterId)
-                .Select(a => new AnimalModel
-                {
-                    Id = a.Id,
-                    ProfilePhotoPath = a.ProfilePhotoPath,
-                    Age = a.Age,
-                    Gender = a.Gender
-                })
-                .ToList();
-
-            return animals;
-
-        }
-
-        public ICollection<AnimalModel> GetFilteredAnimals(AnimalAge age, AnimalGender gender, AnimalType type, string city)
-        {
-            var animals = _dbContext.Animals
-                .Where(a => a.Age == age)
-                .Where(a => a.Gender == gender)
-                .Where(a => a.Type == type)
-                .Where(a => a.Shelter.City == city)
-                .Select(a => new AnimalModel
-                {
-                    Id = a.Id,
-                    ProfilePhotoPath = a.ProfilePhotoPath,
-                    Age = a.Age,
-                    Gender = a.Gender,
-                    ShelterName = a.Shelter.Name
-                })
-                .ToList();
-            return animals;
-        }
-
+    }*/
     }
 }

@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Saponja.Domain.Models.ViewModels
+namespace Saponja.Domain.Models.ViewModels.Animal
 {
     public class AnimalModel
     {
@@ -13,6 +13,5 @@ namespace Saponja.Domain.Models.ViewModels
         public AnimalAge Age { get; set; }
         public AnimalGender Gender { get; set; }
         public string ShelterName { get; set; }
-
     }
 }

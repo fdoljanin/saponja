@@ -21,7 +21,6 @@ namespace Saponja.Web.Controllers
             _jwtService = jwtService;
         }
 
-
         [AllowAnonymous]
         [HttpPost(nameof(Login))]
         public ActionResult<string> Login(CredentialsModel model)

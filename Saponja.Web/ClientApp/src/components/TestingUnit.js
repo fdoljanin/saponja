@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
+import { parseJwt } from "utils/jwtParser";
 
 const TestingUnit = () => {
   const [documentation, setFile] = useState();
@@ -65,10 +66,61 @@ const TestingUnit = () => {
     
 
   }
+
+  const login = () => {
+    const loginModel = {
+      email: "ss22",
+      password: "pass!!!22431"
+    };
+    let logInfo = {};
+    axios.post("api/User/Login", loginModel).then(tok => {
+      localStorage.setItem("token",tok.data)
+    });
+  }
+
+  const addAnimal = () => {
+    const animal = {
+      animalType: 0,
+      name: "Slatkih",
+      gender: 0,
+      age: 1,
+      description:
+      `
+      recimo
+      da i ja
+      volim
+      puno
+      jesti <3
+      `,
+      isSterilized: true,
+      isGoodWithChildren: true,
+      isGoodWithCats: false,
+      isGoodWithDogs: false,
+      isVaccinated: true,
+      isRequiredExperience: false,
+      isDangerous: false
+    };
+
+    axios.post("api/Shelter/CreateAnimal", animal).then(r =>{
+      const formData = new FormData();
+      formData.append("AnimalProfilePhoto", documentation);
+      formData.append("AnimalId", r.data);
+      axios.post("api/Shelter/AddAnimalProfilePhoto", formData).then(re => console.log(re));
+
+    });
+  }
+
+  const getUser = () => {
+    let token = localStorage.getItem("token");
+    console.log(parseJwt(token));
+    axios.get('api/User').then(r => console.log(r));
+  }
+
   return (
     <div>
       <input type="file" onChange={e => setFile(e.target.files[0])} />
-      <button onClick={upload}>OK</button>
+      <button onClick={addAnimal}>OK</button>
+      <button onClick={login}>LOG</button>
     </div>
   )
 }
