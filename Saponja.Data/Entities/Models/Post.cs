@@ -10,7 +10,8 @@ namespace Saponja.Data.Entities.Models
         public string Title { get; set; }
         public DateTime DateTime { get; set; }
         public string ContentPath { get; set; }
-        public string ImagePath { get; set; }
+        public string PhotoPath { get; set; }
+        public bool HasBeenApproved { get; set; }
 
         public int UserId { get; set; }
         public User User { get; set; }

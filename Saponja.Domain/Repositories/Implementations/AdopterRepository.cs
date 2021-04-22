@@ -25,6 +25,17 @@ namespace Saponja.Domain.Repositories.Implementations
             _claimProvider = claimProvider;
         }
 
+        private ResponseResult GetAdopterIfAuthorized(int adopterId, out Adopter adopter)
+        {
+            var shelterId = _claimProvider.GetUserId();
+            adopter = _dbContext.Adopters.FirstOrDefault(a => a.Id == adopterId);
+
+            if (adopter is null || adopter.Animal.ShelterId != shelterId || adopter.Animal.HasBeenAdopted)
+                return ResponseResult.Error("Invalid adopter");
+
+            return ResponseResult.Ok;;
+        }
+
         public ResponseResult ApplyForAnimal(AdopterApplyModel model)
         {
             var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == model.AnimalId && !a.HasBeenAdopted);
@@ -78,11 +89,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult RefuseAdopter(int adopterId)
         {
-            var shelterId = _claimProvider.GetUserId();
-            var adopter = _dbContext.Adopters.FirstOrDefault(a=>a.Id == adopterId);
-
-            if (adopter is null || adopter.Animal.ShelterId != shelterId)
-                return ResponseResult.Error("Invalid adopter");
+            var findAdopterResult = GetAdopterIfAuthorized(adopterId, out var adopter);
+            if (findAdopterResult.IsError)
+                return ResponseResult.Error("Unauthorized");
 
             _dbContext.Adopters.Remove(adopter);
 
@@ -106,11 +115,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult SetAnimalAdopter(int adopterId)
         {
-            var shelterId = _claimProvider.GetUserId();
-            var adopter = _dbContext.Adopters.FirstOrDefault(a => a.Id == adopterId);
-
-            if (adopter is null || adopter.Animal.ShelterId != shelterId || adopter.Animal.HasBeenAdopted)
-                return ResponseResult.Error("Invalid animal");
+            var findAdopterResult = GetAdopterIfAuthorized(adopterId, out var adopter);
+            if (findAdopterResult.IsError)
+                return ResponseResult.Error("Unauthorized");
 
             var animal = adopter.Animal;
             animal.HasBeenAdopted = true;
@@ -125,7 +132,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult SetAnimalAdoptedOutside(int animalId)
         {
-            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId && !a.HasBeenAdopted);
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId && !a.HasBeenAdopted); //can be used that func from anima
             var shelterId = _claimProvider.GetUserId();
 
             if (animal is null || animal.ShelterId != shelterId)

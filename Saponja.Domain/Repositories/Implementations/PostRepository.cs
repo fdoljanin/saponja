@@ -1,46 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels.Post;
 using Saponja.Domain.Repositories.Interfaces;
+using Saponja.Domain.Services.Interfaces;
 
 namespace Saponja.Domain.Repositories.Implementations
 {
     public class PostRepository : IPostRepository
     {
         private readonly SaponjaDbContext _dbContext;
-        public PostRepository(SaponjaDbContext dbContext)
+        private readonly IClaimProvider _claimProvider;
+        public PostRepository(SaponjaDbContext dbContext, IClaimProvider claimProvider)
         {
             _dbContext = dbContext;
+            _claimProvider = claimProvider;
         }
 
-        public ResponseResult CreatePost(PostModel model, int shelterId)
+        private ResponseResult GetPostIfAuthorized(int postId, out Post post)
         {
-            var post = new Post
-            {
-                Id = model.Id,
-                Title = model.Title,
-                DateTime = model.DateTime,
-                ContentPath = model.ContentLink,
-                ImagePath = model.ImageLink,
-                UserId = shelterId
-            };
-            _dbContext.Add(post);
-            _dbContext.SaveChanges();
+            post = _dbContext.Posts.FirstOrDefault(p => p.Id == postId);
+            var userId = _claimProvider.GetUserId();
+
+            if (post is null || post.UserId != userId)
+                return ResponseResult.Error("Invalid post");
+
             return ResponseResult.Ok;
         }
 
-        public ResponseResult DeletePost(int postId)
+        public ResponseResult<Post> CreatePost(PostCreateModel model)
         {
-            var post = _dbContext.Posts.Find(postId);
+            var shelterId = _claimProvider.GetUserId();
 
-            if (post is null)
-                return ResponseResult.Error("Not found");
+            var post = new Post
+            {
+                Title = model.Title,
+                DateTime = DateTime.Now,
+                UserId = shelterId,
+                HasBeenApproved = false
+            };
+
+            _dbContext.Add(post);
+            _dbContext.SaveChanges();
+
+            var contentFilePath = post.Id + ".txt";
+            post.ContentPath = contentFilePath;
+            _dbContext.SaveChanges();
+
+            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\BlogContent\" + contentFilePath, model.Content);
+
+            return new ResponseResult<Post>(post);
+        }
+
+        public ResponseResult RemovePost(int postId)
+        {
+            var findPostResult = GetPostIfAuthorized(postId, out var post);
+            if (findPostResult.IsError)
+                return ResponseResult.Error("Unauthorized");
 
             _dbContext.Posts.Remove(post);
             _dbContext.SaveChanges();
@@ -48,59 +71,22 @@ namespace Saponja.Domain.Repositories.Implementations
             return ResponseResult.Ok;
         }
 
-        public ResponseResult<PostModel> GetPost(int postId)
+        public ResponseResult AddPostPhoto(int postId, IFormFile postPhoto)
         {
-            var post = _dbContext.Posts
-                .Where(p => p.Id == postId)
-                .Select(p => new PostModel
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    DateTime = p.DateTime,
-                   /* ContentLink = p.ContentLink,
-                    ImageLink = p.ImageLink,
-                    ShelterName = p.UserId.Name*/
-                })
-                .SingleOrDefault();
+            var findPostResult = GetPostIfAuthorized(postId, out var post);
+            if (findPostResult.IsError)
+                return ResponseResult.Error("Unauthorized");
 
-            return post is null
-                ? ResponseResult<PostModel>.Error("Not found")
-                : new ResponseResult<PostModel>(post);
-        }
+            var postPhotoExtension = System.IO.Path.GetExtension(postPhoto.FileName);
+            var postPhotoFilePath = post.Id + postPhotoExtension;
 
-        public ICollection<PostModel> GetPosts()
-        {
-            var posts = _dbContext.Posts
-                .AsNoTracking()
-                .Select(p => new PostModel
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    DateTime = p.DateTime,
-                    /*ContentLink = p.ContentLink,
-                    ImageLink = p.ImageLink*/
-                })
-                .ToList();
+            post.PhotoPath = postPhotoFilePath;
+            _dbContext.SaveChanges();
 
-            return posts;
-        }
+            var postPhotoFile = File.Create(@"C:\Users\Korisnik\Desktop\saponja\Storage\BlogPhotos\" + postPhotoFilePath);
+            postPhoto.CopyTo(postPhotoFile);
 
-        public ICollection<PostModel> GetTopThreePosts()
-        {
-            var posts = _dbContext.Posts
-                .Select(p => new PostModel
-                {
-                    Id = p.Id,
-                    Title = p.Title,
-                    DateTime = p.DateTime,
-                    /*ContentLink = p.ContentLink,
-                    ImageLink = p.ImageLink*/
-                })
-                .Take(3)
-                .ToList();
-
-            return posts;
-
+            return ResponseResult.Ok;
         }
     }
 }
