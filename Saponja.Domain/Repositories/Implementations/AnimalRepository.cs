@@ -29,7 +29,11 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult EditAnimalDetails(int animalId, AnimalCreateModel model)
         {
-            var animal = _dbContext.Animals.Find(animalId);
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId); 
+            var shelterId = _claimProvider.GetUserId();
+
+            if (animal is null || animal.ShelterId != shelterId)
+                return ResponseResult.Error("Invalid animal");
 
             animal.Name = model.Name;
             animal.Age = model.Age;
@@ -72,7 +76,11 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult AddAnimalProfilePhoto(int animalId, IFormFile profilePhoto)
         {
-            var animal = _dbContext.Animals.Find(animalId);
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId);
+            var shelterId = _claimProvider.GetUserId();
+
+            if (animal is null || animal.ShelterId != shelterId)
+                return ResponseResult.Error("Invalid animal");
 
             var profilePhotoExtension = System.IO.Path.GetExtension(profilePhoto.FileName);
             var profilePhotoFilePath = "animalProfilePicture" + animal.Id + profilePhotoExtension;
@@ -86,13 +94,14 @@ namespace Saponja.Domain.Repositories.Implementations
             return ResponseResult.Ok;
         }
 
-        /*
-        public ResponseResult DeleteAnimal(int animalId)
+        
+        public ResponseResult RemoveAnimal(int animalId)
         {
-            var animal = _dbContext.Animals.Find(animalId);
+            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId);
+            var shelterId = _claimProvider.GetUserId();
 
-            if (animal is null)
-                return ResponseResult.Error("Not found");
+            if (animal is null || animal.ShelterId != shelterId)
+                return ResponseResult.Error("Invalid animal");
 
             _dbContext.Animals.Remove(animal);
             _dbContext.SaveChanges();
@@ -100,6 +109,7 @@ namespace Saponja.Domain.Repositories.Implementations
             return ResponseResult.Ok;
         }
 
+        /*
         public ResponseResult<AnimalModelDetails> GetAnimal(int animalId)
         {
             var animal = _dbContext.Animals

@@ -45,5 +45,16 @@ namespace Saponja.Web.Controllers
 
             return Ok();
         }
+
+        [HttpDelete(nameof(RemoveAnimal))]
+        public ActionResult RemoveAnimal([FromBody] int animalId)
+        {
+            var removeAnimalResult = _animalRepository.RemoveAnimal(animalId);
+            if (removeAnimalResult.IsError)
+                return BadRequest(removeAnimalResult.Message);
+
+            return Ok();
+        }
+
     }
 }

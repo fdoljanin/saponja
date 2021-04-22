@@ -17,6 +17,7 @@ namespace Saponja.Domain.Repositories.Interfaces
           ResponseResult<AnimalModelDetails> GetAnimal(int animalId);*/
         ResponseResult<Animal> CreateAnimal(AnimalCreateModel model);
         ResponseResult AddAnimalProfilePhoto(int animalId, IFormFile profilePhoto);
+        ResponseResult RemoveAnimal(int animalId);
 
     }
 }
