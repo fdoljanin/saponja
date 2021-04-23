@@ -21,14 +21,16 @@ namespace Saponja.Domain.Services.Implementations
         public ResponseResult SendEmail(EmailMessageModel emailModel)
         {
 			var message = new MimeMessage();
+
             message.To.Add(new MailboxAddress(emailModel.ReceiverAddress.Name, emailModel.ReceiverAddress.Address));
             message.From.Add(new MailboxAddress(emailModel.SenderAddress.Name, emailModel.SenderAddress.Address));
-
             message.Subject = emailModel.Subject;
-            message.Body = new TextPart(TextFormat.Html)
-            {
-                Text = emailModel.Content
-            };
+
+            var builder = new BodyBuilder();
+            builder.Attachments.Add(emailModel.AttachmentPath);
+            builder.HtmlBody = emailModel.Content;
+
+            message.Body = builder.ToMessageBody();
 
             using (var emailClient = new SmtpClient())
             {

@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Enums;
+using Saponja.Domain.Helpers;
 using Saponja.Domain.Models.ViewModels;
 using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Repositories.Interfaces;
@@ -69,7 +72,8 @@ namespace Saponja.Domain.Repositories.Implementations
             var animal = new Animal
             {
                 ShelterId = shelterId,
-                HasBeenAdopted = false
+                HasBeenAdopted = false,
+                DateTime = DateTime.Now
             };
 
             _dbContext.Add(animal);
@@ -108,6 +112,40 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.SaveChanges();
 
             return ResponseResult.Ok;
+        }
+
+
+        public void GetFilteredAnimals(AnimalFilter filter)
+        {
+            Comparer<Animal> sortComparer;
+
+            var closeLocationComparer = Comparer<Animal>.Create((x, y) =>
+                GeolocationHelper.GetDistance(x.Shelter.Geolocation, filter.Geolocation)
+                >
+                GeolocationHelper.GetDistance(y.Shelter.Geolocation, filter.Geolocation)
+                    ? 1 : -1);
+
+            var oldestComparer = Comparer<Animal>.Create((x, y) => x.DateTime < y.DateTime ? 1 : -1);
+            var newestComparer = Comparer<Animal>.Create((x, y) => x.DateTime > y.DateTime ? 1 : -1);
+
+            sortComparer = filter.SortType switch
+            {
+                SortType.Location => closeLocationComparer,
+                SortType.Oldest => oldestComparer,
+                SortType.Newest => newestComparer,
+                _ => throw new ArgumentOutOfRangeException()
+            };
+
+            var animals = _dbContext.Animals
+                .Where(a => !a.HasBeenAdopted
+                            && filter.Type.Any(ft => ft == a.Type)
+                            && filter.Gender.Any(fg => fg == a.Gender)
+                            && filter.Age.Any(fa => fa == a.Age)
+                            && (filter.Location == "" || filter.Location.ToLower().Trim() == a.Shelter.City))
+                .OrderBy(a => a, sortComparer)
+                .Skip(filter.PageNumber * 3)
+                .Take(3)
+                .ToList(); //not finished - animal should be selected as well
         }
 
     }

@@ -74,7 +74,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var notification = new Notification
             {
-                Content = adopter.Animal.Name + " ima novog udomitelja!",
+                Content = $"{adopter.Animal.Name} ima novog udomitelja!",
                 Hyperlink = "POPUNI_POSLIJE",
                 HasBeenOpened = false,
                 UserId = adopter.Animal.ShelterId,
