@@ -1,15 +1,10 @@
-import TestingUnit from "components/TestingUnit";
 import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import UserProvider from "services/providers/user";
+
+import LandingPage from './components/LandingPage';
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <UserProvider>
-        <TestingUnit />
-      </UserProvider>
-    </BrowserRouter>
+    <LandingPage />
   )
 }
 
