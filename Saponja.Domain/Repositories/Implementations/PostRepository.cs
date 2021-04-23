@@ -35,26 +35,36 @@ namespace Saponja.Domain.Repositories.Implementations
             return ResponseResult.Ok;
         }
 
-        public ResponseResult<Post> CreatePost(PostCreateModel model)
+        public ResponseResult EditPost(int postId, PostCreateModel model)
         {
-            var shelterId = _claimProvider.GetUserId();
+            var findPostResult = GetPostIfAuthorized(postId, out var post);
+            if (findPostResult.IsError)
+                return ResponseResult.Error("Invalid post");
 
-            var post = new Post
-            {
-                Title = model.Title,
-                DateTime = DateTime.Now,
-                UserId = shelterId,
-                HasBeenApproved = false
-            };
-
-            _dbContext.Add(post);
-            _dbContext.SaveChanges();
+            post.Title = model.Title;
 
             var contentFilePath = post.Id + ".txt";
             post.ContentPath = contentFilePath;
             _dbContext.SaveChanges();
 
             File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\BlogContent\" + contentFilePath, model.Content);
+
+            return new ResponseResult<Post>(post);
+        }
+
+        public ResponseResult<Post> CreatePost(PostCreateModel model)
+        {
+            var userId = _claimProvider.GetUserId();
+
+            var post = new Post
+            {
+                DateTime = DateTime.Now,
+                UserId = userId,
+                HasBeenApproved = false
+            };
+
+            _dbContext.Add(post);
+            EditPost(post.Id, model);
 
             return new ResponseResult<Post>(post);
         }

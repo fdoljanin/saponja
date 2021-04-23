@@ -118,9 +118,7 @@ const TestingUnit = () => {
 
   return (
     <div>
-      <input type="file" onChange={e => setFile(e.target.files[0])} />
-      <button onClick={addAnimal}>OK</button>
-      <button onClick={login}>LOG</button>
+      <img src="wwwroot\animalProfilePicture4.jpg"/>
     </div>
   )
 }

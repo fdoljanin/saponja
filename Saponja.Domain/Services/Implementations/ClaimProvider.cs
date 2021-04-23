@@ -1,5 +1,6 @@
 ﻿using System.Security.Authentication;
 using Microsoft.AspNetCore.Http;
+using Saponja.Data.Enums;
 using Saponja.Domain.Constants;
 using Saponja.Domain.Services.Interfaces;
 
@@ -22,6 +23,16 @@ namespace Saponja.Domain.Services.Implementations
                 throw new AuthenticationException("Claim non existent");
 
             return userId;
+        }
+
+        public UserRole GetUserRole()
+        {
+            var userRoleString = _httpContextAccessor.HttpContext.User.FindFirst(Claims.Role).Value;
+            var isSuccessful = int.TryParse(userRoleString, out var userRole);
+            if (!isSuccessful)
+                throw new AuthenticationException("Claim non existent");
+
+            return (UserRole) userRole;
         }
     }
 }

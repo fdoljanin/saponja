@@ -11,6 +11,7 @@ namespace Saponja.Domain.Repositories.Interfaces
     public interface IPostRepository
     {
         ResponseResult<Post> CreatePost(PostCreateModel model);
+        ResponseResult EditPost(int postId, PostCreateModel model);
         ResponseResult RemovePost(int postId);
         ResponseResult AddPostPhoto(int postId, IFormFile postPhoto);
     }
