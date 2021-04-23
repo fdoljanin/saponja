@@ -20,16 +20,12 @@ namespace Saponja.Domain.Repositories.Implementations
     public class ShelterRepository : IShelterRepository
     {
         private readonly SaponjaDbContext _dbContext;
-        private readonly IClaimProvider _claimProvider;
-        public ShelterRepository(SaponjaDbContext dbContext, IClaimProvider claimProvider)
+        public ShelterRepository(SaponjaDbContext dbContext)
         {
             _dbContext = dbContext;
-            _claimProvider = claimProvider;
         }
 
-        public ResponseResult GetShelterIfAuthorized (int shelterId)
-
-        public ResponseResult EditShelterDetails(int shelterId, ShelterInfoModel model, Geolocation geolocation)
+        public ResponseResult EditShelterDetails(int shelterId, ShelterInfoModel model)
         {
             var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
             if (shelter is null)
@@ -38,7 +34,7 @@ namespace Saponja.Domain.Repositories.Implementations
             shelter.Name = model.Name;
             shelter.City = model.City;
             shelter.Address = model.Address;
-            shelter.Geolocation = geolocation;
+            shelter.Geolocation = model.Geolocation;
             shelter.WebsiteUrl = model.WebsiteUrl;
             shelter.ContactPhone = model.ContactPhone;
             shelter.ContactEmail = model.ContactEmail;
@@ -69,7 +65,7 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.Add(shelter);
             _dbContext.SaveChanges();
 
-            EditShelterDetails(shelter.Id, model.Info, model.Geolocation);
+            EditShelterDetails(shelter.Id, model.Info);
     
             return new ResponseResult<Shelter>(shelter);
         }

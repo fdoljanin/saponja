@@ -22,9 +22,9 @@ namespace Saponja.Web.Controllers
         [HttpPost(nameof(ApplyForAnimal))]
         public ActionResult ApplyForAnimal(AdopterApplyModel model)
         {
-            var applyResult = _adopterRepository.ApplyForAnimal(model);
-            if (applyResult.IsError)
-                return BadRequest(applyResult.Message);
+            var result = _adopterRepository.ApplyForAnimal(model);
+            if (result.IsError)
+                return BadRequest(result.Message);
 
             return Ok();
         }
@@ -32,9 +32,9 @@ namespace Saponja.Web.Controllers
         [HttpGet(nameof(ConfirmEmail))]
         public ActionResult ConfirmEmail([FromBody] string confirmationToken)
         {
-            var confirmResult = _adopterRepository.ConfirmEmail(confirmationToken);
-            if (confirmResult.IsError)
-                return BadRequest(confirmResult.Message);
+            var result = _adopterRepository.ConfirmEmail(confirmationToken);
+            if (result.IsError)
+                return BadRequest(result.Message);
 
             return Ok();
         }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Saponja.Data.Entities.Models;
 
 namespace Saponja.Domain.Models.ViewModels.Shelter
 {
@@ -15,5 +16,6 @@ namespace Saponja.Domain.Models.ViewModels.Shelter
         public string ContactEmail { get; set; }
         public string Oib { get; set; }
         public string Iban { get; set; }
+        public Geolocation Geolocation { get; set; }
     }
 }

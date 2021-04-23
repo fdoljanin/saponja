@@ -6,7 +6,7 @@ using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Helpers;
-using Saponja.Domain.Models;
+using Saponja.Domain.Models.User;
 using Saponja.Domain.Repositories.Interfaces;
 
 namespace Saponja.Domain.Repositories.Implementations

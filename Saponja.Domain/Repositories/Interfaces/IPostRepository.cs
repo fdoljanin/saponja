@@ -14,6 +14,7 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult EditPost(int postId, PostCreateModel model);
         ResponseResult RemovePost(int postId);
         ResponseResult AddPostPhoto(int postId, IFormFile postPhoto);
+        ResponseResult ApprovePost(int postId);
     }
 }
 

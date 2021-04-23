@@ -98,5 +98,17 @@ namespace Saponja.Domain.Repositories.Implementations
 
             return ResponseResult.Ok;
         }
+
+        public ResponseResult ApprovePost(int postId)
+        {
+            var post = _dbContext.Posts.FirstOrDefault(p => p.Id == postId && !p.HasBeenApproved);
+            if (post is null)
+                return ResponseResult.Error("Post not found!");
+
+            post.HasBeenApproved = true;
+            _dbContext.SaveChanges();
+
+            return ResponseResult.Ok;
+        }
     }
 }

@@ -12,7 +12,7 @@ namespace Saponja.Domain.Repositories.Interfaces
     {
         ResponseResult<Shelter> RegisterShelter(ShelterRegistrationModel shelterRegistrationModel);
         ResponseResult AddShelterDocumentation(int shelterId, IFormFile documentation);
-        ResponseResult EditShelterDetails(int shelterId, ShelterInfoModel model, Geolocation geolocation);
+        ResponseResult EditShelterDetails(int shelterId, ShelterInfoModel model);
         ResponseResult RemoveShelter(int shelterId);
     }
 }

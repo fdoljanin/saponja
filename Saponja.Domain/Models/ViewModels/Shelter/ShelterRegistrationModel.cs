@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities.Models;
+using Saponja.Domain.Models.User;
 
 namespace Saponja.Domain.Models.ViewModels.Shelter
 {
@@ -10,6 +11,5 @@ namespace Saponja.Domain.Models.ViewModels.Shelter
     {
         public CredentialsModel Credentials { get; set; }
         public ShelterInfoModel Info { get; set; }
-        public Geolocation Geolocation { get; set; }
     }
 }
