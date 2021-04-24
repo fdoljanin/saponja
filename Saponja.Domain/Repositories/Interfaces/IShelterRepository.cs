@@ -14,5 +14,7 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult AddShelterDocumentation(int shelterId, IFormFile documentation);
         ResponseResult EditShelterDetails(int shelterId, ShelterInfoModel model);
         ResponseResult RemoveShelter(int shelterId);
+
+        ShelterListModel GetFilteredShelters(ShelterFilterModel filter);
     }
 }

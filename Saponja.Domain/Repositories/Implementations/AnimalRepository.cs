@@ -115,14 +115,14 @@ namespace Saponja.Domain.Repositories.Implementations
         }
 
 
-        public void GetFilteredAnimals(AnimalFilter filter)
+        public AnimalListModel GetFilteredAnimals(AnimalFilterModel filter)
         {
             Comparer<Animal> sortComparer;
 
             var closeLocationComparer = Comparer<Animal>.Create((x, y) =>
-                GeolocationHelper.GetDistance(x.Shelter.Geolocation, filter.Geolocation)
-                >
-                GeolocationHelper.GetDistance(y.Shelter.Geolocation, filter.Geolocation)
+                GeolocationHelper.GetDistance(x.Shelter.Geolocation, filter.UserGeolocation)
+                <
+                GeolocationHelper.GetDistance(y.Shelter.Geolocation, filter.UserGeolocation)
                     ? 1 : -1);
 
             var oldestComparer = Comparer<Animal>.Create((x, y) => x.DateTime < y.DateTime ? 1 : -1);
@@ -136,17 +136,44 @@ namespace Saponja.Domain.Repositories.Implementations
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            var animals = _dbContext.Animals
+            var animalsFilterQuery = _dbContext.Animals
                 .Where(a => !a.HasBeenAdopted
                             && filter.Type.Any(ft => ft == a.Type)
                             && filter.Gender.Any(fg => fg == a.Gender)
                             && filter.Age.Any(fa => fa == a.Age)
-                            && (filter.Location == "" || filter.Location.ToLower().Trim() == a.Shelter.City))
+                            && (string.IsNullOrEmpty(filter.Location) || filter.Location.ToLower().Trim() == a.Shelter.City));
+
+            var animalsCount = animalsFilterQuery.Count();
+
+            var animalsSelected = animalsFilterQuery
                 .OrderBy(a => a, sortComparer)
                 .Skip(filter.PageNumber * 3)
                 .Take(3)
-                .ToList(); //not finished - animal should be selected as well
+                .Include(a => a.Shelter.Name)
+                .Select(a => new AnimalModel(a))
+                .ToList();
+
+            return new AnimalListModel
+            {
+                AnimalsCount = animalsCount,
+                Animals = animalsSelected
+            };
+
         }
+
+        public ResponseResult<AnimalDetailsModel> GetAnimalDetails(int animalId)
+        {
+            var animal = _dbContext.Animals
+                .Include(a => a.Shelter)
+                .FirstOrDefault(a => a.Id == animalId && !a.HasBeenAdopted);
+
+            if (animal is null)
+                return ResponseResult<AnimalDetailsModel>.Error("Animal not found");
+
+            var animalDetails = new AnimalDetailsModel(animal);
+            return new ResponseResult<AnimalDetailsModel>(animalDetails);
+        }
+
 
     }
 }

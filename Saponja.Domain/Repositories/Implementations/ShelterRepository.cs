@@ -97,5 +97,34 @@ namespace Saponja.Domain.Repositories.Implementations
 
             return ResponseResult.Ok;
         }
+
+
+        public ShelterListModel GetFilteredShelters(ShelterFilterModel filter)
+        {
+            var sheltersFilterQuery =
+                _dbContext.Shelters
+                    .Where(s =>
+                        (string.IsNullOrEmpty(filter.Name) || s.Name.ToLower() == filter.Name.ToLower())
+                        && (string.IsNullOrEmpty(filter.City) || s.City.ToLower() == filter.City.ToLower())
+                        && (filter.DistanceInKilometers == null ||
+                            GeolocationHelper.GetDistance(filter.UserGeolocation, s.Geolocation) <
+                            filter.DistanceInKilometers));
+
+            var sheltersCount = sheltersFilterQuery.Count();
+
+            var sheltersSelected = sheltersFilterQuery
+                .OrderBy(s => GeolocationHelper.GetDistance(s.Geolocation, filter.UserGeolocation))
+                .Skip(filter.PageNumber * 3)
+                .Take(3)
+                .Select(s => new ShelterCardModel(s))
+                .ToList();
+
+
+            return new ShelterListModel
+            {
+                SheltersCount = sheltersCount,
+                Shelters = sheltersSelected
+            };
+        }
     }
 }
