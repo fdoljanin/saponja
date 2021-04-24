@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Models.User;
+using Saponja.Domain.Models.ViewModels.Notification;
 using Saponja.Domain.Repositories.Interfaces;
 using Saponja.Domain.Services.Interfaces;
 
@@ -44,6 +45,13 @@ namespace Saponja.Web.Controllers
                 return BadRequest(result.Message);
 
             return Ok();
+        }
+
+        [HttpGet(nameof(GetNotifications))]
+        public ActionResult<ICollection<NotificationModel>> GetNotifications()
+        {
+            var notifications = _notificationRepository.GetUnopenedNotifications();
+            return Ok(notifications);
         }
     }
 }

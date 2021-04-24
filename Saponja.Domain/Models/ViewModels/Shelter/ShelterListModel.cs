@@ -7,6 +7,6 @@ namespace Saponja.Domain.Models.ViewModels.Shelter
     public class ShelterListModel
     {
         public int SheltersCount { get; set; }
-        public ICollection<ShelterCardModel> Shelters { get; set; }
+        public IEnumerable<ShelterCardModel> Shelters { get; set; }
     }
 }

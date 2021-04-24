@@ -78,6 +78,7 @@ namespace Saponja.Domain.Repositories.Implementations
                 Hyperlink = "POPUNI_POSLIJE",
                 HasBeenOpened = false,
                 UserId = adopter.Animal.ShelterId,
+                Timestamp = DateTime.Now
             };
 
             adopter.HasConfirmedMail = true;

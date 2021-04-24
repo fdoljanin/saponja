@@ -22,7 +22,9 @@ namespace Saponja.Web.Controllers
             _shelterRepository = shelterRepository;
         }
 
-        public ActionResult<AnimalDetailsModel> GetAnimalDetails(int animalId)
+
+        [HttpGet(nameof(GetAnimalDetails))]
+        public ActionResult<AnimalDetailsModel> GetAnimalDetails([FromQuery]int animalId)
         {
             var result = _animalRepository.GetAnimalDetails(animalId);
             if (result.IsError)
@@ -31,13 +33,31 @@ namespace Saponja.Web.Controllers
             return Ok(result.Data);
         }
 
-        public ActionResult<ShelterInfoModel> GetShelterDetails(int shelterId)
+        [HttpPost(nameof(GetFilteredAnimals))]
+        public ActionResult<AnimalListModel> GetFilteredAnimals(AnimalFilterModel filter)
+        {
+            var filteredAnimals = _animalRepository.GetFilteredAnimals(filter);
+
+            return Ok(filteredAnimals);
+        }
+
+
+        [HttpGet(nameof(GetShelterDetails))]
+        public ActionResult<ShelterInfoModel> GetShelterDetails([FromQuery] int shelterId)
         {
             var result = _shelterRepository.GetShelterDetails(shelterId);
             if (result.IsError)
                 return BadRequest(result.Message);
 
             return Ok(result.Data);
+        }
+
+        [HttpPost(nameof(GetFilteredShelters))]
+        public ActionResult<ShelterListModel> GetFilteredShelters(ShelterFilterModel filter)
+        {
+            var filteredShelters = _shelterRepository.GetFilteredShelters(filter);
+
+            return Ok(filteredShelters);
         }
     }
 }

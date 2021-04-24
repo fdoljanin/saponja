@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Models.ViewModels.Notification;
 using Saponja.Domain.Models.ViewModels.Post;
 using Saponja.Domain.Repositories.Interfaces;
 
@@ -13,7 +14,6 @@ namespace Saponja.Web.Controllers
     public class UserController : ApiController
     {
         private readonly IPostRepository _postRepository;
-
         public UserController(IPostRepository postRepository)
         {
             _postRepository = postRepository;
@@ -60,5 +60,6 @@ namespace Saponja.Web.Controllers
 
             return Ok();
         }
+
     }
 }

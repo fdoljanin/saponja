@@ -7,6 +7,6 @@ namespace Saponja.Domain.Models.ViewModels.Animal
     public class AnimalListModel
     {
         public int AnimalsCount { get; set; }
-        public ICollection<AnimalModel> Animals { get; set; }
+        public IEnumerable<AnimalModel> Animals { get; set; }
     }
 }
