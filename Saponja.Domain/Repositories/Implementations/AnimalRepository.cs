@@ -117,22 +117,17 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public AnimalListModel GetFilteredAnimals(AnimalFilterModel filter)
         {
-            Comparer<Animal> sortComparer;
-
             var closeLocationComparer = Comparer<Animal>.Create((x, y) =>
-                GeolocationHelper.GetDistance(x.Shelter.Geolocation, filter.UserGeolocation)
-                <
-                GeolocationHelper.GetDistance(y.Shelter.Geolocation, filter.UserGeolocation)
-                    ? 1 : -1);
+                ComparatorHelpers.CompareRelativeDistances(x.Shelter.Geolocation, y.Shelter.Geolocation, filter.UserGeolocation));
 
-            var oldestComparer = Comparer<Animal>.Create((x, y) => x.DateTime < y.DateTime ? 1 : -1);
-            var newestComparer = Comparer<Animal>.Create((x, y) => x.DateTime > y.DateTime ? 1 : -1);
+            var oldestComparer = Comparer<Animal>.Create((x, y) => DateTime.Compare(x.DateTime, y.DateTime));
+            var newestComparer = Comparer<Animal>.Create((x, y) => -1 * DateTime.Compare(x.DateTime, y.DateTime));
 
-            sortComparer = filter.SortType switch
+            var sortComparer = filter.SortType switch
             {
-                SortType.Location => closeLocationComparer,
-                SortType.Oldest => oldestComparer,
-                SortType.Newest => newestComparer,
+                AnimalSortType.Location => closeLocationComparer,
+                AnimalSortType.Oldest => oldestComparer,
+                AnimalSortType.Newest => newestComparer,
                 _ => throw new ArgumentOutOfRangeException()
             };
 

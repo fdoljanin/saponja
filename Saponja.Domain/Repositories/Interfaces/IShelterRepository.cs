@@ -16,5 +16,6 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult RemoveShelter(int shelterId);
 
         ShelterListModel GetFilteredShelters(ShelterFilterModel filter);
+        ResponseResult<ShelterInfoModel> GetShelterDetails(int shelterId);
     }
 }

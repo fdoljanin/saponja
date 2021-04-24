@@ -10,6 +10,7 @@ using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Data.Enums;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Enums;
 using Saponja.Domain.Helpers;
 using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
@@ -101,19 +102,32 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ShelterListModel GetFilteredShelters(ShelterFilterModel filter)
         {
+            var closeLocationComparer = Comparer<Shelter>.Create((x, y) =>
+                ComparatorHelpers.CompareRelativeDistances(x.Geolocation, y.Geolocation, filter.UserGeolocation));
+
+            var alphabeticalAscComparer = Comparer<Shelter>.Create((x, y) => string.CompareOrdinal(x.Name, y.Name));
+            var alphabeticalDescComparer = Comparer<Shelter>.Create((x, y) => -1 * string.CompareOrdinal(x.Name, y.Name));
+            
+            var sortComparer = filter.SortType switch
+            {
+                ShelterSortType.Location => closeLocationComparer,
+                ShelterSortType.AlphabeticalAsc => alphabeticalAscComparer,
+                ShelterSortType.AlphabeticalDesc => alphabeticalDescComparer,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+
             var sheltersFilterQuery =
                 _dbContext.Shelters
                     .Where(s =>
                         (string.IsNullOrEmpty(filter.Name) || s.Name.ToLower() == filter.Name.ToLower())
                         && (string.IsNullOrEmpty(filter.City) || s.City.ToLower() == filter.City.ToLower())
-                        && (filter.DistanceInKilometers == null ||
-                            GeolocationHelper.GetDistance(filter.UserGeolocation, s.Geolocation) <
+                        && (GeolocationHelper.GetDistance(filter.UserGeolocation, s.Geolocation) <
                             filter.DistanceInKilometers));
 
             var sheltersCount = sheltersFilterQuery.Count();
 
             var sheltersSelected = sheltersFilterQuery
-                .OrderBy(s => GeolocationHelper.GetDistance(s.Geolocation, filter.UserGeolocation))
+                .OrderBy(s => s, sortComparer)
                 .Skip(filter.PageNumber * 3)
                 .Take(3)
                 .Select(s => new ShelterCardModel(s))
@@ -126,5 +140,17 @@ namespace Saponja.Domain.Repositories.Implementations
                 Shelters = sheltersSelected
             };
         }
+
+        public ResponseResult<ShelterInfoModel> GetShelterDetails(int shelterId)
+        {
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            if (shelter is null)
+                return ResponseResult<ShelterInfoModel>.Error("Shelter does not exist");
+
+            var shelterModel = new ShelterInfoModel(shelter);
+
+            return new ResponseResult<ShelterInfoModel>(shelterModel);
+        }
+
     }
 }

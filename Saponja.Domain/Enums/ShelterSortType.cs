@@ -4,8 +4,8 @@ using System.Text;
 
 namespace Saponja.Domain.Enums
 {
-    public enum SortType
+    public enum ShelterSortType
     {
-        Location, Oldest, Newest
+        Location, AlphabeticalAsc, AlphabeticalDesc
     }
 }

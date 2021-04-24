@@ -14,7 +14,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
         public IEnumerable<AnimalAge> Age { get; set; }
         public string Location { get; set; }
 
-        public SortType SortType { get; set; }
+        public AnimalSortType SortType { get; set; }
         public Geolocation UserGeolocation { get; set; }
         public int PageNumber { get; set; }
     }
