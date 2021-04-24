@@ -1,8 +1,5 @@
 ﻿using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels.Post;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities.Models;
 

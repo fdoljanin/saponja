@@ -1,7 +1,5 @@
 ﻿using MailKit.Net.Smtp;
-using MailKit.Security;
 using MimeKit;
-using MimeKit.Text;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.Configurations;
 using Saponja.Domain.Models.EmailModels;

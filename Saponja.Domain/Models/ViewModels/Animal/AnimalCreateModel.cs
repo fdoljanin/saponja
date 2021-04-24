@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Saponja.Data.Enums;
+﻿using Saponja.Data.Enums;
 
 namespace Saponja.Domain.Models.ViewModels.Animal
 {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Saponja.Domain.Models.EmailModels
+﻿namespace Saponja.Domain.Models.EmailModels
 {
 	public class EmailAddressModel
     {

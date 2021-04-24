@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Saponja.Data.Entities.Models;
+﻿using Saponja.Data.Entities.Models;
 using Saponja.Domain.Enums;
 
 namespace Saponja.Domain.Models.ViewModels.Shelter

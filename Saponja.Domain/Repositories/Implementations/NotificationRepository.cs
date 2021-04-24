@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Saponja.Data.Entities;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels.Notification;

@@ -1,8 +1,4 @@
 ﻿using Saponja.Data.Enums;
-using Saponja.Data.Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Saponja.Domain.Models.ViewModels.Animal
 {

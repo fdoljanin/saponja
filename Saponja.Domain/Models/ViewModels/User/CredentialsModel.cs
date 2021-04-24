@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Saponja.Domain.Models.User
+﻿namespace Saponja.Domain.Models.User
 {
     public class CredentialsModel
     {

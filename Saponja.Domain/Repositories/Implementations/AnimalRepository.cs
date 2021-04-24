@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
@@ -11,7 +9,7 @@ using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Enums;
 using Saponja.Domain.Helpers;
-using Saponja.Domain.Models.ViewModels;
+using Saponja.Domain.Models.ViewModels.Adopter;
 using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Repositories.Interfaces;
 using Saponja.Domain.Services.Interfaces;
@@ -169,6 +167,22 @@ namespace Saponja.Domain.Repositories.Implementations
             return new ResponseResult<AnimalDetailsModel>(animalDetails);
         }
 
+        public ResponseResult<IEnumerable<AdopterModel>> GetAnimalAdopters(int animalId)
+        {
+            var shelterId = _claimProvider.GetUserId();
+            var animal = _dbContext.Animals
+                .Include(a => a.Adopters)
+                .FirstOrDefault(a => a.Id == animalId && a.ShelterId == shelterId && !a.HasBeenAdopted);
+
+            if (animal is null)
+                return ResponseResult<IEnumerable<AdopterModel>>.Error("Unauthorized");
+
+            var adopterList = animal.Adopters
+                .Where(ad => ad.HasConfirmedMail)
+                .Select(ad => new AdopterModel(ad));
+
+            return new ResponseResult<IEnumerable<AdopterModel>>(adopterList);
+        }
 
     }
 }

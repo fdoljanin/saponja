@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using Saponja.Data.Enums;
 
 namespace Saponja.Data.Entities.Models

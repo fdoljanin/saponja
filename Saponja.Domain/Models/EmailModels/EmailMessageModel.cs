@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using MimeKit;
-
-namespace Saponja.Domain.Models.EmailModels
+﻿namespace Saponja.Domain.Models.EmailModels
 {
 	public class EmailMessageModel
     {

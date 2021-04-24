@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Saponja.Domain.Abstractions;
-using Saponja.Domain.Models.ViewModels.Notification;
 using Saponja.Domain.Models.ViewModels.Post;
 using Saponja.Domain.Repositories.Interfaces;
 

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Saponja.Data.Entities.Models;
+using Saponja.Domain.Models.ViewModels.Adopter;
 using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Models.ViewModels.Shelter;
-using Saponja.Domain.Repositories.Implementations;
 using Saponja.Domain.Repositories.Interfaces;
 using Saponja.Domain.Services.Interfaces;
 using Saponja.Web.Infrastructure;
@@ -69,7 +64,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpPut(nameof(EditAnimalDetails))]
-        public ActionResult EditAnimalDetails([FromRoute] int animalId, [FromBody] AnimalCreateModel model)
+        public ActionResult EditAnimalDetails([FromQuery] int animalId, [FromBody] AnimalCreateModel model)
         {
             var result = _animalRepository.EditAnimalDetails(animalId, model);
             if (result.IsError)
@@ -79,7 +74,7 @@ namespace Saponja.Web.Controllers
         } 
 
         [HttpDelete(nameof(RemoveAnimal))]
-        public ActionResult RemoveAnimal([FromRoute] int animalId)
+        public ActionResult RemoveAnimal([FromQuery] int animalId)
         {
             var result = _animalRepository.RemoveAnimal(animalId);
             if (result.IsError)
@@ -88,8 +83,19 @@ namespace Saponja.Web.Controllers
             return Ok();
         }
 
+
+        [HttpGet(nameof(GetAnimalAdopters))]
+        public ActionResult<IEnumerable<AdopterModel>> GetAnimalAdopters([FromQuery] int animalId)
+        {
+            var result = _animalRepository.GetAnimalAdopters(animalId);
+            if (result.IsError)
+                return BadRequest(result.Message);
+
+            return Ok(result.Data);
+        }
+
         [HttpDelete(nameof(RefuseAdopter))]
-        public ActionResult RefuseAdopter([FromRoute] int adopterId)
+        public ActionResult RefuseAdopter([FromQuery] int adopterId)
         {
             var result = _adopterRepository.RefuseAdopter(adopterId);
             if (result.IsError)
@@ -99,7 +105,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpPut(nameof(SetAnimalAdopter))]
-        public ActionResult SetAnimalAdopter([FromRoute] int adopterId)
+        public ActionResult SetAnimalAdopter([FromQuery] int adopterId)
         {
             var result = _adopterRepository.SetAnimalAdopter(adopterId);
             if (result.IsError)
@@ -108,8 +114,8 @@ namespace Saponja.Web.Controllers
             return Ok();
         }
 
-        [HttpPut(nameof(SetAnimalAdopter))]
-        public ActionResult SetAnimalAdoptedOutside([FromRoute] int animalId)
+        [HttpPut(nameof(SetAnimalAdoptedOutside))]
+        public ActionResult SetAnimalAdoptedOutside([FromQuery] int animalId)
         {
             var result = _adopterRepository.SetAnimalAdoptedOutside(animalId);
             if (result.IsError)

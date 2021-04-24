@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Saponja.Domain.Abstractions;
-using Saponja.Domain.Models;
 using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
-using Saponja.Web.Infrastructure;
 
 namespace Saponja.Web.Controllers
 {
@@ -56,7 +48,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpDelete(nameof(RemoveShelter))]
-        public ActionResult RemoveShelter([FromRoute] int shelterId)
+        public ActionResult RemoveShelter([FromQuery] int shelterId)
         {
             var result = _shelterRepository.RemoveShelter(shelterId);
             if (result.IsError)
@@ -66,7 +58,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpPut(nameof(ApprovePost))]
-        public ActionResult ApprovePost([FromRoute] int postId)
+        public ActionResult ApprovePost([FromQuery] int postId)
         {
             var result = _postRepository.ApprovePost(postId);
             if (result.IsError)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Models.User;
@@ -38,7 +35,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpPut(nameof(OpenNotification))]
-        public ActionResult OpenNotification([FromRoute] int notificationId)
+        public ActionResult OpenNotification([FromQuery] int notificationId)
         {
             var result = _notificationRepository.OpenNotification(notificationId);
             if (result.IsError)

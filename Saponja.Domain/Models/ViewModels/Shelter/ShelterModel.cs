@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Saponja.Domain.Models.ViewModels.Shelter
+﻿namespace Saponja.Domain.Models.ViewModels.Shelter
 {
     public class ShelterModel : ShelterInfoModel
     {

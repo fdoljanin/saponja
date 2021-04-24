@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;

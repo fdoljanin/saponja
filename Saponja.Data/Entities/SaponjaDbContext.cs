@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Saponja.Data.Enums;
 
 namespace Saponja.Data.Entities
