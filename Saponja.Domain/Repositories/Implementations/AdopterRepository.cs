@@ -67,7 +67,9 @@ namespace Saponja.Domain.Repositories.Implementations
         public ResponseResult ConfirmEmail(string confirmationToken)
         {
             var adopter = _dbContext.Adopters.FirstOrDefault(a =>
-                    !a.HasConfirmedMail && a.ConfirmationToken == confirmationToken);
+                    !a.HasConfirmedMail 
+                    && a.ConfirmationToken == confirmationToken
+                    && !a.Animal.HasBeenAdopted);
 
             if (adopter is null) 
                 return ResponseResult.Error("Token not valid!");

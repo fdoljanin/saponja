@@ -133,6 +133,14 @@ namespace Saponja.Domain.Repositories.Implementations
         public ResponseResult<PostModel> GetFullPost (int postId)
         {
             var post = _dbContext.Posts.FirstOrDefault(p => p.Id == postId && p.HasBeenApproved);
+
+            if (post is null)
+                return ResponseResult<PostModel>.Error("Post not found");
+
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == post.UserId);
+            var fullPost = new PostModel(post, shelter);
+
+            return new ResponseResult<PostModel>(fullPost);
         }
     }
 }

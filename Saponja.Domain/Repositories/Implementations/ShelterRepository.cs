@@ -12,6 +12,7 @@ using Saponja.Data.Enums;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Enums;
 using Saponja.Domain.Helpers;
+using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
 using Saponja.Domain.Services.Interfaces;
@@ -141,15 +142,33 @@ namespace Saponja.Domain.Repositories.Implementations
             };
         }
 
-        public ResponseResult<ShelterInfoModel> GetShelterDetails(int shelterId)
+        public ResponseResult<ShelterModel> GetShelterDetails(int shelterId)
         {
             var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
             if (shelter is null)
-                return ResponseResult<ShelterInfoModel>.Error("Shelter does not exist");
+                return ResponseResult<ShelterModel>.Error("Shelter does not exist");
 
-            var shelterModel = new ShelterInfoModel(shelter);
+            var animalCount = _dbContext.Shelters.Find(shelterId).Animals.Count;
+            var shelterModel = new ShelterModel(shelter, animalCount);
 
-            return new ResponseResult<ShelterInfoModel>(shelterModel);
+            return new ResponseResult<ShelterModel>(shelterModel);
+        }
+
+        public ResponseResult<IEnumerable<AnimalModel>> GetShelterAnimals(int shelterId, int pageNumber)
+        {
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            if (shelter is null)
+                return ResponseResult<IEnumerable<AnimalModel>>.Error("Shelter does not exist");
+
+            var animalList = _dbContext.Animals
+                .Where(a => a.ShelterId == shelter.Id && !a.HasBeenAdopted)
+                .OrderBy(a => a.DateTime)
+                .Skip(3 * pageNumber)
+                .Take(3)
+                .Select(a => new AnimalModel(a))
+                .ToList();
+
+            return new ResponseResult<IEnumerable<AnimalModel>>(animalList);
         }
 
     }

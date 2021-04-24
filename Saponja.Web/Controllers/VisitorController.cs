@@ -47,7 +47,7 @@ namespace Saponja.Web.Controllers
 
 
         [HttpGet(nameof(GetShelterDetails))]
-        public ActionResult<ShelterInfoModel> GetShelterDetails([FromQuery] int shelterId)
+        public ActionResult<ShelterModel> GetShelterDetails([FromQuery] int shelterId)
         {
             var result = _shelterRepository.GetShelterDetails(shelterId);
             if (result.IsError)
@@ -65,10 +65,31 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpGet(nameof(GetPostsPreview))]
-        public ActionResult<PostListModel> GetPostsPreview(int pageNumber)
+        public ActionResult<PostListModel> GetPostsPreview([FromQuery] int pageNumber)
         {
             var posts = _postRepository.GetPostsPreview(pageNumber);
             return Ok(posts);
+        }
+
+        [HttpGet(nameof(GetFullPost))]
+        public ActionResult<PostModel> GetFullPost([FromQuery] int postId)
+        {
+            var result = _postRepository.GetFullPost(postId);
+            if (result.IsError)
+                return BadRequest(result.Message);
+
+            return Ok(result.Data);
+        }
+
+        [HttpGet(nameof(GetShelterAnimals))]
+        ActionResult<IEnumerable<AnimalModel>> GetShelterAnimals
+            ([FromQuery] int shelterId, [FromQuery] int pageNumber)
+        {
+            var result = _shelterRepository.GetShelterAnimals(shelterId, pageNumber);
+            if (result.IsError)
+                return BadRequest(result.Message);
+
+            return Ok(result.Data);
         }
     }
 }

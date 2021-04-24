@@ -16,6 +16,7 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult AddPostPhoto(int postId, IFormFile postPhoto);
         ResponseResult ApprovePost(int postId);
         PostListModel GetPostsPreview(int pageNumber);
+        ResponseResult<PostModel> GetFullPost(int postId);
     }
 }
 

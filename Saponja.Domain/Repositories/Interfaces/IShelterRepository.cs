@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Models.ViewModels.Shelter;
 
 namespace Saponja.Domain.Repositories.Interfaces
@@ -16,6 +17,7 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult RemoveShelter(int shelterId);
 
         ShelterListModel GetFilteredShelters(ShelterFilterModel filter);
-        ResponseResult<ShelterInfoModel> GetShelterDetails(int shelterId);
+        ResponseResult<ShelterModel> GetShelterDetails(int shelterId);
+        ResponseResult<IEnumerable<AnimalModel>> GetShelterAnimals(int shelterId, int pageNumber);
     }
 }
