@@ -110,5 +110,29 @@ namespace Saponja.Domain.Repositories.Implementations
 
             return ResponseResult.Ok;
         }
+
+        public PostListModel GetPostsPreview(int pageNumber)
+        {
+            var postsCount = _dbContext.Posts.Count();
+
+            var postsList = _dbContext.Posts
+                .Where(p => p.HasBeenApproved)
+                .OrderByDescending(p => p.DateTime)
+                .Skip(3 * pageNumber)
+                .Take(3)
+                .Select(p => new PostPreviewModel(p))
+                .ToList();
+
+            return new PostListModel
+            {
+                PostsCount = postsCount,
+                Posts = postsList
+            };
+        }
+
+        public ResponseResult<PostModel> GetFullPost (int postId)
+        {
+            var post = _dbContext.Posts.FirstOrDefault(p => p.Id == postId && p.HasBeenApproved);
+        }
     }
 }

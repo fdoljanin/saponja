@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Models.ViewModels.Animal;
+using Saponja.Domain.Models.ViewModels.Post;
 using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
 
@@ -15,11 +16,14 @@ namespace Saponja.Web.Controllers
     {
         private readonly IAnimalRepository _animalRepository;
         private readonly IShelterRepository _shelterRepository;
+        private readonly IPostRepository _postRepository;
 
-        public VisitorController(IAnimalRepository animalRepository, IShelterRepository shelterRepository)
+        public VisitorController(IAnimalRepository animalRepository,
+            IShelterRepository shelterRepository, IPostRepository postRepository)
         {
             _animalRepository = animalRepository;
             _shelterRepository = shelterRepository;
+            _postRepository = postRepository;
         }
 
 
@@ -58,6 +62,13 @@ namespace Saponja.Web.Controllers
             var filteredShelters = _shelterRepository.GetFilteredShelters(filter);
 
             return Ok(filteredShelters);
+        }
+
+        [HttpGet(nameof(GetPostsPreview))]
+        public ActionResult<PostListModel> GetPostsPreview(int pageNumber)
+        {
+            var posts = _postRepository.GetPostsPreview(pageNumber);
+            return Ok(posts);
         }
     }
 }
