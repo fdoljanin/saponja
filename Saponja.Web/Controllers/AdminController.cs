@@ -37,7 +37,7 @@ namespace Saponja.Web.Controllers
 
 
         [HttpPost(nameof(AddShelterDocumentation))]
-        public ActionResult AddShelterDocumentation([FromForm(Name = "ShelterId")] int shelterId, 
+        public ActionResult AddShelterDocumentation([FromQuery] int shelterId, 
             [FromForm(Name = "DocumentationFile")] IFormFile documentation)
         {
             var result = _shelterRepository.AddShelterDocumentation(shelterId, documentation);

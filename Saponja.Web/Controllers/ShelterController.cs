@@ -53,7 +53,7 @@ namespace Saponja.Web.Controllers
 
 
         [HttpPost(nameof(AddAnimalProfilePhoto))]
-        public ActionResult AddAnimalProfilePhoto([FromForm(Name = "AnimalId")] int animalId,
+        public ActionResult AddAnimalProfilePhoto([FromQuery] int animalId,
             [FromForm(Name = "ProfilePhoto")] IFormFile profilePhoto)
         {
             var result = _animalRepository.AddAnimalProfilePhoto(animalId, profilePhoto);
@@ -77,6 +77,27 @@ namespace Saponja.Web.Controllers
         public ActionResult RemoveAnimal([FromQuery] int animalId)
         {
             var result = _animalRepository.RemoveAnimal(animalId);
+            if (result.IsError)
+                return BadRequest(result.Message);
+
+            return Ok();
+        }
+
+        [HttpPost(nameof(AddAnimalPhoto))]
+        public ActionResult AddAnimalPhoto([FromQuery] int animalId,
+            [FromForm(Name = "Photo")] IFormFile photo)
+        {
+            var result = _animalRepository.AddAnimalGalleryPhoto(animalId, photo);
+            if (result.IsError)
+                return BadRequest(result.Message);
+
+            return Ok();
+        }
+
+        [HttpDelete(nameof(RemoveAnimalPhoto))]
+        public ActionResult RemoveAnimalPhoto([FromQuery] string photoPath)
+        {
+            var result = _animalRepository.RemoveAnimalGalleryPhoto(photoPath);
             if (result.IsError)
                 return BadRequest(result.Message);
 

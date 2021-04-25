@@ -15,6 +15,9 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult RemoveAnimal(int animalId);
         ResponseResult<IEnumerable<AdopterModel>> GetAnimalAdopters(int animalId);
 
+        ResponseResult AddAnimalGalleryPhoto(int animalId, IFormFile photo);
+        ResponseResult RemoveAnimalGalleryPhoto(string photoPath);
+
         AnimalListModel GetFilteredAnimals(AnimalFilterModel filter);
         ResponseResult<AnimalDetailsModel> GetAnimalDetails(int animalId);
 

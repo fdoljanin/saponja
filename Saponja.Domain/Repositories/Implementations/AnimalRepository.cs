@@ -82,6 +82,48 @@ namespace Saponja.Domain.Repositories.Implementations
             return new ResponseResult<Animal>(animal);
         }
 
+        public ResponseResult AddAnimalGalleryPhoto(int animalId, IFormFile photo)
+        {
+            var findAnimalResult = GetAnimalIfAuthorized(animalId, out var animal);
+            if (findAnimalResult.IsError)
+                return ResponseResult.Error("Unauthorized");
+
+            var photoExtension = System.IO.Path.GetExtension(photo.FileName);
+            var randomPath = RandomGenerator.GenerateRandomString().Substring(0, 10);
+            var photoFilePath = $"{animal.Id}_{randomPath}.{photoExtension}";
+
+            var animalPhoto = new AnimalPhoto
+            {
+                AnimalId = animal.Id,
+                PhotoPath = photoFilePath
+            };
+
+            _dbContext.AnimalPhotos.Add(animalPhoto);
+            _dbContext.SaveChanges();
+
+            var profilePhotoFile = File.Create($@"wwwroot\AnimalGallery\{photoFilePath}");
+            photo.CopyTo(profilePhotoFile);
+
+            return ResponseResult.Ok;
+        }
+
+        public ResponseResult RemoveAnimalGalleryPhoto(string photoPath)
+        {
+            var shelterId = _claimProvider.GetUserId();
+            var galleryPhoto = _dbContext.AnimalPhotos
+                .FirstOrDefault(p =>
+                    p.PhotoPath == photoPath
+                    && p.Animal.ShelterId == shelterId
+                );
+
+            if (galleryPhoto is null)
+                return ResponseResult.Error("Not found");
+
+            _dbContext.AnimalPhotos.Remove(galleryPhoto);
+
+            return ResponseResult.Ok;
+        } 
+
         public ResponseResult AddAnimalProfilePhoto(int animalId, IFormFile profilePhoto)
         {
             var findAnimalResult = GetAnimalIfAuthorized(animalId, out var animal);
@@ -105,6 +147,11 @@ namespace Saponja.Domain.Repositories.Implementations
             var findAnimalResult = GetAnimalIfAuthorized(animalId, out var animal);
             if (findAnimalResult.IsError)
                 return ResponseResult.Error("Unauthorized");
+
+            foreach (var animalPhoto in animal.AnimalPhotos)
+            {
+                RemoveAnimalGalleryPhoto(animalPhoto.PhotoPath);
+            }
 
             _dbContext.Animals.Remove(animal);
             _dbContext.SaveChanges();

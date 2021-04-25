@@ -1,4 +1,6 @@
-﻿using Saponja.Data.Enums;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Saponja.Data.Enums;
 
 namespace Saponja.Domain.Models.ViewModels.Animal
 {
@@ -16,6 +18,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
             IsDangerous = animal.IsDangerous;
             ShelterId = animal.Shelter.Id;
             DocumentationLink = animal.Shelter.DocumentationFilePath;
+            GalleryPhotoPaths = animal.AnimalPhotos.Select(p => p.PhotoPath).ToList();
             Description = System.IO.File.ReadAllText(animal.DescriptionFilePath);
         }
 
@@ -30,5 +33,6 @@ namespace Saponja.Domain.Models.ViewModels.Animal
         public bool IsDangerous { get; set; }
         public int ShelterId { get; set; }
         public string DocumentationLink { get; set; }
+        public IEnumerable<string> GalleryPhotoPaths { get; set; }
     }
 }

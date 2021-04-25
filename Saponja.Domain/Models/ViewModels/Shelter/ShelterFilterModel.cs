@@ -9,7 +9,7 @@ namespace Saponja.Domain.Models.ViewModels.Shelter
         public double DistanceInKilometers { get; set; }
         public string Name { get; set; }
 
-        public ShelterSortType SortType;
+        public ShelterSortType SortType { get; set; }
         public Geolocation UserGeolocation { get; set; }
         public int PageNumber { get; set; }
     }
