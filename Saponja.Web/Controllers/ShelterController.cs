@@ -105,6 +105,16 @@ namespace Saponja.Web.Controllers
         }
 
 
+        [HttpPut(nameof(SendDocumentationEmail))]
+        public ActionResult SendDocumentationEmail([FromQuery] int adopterId)
+        {
+            var result = _adopterRepository.SendDocumentation(adopterId);
+            if (result.IsError)
+                return BadRequest(result.Message);
+
+            return Ok();
+        }
+
         [HttpGet(nameof(GetAnimalAdopters))]
         public ActionResult<IEnumerable<AdopterModel>> GetAnimalAdopters([FromQuery] int animalId)
         {

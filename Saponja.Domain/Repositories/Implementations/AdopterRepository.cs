@@ -14,6 +14,7 @@ namespace Saponja.Domain.Repositories.Implementations
     {
         private readonly SaponjaDbContext _dbContext;
         private readonly IClaimProvider _claimProvider;
+        private readonly IEmailService _emailService;
 
         public AdopterRepository(SaponjaDbContext dbContext, IClaimProvider claimProvider)
         {
@@ -57,6 +58,9 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.Adopters.Add(adopter);
             _dbContext.SaveChanges();
 
+            var emailToAdopter = EmailConstructor.ConstructConfirmationEmail(adopter);
+            _emailService.SendEmail(emailToAdopter);
+
             return ResponseResult.Ok;
         }
 
@@ -94,6 +98,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
             _dbContext.Adopters.Remove(adopter);
 
+            var emailToAdopter = EmailConstructor.ConstructRejectEmail(adopter);
+            _emailService.SendEmail(emailToAdopter);
+
             return ResponseResult.Ok;
         }
 
@@ -126,6 +133,9 @@ namespace Saponja.Domain.Repositories.Implementations
             RefuseAllAdopters(animal.Id);
 
             _dbContext.SaveChanges();
+            var emailToAdopter = EmailConstructor.ConstructAdoptedEmail(adopter);
+            _emailService.SendEmail(emailToAdopter);
+
             return ResponseResult.Ok;
         }
 
@@ -141,6 +151,21 @@ namespace Saponja.Domain.Repositories.Implementations
             animal.HasBeenAdopted = true;
 
             _dbContext.SaveChanges();
+            return ResponseResult.Ok;
+        }
+
+        public ResponseResult SendDocumentation(int adopterId)
+        {
+            var findAdopterResult = GetAdopterIfAuthorized(adopterId, out var adopter);
+            if (findAdopterResult.IsError || adopter.HasReceivedDocumentation)
+                return ResponseResult.Error("Unauthorized");
+
+            var emailToAdopter = EmailConstructor.ConstructDocumentationEmail(adopter);
+            _emailService.SendEmail(emailToAdopter);
+
+            adopter.HasReceivedDocumentation = true;
+            _dbContext.SaveChanges();
+
             return ResponseResult.Ok;
         }
     }

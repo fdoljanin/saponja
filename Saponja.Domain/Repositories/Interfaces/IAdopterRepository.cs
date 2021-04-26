@@ -10,6 +10,7 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult RefuseAdopter(int adopterId);
         ResponseResult SetAnimalAdopter(int adopterId);
         ResponseResult SetAnimalAdoptedOutside(int animalId);
+        ResponseResult SendDocumentation(int adopterId);
 
     }
 }
