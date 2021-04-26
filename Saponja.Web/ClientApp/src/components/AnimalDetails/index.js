@@ -7,6 +7,8 @@ import ThirdDog from "./Assets/slike/pas 3.jpg";
 import FourthDog from "./Assets/slike/pas 4.jpg";
 import FifthDog from "./Assets/slike/pas 5.jpg";
 import Paw from "./Assets/šapa.svg";
+import True from "./True";
+import False from "./False";
 import "./animalDetails.css";
 
 const AnimalDetails = () => {
@@ -71,6 +73,36 @@ const AnimalDetails = () => {
                   preuzimanja, on je pokazao da je najnježniji pas na svijetu!
                 </span>
               </p>
+              <div className="animal__details-animal-info-check-container">
+                <div>
+                  <div className="animal__details-animal-info-check">
+                    <False />
+                    <span>Steriliziran</span>
+                  </div>
+                  <div className="animal__details-animal-info-check">
+                    <True />
+                    <span>Cijepljen</span>
+                  </div>
+                  <div className="animal__details-animal-info-check">
+                    <True />
+                    <span>Zahtjeva iskustvo</span>
+                  </div>
+                </div>
+                <div>
+                  <div className="animal__details-animal-info-check">
+                    <True />
+                    <span>Dobar s djecom</span>
+                  </div>
+                  <div className="animal__details-animal-info-check">
+                    <False />
+                    <span>Dobar s psima</span>
+                  </div>
+                  <div className="animal__details-animal-info-check">
+                    <False />
+                    <span>Dobar s mačkama</span>
+                  </div>
+                </div>
+              </div>
             </div>
             <div className="animal__details-foster-info"></div>
           </div>

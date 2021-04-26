@@ -134,6 +134,7 @@ nav {
   display: block;
   width: 416px;
   margin-top: 10px;
+  margin-bottom: 26px;
 }
 
 .animal__details-animal-info-name p {
@@ -149,4 +150,49 @@ nav {
 .animal__details-animal-info-name img {
   width: 57.07px;
   height: 56px;
+}
+
+.check-box,
+.cross-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #b3ddcc;
+}
+.cross-box {
+  background-color: #e298ab;
+}
+.check {
+  width: 19.2px;
+  height: 19.2px;
+}
+.cross {
+  width: 14px;
+  height: 14px;
+}
+
+.animal__details-animal-info-check {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+.animal__details-animal-info-check span {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 32px;
+  color: #2b343a;
+  margin-left: -16px;
+}
+
+.animal__details-animal-info-check-container {
+  display: flex;
+}
+
+.animal__details-animal-info-check-container div:first-child {
+  margin-right: 32px;
 }
