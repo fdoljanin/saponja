@@ -9,6 +9,7 @@ import FifthDog from "./Assets/slike/pas 5.png";
 import Paw from "./Assets/šapa.svg";
 import True from "./True";
 import False from "./False";
+import Footer from '../Footer';
 import "./animalDetails.css";
 
 const AnimalDetails = () => {
@@ -127,6 +128,7 @@ const AnimalDetails = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

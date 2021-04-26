@@ -8,6 +8,10 @@
   src: url("./Assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
 }
 
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
 nav {
   display: flex;
   justify-content: space-between;

@@ -8,6 +8,8 @@ import IconRight from "./Assets/icons/icon angle right.svg";
 import Chocolate from "./Assets/cokolada.jpeg";
 import AnimalsBackground from "./Assets/pozadina za grupu životinja.svg";
 import Animals from "./Assets/grupa životinja bez pozadine.png";
+
+import Footer from '../Footer';
 import "./landingPage.css";
 
 const LandingPage = () => {
@@ -102,9 +104,7 @@ const LandingPage = () => {
             className="bottom__section-animals"
           />
       </section>
-      <footer>
-          <p className="footer__text">© 2021. Sva prava pridržana.</p>
-      </footer>
+      <Footer />
     </body>
   );
 };
