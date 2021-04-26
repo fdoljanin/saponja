@@ -1,11 +1,11 @@
 import React from "react";
 import Logo from "./Assets/logo.svg";
 import Background from "./Assets/pozadina.svg";
-import FirstDog from "./Assets/slike/pas 1.jpg";
-import SecondDog from "./Assets/slike/pas 2.jpg";
-import ThirdDog from "./Assets/slike/pas 3.jpg";
-import FourthDog from "./Assets/slike/pas 4.jpg";
-import FifthDog from "./Assets/slike/pas 5.jpg";
+import FirstDog from "./Assets/slike/pas 1.png";
+import SecondDog from "./Assets/slike/pas 2.png";
+import ThirdDog from "./Assets/slike/pas 3.png";
+import FourthDog from "./Assets/slike/pas 4.png";
+import FifthDog from "./Assets/slike/pas 5.png";
 import Paw from "./Assets/šapa.svg";
 import True from "./True";
 import False from "./False";
@@ -84,7 +84,7 @@ const AnimalDetails = () => {
                     <span>Cijepljen</span>
                   </div>
                   <div className="animal__details-animal-info-check">
-                    <True />
+                    <False />
                     <span>Zahtjeva iskustvo</span>
                   </div>
                 </div>
@@ -94,7 +94,7 @@ const AnimalDetails = () => {
                     <span>Dobar s djecom</span>
                   </div>
                   <div className="animal__details-animal-info-check">
-                    <False />
+                    <True />
                     <span>Dobar s psima</span>
                   </div>
                   <div className="animal__details-animal-info-check">
@@ -104,7 +104,26 @@ const AnimalDetails = () => {
                 </div>
               </div>
             </div>
-            <div className="animal__details-foster-info"></div>
+            <div className="animal__details-foster-info">
+              <h6>
+                Želiš me udomiti?
+              </h6>
+              <p>Sve možeš odraditi iz udobnosti svoga doma!</p>
+              <p>
+                Sve što trebaš učiniti je javiti se da si zainteresiran,
+                ispuniti podatke i kada je sve dogovoreno, bit ćeš obavješten
+                putem maila s daljnjim uputama i potrebnom dokumentacijom.
+              </p>
+              <p>
+                Potrebnu dokumentaciju možeš i odmah preuzeti{" "}
+                <span>ovdje.</span>
+              </p>
+              <button>Raspitaj se</button>
+              <p className="animal__details-foster-info-bottom-text">
+                Možeš i direktno kontaktirati moj azil, kontakt podacima možeš
+                prisutpiti na njihovom profilu.
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -107,6 +107,14 @@ nav {
   object-fit: cover;
 }
 
+.animal__details-info-container {
+  display: flex;
+}
+
+.animal__details-animal-info {
+  margin-right: 90px;
+}
+
 .animal__details-animal-info-name {
   display: flex;
   align-items: center;
@@ -124,7 +132,8 @@ nav {
   font-weight: normal;
 }
 
-.shelter-info {
+.shelter-info,
+.animal__details-foster-info span {
   text-decoration-line: underline;
   color: #91b2cb;
   cursor: pointer;
@@ -195,4 +204,53 @@ nav {
 
 .animal__details-animal-info-check-container div:first-child {
   margin-right: 32px;
+}
+
+.animal__details-foster-info {
+  border-radius: 24px;
+  padding: 40px;
+  border: 2px solid #b6cbdb;
+  margin-top: 42px;
+  margin-bottom: 80px;
+}
+
+.animal__details-foster-info p {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #2b343a;
+  max-width: 328px;
+}
+
+.animal__details-foster-info button {
+  padding: 16px 71px;
+  background: #91b2cb;
+  border-radius: 50px;
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 40px;
+  color: #fdfffd;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 32px 24px;
+}
+
+.animal__details-foster-info h6 {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 32px;
+  margin: 0;
+  margin-bottom: 16px;
+  color: #2b343a;
+}
+
+.animal__details-foster-info-bottom-text {
+  opacity: 0.5;
 }
