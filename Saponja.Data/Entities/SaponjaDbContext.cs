@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using Saponja.Data.Enums;
 
 namespace Saponja.Data.Entities
@@ -32,32 +29,27 @@ namespace Saponja.Data.Entities
             modelBuilder.Entity<Notification>()
                 .HasOne(n => n.User)
                 .WithMany(u => u.Notifications)
-                .HasForeignKey(n => n.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(n => n.UserId);
 
             modelBuilder.Entity<Post>()
                 .HasOne(p => p.User)
                 .WithMany(u => u.Posts)
-                .HasForeignKey(p => p.UserId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(p => p.UserId);
 
             modelBuilder.Entity<Adopter>()
                 .HasOne(ad => ad.Animal)
                 .WithMany(an => an.Adopters)
-                .HasForeignKey(ad => ad.AnimalId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(ad => ad.AnimalId);
 
             modelBuilder.Entity<Animal>()
                 .HasOne(a => a.Shelter)
                 .WithMany(s => s.Animals)
-                .HasForeignKey(a => a.ShelterId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(a => a.ShelterId);
 
             modelBuilder.Entity<AnimalPhoto>()
                 .HasOne(ap => ap.Animal)
                 .WithMany(a => a.AnimalPhotos)
-                .HasForeignKey(ap => ap.AnimalId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .HasForeignKey(ap => ap.AnimalId);
 
             base.OnModelCreating(modelBuilder);
         }

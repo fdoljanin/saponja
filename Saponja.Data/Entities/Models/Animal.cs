@@ -1,7 +1,6 @@
 ﻿using Saponja.Data.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Saponja.Data.Entities.Models
 {
@@ -23,6 +22,7 @@ namespace Saponja.Data.Entities.Models
         public bool IsDangerous { get; set; }
         public bool HasBeenAdopted { get; set; }
 
+        public DateTime DateTime { get; set; }
         public int ShelterId { get; set; }
         public Shelter Shelter { get; set; }
 

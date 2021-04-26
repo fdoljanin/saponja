@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Saponja.Domain.Abstractions;
+﻿using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels.Adopter;
 
 namespace Saponja.Domain.Repositories.Interfaces
@@ -13,6 +10,7 @@ namespace Saponja.Domain.Repositories.Interfaces
         ResponseResult RefuseAdopter(int adopterId);
         ResponseResult SetAnimalAdopter(int adopterId);
         ResponseResult SetAnimalAdoptedOutside(int animalId);
+        ResponseResult SendDocumentation(int adopterId);
 
     }
 }

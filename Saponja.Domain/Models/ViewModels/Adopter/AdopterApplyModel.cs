@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Saponja.Domain.Models.ViewModels.Adopter
+﻿namespace Saponja.Domain.Models.ViewModels.Adopter
 {
     public class AdopterApplyModel
     {

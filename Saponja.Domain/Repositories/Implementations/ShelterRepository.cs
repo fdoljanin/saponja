@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlTypes;
 using System.IO;
-using System.Text;
+using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Data.Enums;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Enums;
 using Saponja.Domain.Helpers;
+using Saponja.Domain.Models.ViewModels.Animal;
 using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
 
@@ -22,38 +23,48 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext = dbContext;
         }
 
+        public ResponseResult EditShelterDetails(int shelterId, ShelterInfoModel model)
+        {
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            if (shelter is null)
+                return ResponseResult.Error("Does not exist");
+
+            shelter.Name = model.Name;
+            shelter.City = model.City;
+            shelter.Address = model.Address;
+            shelter.Geolocation = model.Geolocation;
+            shelter.WebsiteUrl = model.WebsiteUrl;
+            shelter.ContactPhone = model.ContactPhone;
+            shelter.ContactEmail = model.ContactEmail;
+            shelter.Oib = model.Oib;
+            shelter.Iban = model.Iban;
+
+            var descriptionFilePath = shelter.Id + ".txt";
+            shelter.DescriptionFilePath = descriptionFilePath;
+            _dbContext.SaveChanges();
+
+            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\ShelterDescription" + descriptionFilePath, model.Description);
+
+            return ResponseResult.Ok;
+        }
+
         public ResponseResult<Shelter> RegisterShelter(ShelterRegistrationModel model)
         {
             var shelterCredentials = model.Credentials;
-            var shelterInfo = model.Info;
-
             var passwordEncrypted = EncryptionHelper.Hash(shelterCredentials.Password);
 
             var shelter = new Shelter
             {
                 Email = shelterCredentials.Email,
                 Password = passwordEncrypted,
-                Role = UserRole.Shelter,
-                Name = shelterInfo.Name,
-                City = shelterInfo.City,
-                Address = shelterInfo.Address,
-                Geolocation = model.Geolocation,
-                WebsiteUrl = shelterInfo.WebsiteUrl,
-                ContactPhone = shelterInfo.ContactPhone,
-                ContactEmail = shelterInfo.ContactEmail,
-                Oib = shelterInfo.Oib,
-                Iban = shelterInfo.Iban
+                Role = UserRole.Shelter
             };
 
             _dbContext.Add(shelter);
             _dbContext.SaveChanges();
 
-            var descriptionFilePath = "shelterDescription" + shelter.Id + ".txt";
-            shelter.DescriptionFilePath = descriptionFilePath;
-            _dbContext.SaveChanges();
-
-            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\" + descriptionFilePath, shelterInfo.Description);
-
+            EditShelterDetails(shelter.Id, model.Info);
+    
             return new ResponseResult<Shelter>(shelter);
         }
 
@@ -72,5 +83,89 @@ namespace Saponja.Domain.Repositories.Implementations
 
             return ResponseResult.Ok;
         }
+
+        public ResponseResult RemoveShelter(int shelterId)
+        {
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            if (shelter is null)
+                return ResponseResult.Error("Shelter oes not exist");
+
+            _dbContext.Shelters.Remove(shelter);
+            _dbContext.SaveChanges();
+
+            return ResponseResult.Ok;
+        }
+
+
+        public ShelterListModel GetFilteredShelters(ShelterFilterModel filter)
+        {
+            var closeLocationComparer = Comparer<Shelter>.Create((x, y) =>
+                ComparatorHelpers.CompareRelativeDistances(x.Geolocation, y.Geolocation, filter.UserGeolocation));
+
+            var alphabeticalAscComparer = Comparer<Shelter>.Create((x, y) => string.CompareOrdinal(x.Name, y.Name));
+            var alphabeticalDescComparer = Comparer<Shelter>.Create((x, y) => -1 * string.CompareOrdinal(x.Name, y.Name));
+            
+            var sortComparer = filter.SortType switch
+            {
+                ShelterSortType.Location => closeLocationComparer,
+                ShelterSortType.AlphabeticalAsc => alphabeticalAscComparer,
+                ShelterSortType.AlphabeticalDesc => alphabeticalDescComparer,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
+
+            var sheltersFilterQuery =
+                _dbContext.Shelters
+                    .Where(s =>
+                        (string.IsNullOrEmpty(filter.Name) || s.Name.ToLower() == filter.Name.ToLower())
+                        && (string.IsNullOrEmpty(filter.City) || s.City.ToLower() == filter.City.ToLower())
+                        && (GeolocationHelper.GetDistance(filter.UserGeolocation, s.Geolocation) <
+                            filter.DistanceInKilometers));
+
+            var sheltersCount = sheltersFilterQuery.Count();
+
+            var sheltersSelected = sheltersFilterQuery
+                .OrderBy(s => s, sortComparer)
+                .Skip(filter.PageNumber * 3)
+                .Take(3)
+                .Select(s => new ShelterCardModel(s))
+                .ToList();
+
+
+            return new ShelterListModel
+            {
+                SheltersCount = sheltersCount,
+                Shelters = sheltersSelected
+            };
+        }
+
+        public ResponseResult<ShelterModel> GetShelterDetails(int shelterId)
+        {
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            if (shelter is null)
+                return ResponseResult<ShelterModel>.Error("Shelter does not exist");
+
+            var animalCount = _dbContext.Shelters.Find(shelterId).Animals.Count;
+            var shelterModel = new ShelterModel(shelter, animalCount);
+
+            return new ResponseResult<ShelterModel>(shelterModel);
+        }
+
+        public ResponseResult<IEnumerable<AnimalModel>> GetShelterAnimals(int shelterId, int pageNumber)
+        {
+            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            if (shelter is null)
+                return ResponseResult<IEnumerable<AnimalModel>>.Error("Shelter does not exist");
+
+            var animalList = _dbContext.Animals
+                .Where(a => a.ShelterId == shelter.Id && !a.HasBeenAdopted)
+                .OrderBy(a => a.DateTime)
+                .Skip(3 * pageNumber)
+                .Take(3)
+                .Select(a => new AnimalModel(a))
+                .ToList();
+
+            return new ResponseResult<IEnumerable<AnimalModel>>(animalList);
+        }
+
     }
 }

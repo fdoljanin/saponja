@@ -1,6 +1,6 @@
 ﻿using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
-using Saponja.Domain.Models;
+using Saponja.Domain.Models.User;
 
 namespace Saponja.Domain.Repositories.Interfaces
 {
