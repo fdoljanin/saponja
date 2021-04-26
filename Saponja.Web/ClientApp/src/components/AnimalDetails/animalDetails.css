@@ -8,59 +8,18 @@
   src: url("./Assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
 }
 
+@font-face {
+  font-family: PoppinsRegular;
+  src: url("./Assets/fonts/Poppins-Regular.ttf");
+}
+
 * {
   margin: 0;
   box-sizing: border-box;
 }
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 152px;
-}
-
-.logo__container {
-  width: 164px;
-  height: 56px;
-}
-
-.title__container button {
-  font-family: PoppinsMedium;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 40px;
-  padding: 0;
-  border: none;
-  background-color: transparent;
-  margin-right: 56px;
-  cursor: pointer;
-}
-
 .title__container button:nth-child(2) {
   color: #91b2cb;
   margin-right: 56px;
-}
-.title__container button:last-child {
-  margin-right: 0;
-}
-
-.title__container button::after {
-  content: "";
-  display: block;
-  width: 0;
-  height: 3px;
-  margin-top: -8px;
-  background: #91b2cb;
-  transition: width 0.3s;
-}
-
-.title__container-first-button::after {
-  width: 100%;
-}
-
-.title__container button:hover::after {
-  width: 100%;
 }
 
 .animal__details {
@@ -102,9 +61,74 @@ nav {
     ". ."
     ". .";
   grid-gap: 13.06px;
+  position: relative;
 }
 
-.animal__details-container-image-gallery img {
+.animal__details-container-image-gallery:hover {
+  animation: Blur 0.5s ease-in-out forwards;
+}
+
+@keyframes Blur {
+  0% {
+    filter: none;
+  }
+  100% {
+    filter: blur(5px);
+  }
+}
+
+.search-bar-container {
+  position: absolute;
+  z-index: 1;
+  top: 10.5%;
+  right: 16.5%;
+}
+
+.search-bar-container--hovered {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 28%;
+  top: 21%;
+  z-index: 2;
+}
+
+.search-text {
+  display: none;
+}
+
+.search-text--hovered {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  color: #2b343a;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(253, 255, 253, 0.5);
+  border-radius: 50%;
+}
+
+.search {
+  width: 16px;
+  height: 16px;
+}
+
+.search--hovered {
+  width: 24px;
+  height: 24px;
+}
+
+.gallery-image {
   border-radius: 24px;
   width: 224px;
   height: 162px;
@@ -116,7 +140,7 @@ nav {
 }
 
 .animal__details-animal-info {
-  margin-right: 90px;
+  margin-right: 100px;
 }
 
 .animal__details-animal-info-name {
@@ -129,10 +153,12 @@ nav {
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;
+  margin-bottom: 16px;
   color: #2b343a;
 }
 
 .animal__details-animal-info span {
+  font-family: PoppinsRegular;
   font-weight: normal;
 }
 
@@ -157,6 +183,7 @@ nav {
   font-size: 39.06px;
   line-height: 48px;
   color: #2b343a;
+  margin: 32px 0px;
   margin-right: 8px;
 }
 
@@ -193,7 +220,7 @@ nav {
   margin-top: 14px;
 }
 .animal__details-animal-info-check span {
-  font-family: PoppinsMedium;
+  font-family: PoppinsRegular;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;
@@ -219,7 +246,7 @@ nav {
 }
 
 .animal__details-foster-info p {
-  font-family: PoppinsMedium;
+  font-family: PoppinsRegular;
   font-style: normal;
   font-weight: normal;
   font-size: 16px;

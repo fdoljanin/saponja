@@ -1,5 +1,4 @@
-import React from "react";
-import Logo from "./Assets/logo.svg";
+import React, { useState } from "react";
 import Background from "./Assets/pozadina.svg";
 import FirstDog from "./Assets/slike/pas 1.png";
 import SecondDog from "./Assets/slike/pas 2.png";
@@ -7,27 +6,27 @@ import ThirdDog from "./Assets/slike/pas 3.png";
 import FourthDog from "./Assets/slike/pas 4.png";
 import FifthDog from "./Assets/slike/pas 5.png";
 import Paw from "./Assets/šapa.svg";
+import SearchIcon from "./Assets/icons/zoom in.svg";
+
 import True from "./True";
 import False from "./False";
-import Footer from '../Footer';
+import Footer from "../Footer";
+import NavigationBar from "../NavigationBar";
 import "./animalDetails.css";
 
 const AnimalDetails = () => {
+  const [hover, setHover] = useState(false);
+
+  const handleMouseOver = (e) => {
+    setHover(true);
+  };
+  const handleMouseLeave = (e) => {
+    setHover(false);
+  };
+
   return (
     <div>
-      <nav>
-        <div className="logo__container">
-          <img src={Logo} alt="saponja" />
-        </div>
-        <div className="title__container">
-          <button>Naslovnica</button>
-          <button>Udomi</button>
-          <button>Azili</button>
-          <button>Novosti</button>
-          <button>Doniraj</button>
-          <button>Prijavi se</button>
-        </div>
-      </nav>
+      <NavigationBar />
       <div className="animal__details">
         <img
           src={Background}
@@ -37,11 +36,51 @@ const AnimalDetails = () => {
         <div className="animal__details-container">
           <div className="animal__details-container-images">
             <img src={FirstDog} alt="dog-image-one" className="first-dog" />
-            <div className="animal__details-container-image-gallery">
-              <img src={SecondDog} alt="dog-image-two" />
-              <img src={ThirdDog} alt="dog-image-three" />
-              <img src={FourthDog} alt="dog-image-four" />
-              <img src={FifthDog} alt="dog-image-five" />
+            <div
+              className="animal__details-container-image-gallery-container"
+              onMouseEnter={(e) => handleMouseOver()}
+              onMouseLeave={(e) => handleMouseLeave()}
+            >
+              <div
+                className={
+                  hover
+                    ? "search-bar-container--hovered"
+                    : "search-bar-container"
+                }
+              >
+                <div className={hover ? "" : "search-box"}>
+                  <img
+                    src={SearchIcon}
+                    alt="search-icon"
+                    className={hover ? "search--hovered" : "search"}
+                  />
+                </div>
+                <p className={hover ? "search-text--hovered" : "search-text"}>
+                  Pogledaj galeriju
+                </p>
+              </div>
+              <div className="animal__details-container-image-gallery">
+                <img
+                  className="gallery-image"
+                  src={SecondDog}
+                  alt="dog-image-two"
+                />
+                <img
+                  className="gallery-image"
+                  src={ThirdDog}
+                  alt="dog-image-three"
+                />
+                <img
+                  className="gallery-image"
+                  src={FourthDog}
+                  alt="dog-image-four"
+                />
+                <img
+                  className="gallery-image"
+                  src={FifthDog}
+                  alt="dog-image-five"
+                />
+              </div>
             </div>
           </div>
           <div className="animal__details-info-container">
@@ -106,9 +145,7 @@ const AnimalDetails = () => {
               </div>
             </div>
             <div className="animal__details-foster-info">
-              <h6>
-                Želiš me udomiti?
-              </h6>
+              <h6>Želiš me udomiti?</h6>
               <p>Sve možeš odraditi iz udobnosti svoga doma!</p>
               <p>
                 Sve što trebaš učiniti je javiti se da si zainteresiran,
