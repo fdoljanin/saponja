@@ -75,6 +75,32 @@ nav {
 
 .animal__details-container {
   background-color: #fdfffd;
-  padding: 40px;
+  padding: 42px 40px;
   border-radius: 24px;
+  z-index: 1;
+}
+.animal__details-container-images {
+  display: flex;
+}
+
+.first-dog {
+  height: 340px;
+  width: auto;
+  border-radius: 24px;
+  margin-right: 13.06px;
+}
+
+.animal__details-container-image-gallery {
+  display: grid;
+  grid-template:
+    ". ."
+    ". .";
+  grid-gap: 13.06px;
+}
+
+.animal__details-container-image-gallery img {
+  border-radius: 24px;
+  width: 224px;
+  height: 162px;
+  object-fit: cover;
 }
