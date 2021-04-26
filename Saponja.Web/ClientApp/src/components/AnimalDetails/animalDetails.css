@@ -1,0 +1,80 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("./Assets/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: HurmeBold;
+  src: url("./Assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 152px;
+}
+
+.logo__container {
+  width: 164px;
+  height: 56px;
+}
+
+.title__container button {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 40px;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  margin-right: 56px;
+  cursor: pointer;
+}
+
+.title__container button:nth-child(2) {
+  color: #91b2cb;
+  margin-right: 56px;
+}
+.title__container button:last-child {
+  margin-right: 0;
+}
+
+.title__container button::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 3px;
+  margin-top: -8px;
+  background: #91b2cb;
+  transition: width 0.3s;
+}
+
+.title__container-first-button::after {
+  width: 100%;
+}
+
+.title__container button:hover::after {
+  width: 100%;
+}
+
+.animal__details {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 88px 208px 107px;
+}
+
+.animal__details-background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.animal__details-container {
+  background-color: #fdfffd;
+  padding: 40px;
+  border-radius: 24px;
+}
