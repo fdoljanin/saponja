@@ -1,0 +1,287 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("./Assets/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: HurmeBold;
+  src: url("./Assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
+}
+
+@font-face {
+  font-family: PoppinsRegular;
+  src: url("./Assets/fonts/Poppins-Regular.ttf");
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+.title__container button:nth-child(2) {
+  color: #91b2cb;
+  margin-right: 56px;
+}
+
+.animal__details {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 88px 208px 107px;
+}
+
+.animal__details-background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.animal__details-container {
+  background-color: #fdfffd;
+  padding: 42px 40px;
+  border-radius: 24px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+.animal__details-container-images {
+  display: flex;
+}
+
+.first-dog {
+  height: 340px;
+  width: auto;
+  border-radius: 24px;
+  margin-right: 13.06px;
+}
+
+.animal__details-container-image-gallery {
+  display: grid;
+  grid-template:
+    ". ."
+    ". .";
+  grid-gap: 13.06px;
+  position: relative;
+}
+
+.animal__details-container-image-gallery:hover {
+  animation: Blur 0.5s ease-in-out forwards;
+}
+
+@keyframes Blur {
+  0% {
+    filter: none;
+  }
+  100% {
+    filter: blur(5px);
+  }
+}
+
+.search-bar-container {
+  position: absolute;
+  z-index: 1;
+  top: 10.5%;
+  right: 16.5%;
+}
+
+.search-bar-container--hovered {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  right: 28%;
+  top: 21%;
+  z-index: 2;
+}
+
+.search-text {
+  display: none;
+}
+
+.search-text--hovered {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  color: #2b343a;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(253, 255, 253, 0.5);
+  border-radius: 50%;
+}
+
+.search {
+  width: 16px;
+  height: 16px;
+}
+
+.search--hovered {
+  width: 24px;
+  height: 24px;
+}
+
+.gallery-image {
+  border-radius: 24px;
+  width: 224px;
+  height: 162px;
+  object-fit: cover;
+}
+
+.animal__details-info-container {
+  display: flex;
+}
+
+.animal__details-animal-info {
+  margin-right: 100px;
+}
+
+.animal__details-animal-info-name {
+  display: flex;
+  align-items: center;
+}
+.animal__details-animal-info p {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+  color: #2b343a;
+}
+
+.animal__details-animal-info span {
+  font-family: PoppinsRegular;
+  font-weight: normal;
+}
+
+.shelter-info,
+.animal__details-foster-info span {
+  text-decoration-line: underline;
+  color: #91b2cb;
+  cursor: pointer;
+}
+
+.animal-description {
+  display: block;
+  width: 416px;
+  margin-top: 10px;
+  margin-bottom: 26px;
+}
+
+.animal__details-animal-info-name p {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 39.06px;
+  line-height: 48px;
+  color: #2b343a;
+  margin: 32px 0px;
+  margin-right: 8px;
+}
+
+.animal__details-animal-info-name img {
+  width: 57.07px;
+  height: 56px;
+}
+
+.check-box,
+.cross-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #b3ddcc;
+}
+.cross-box {
+  background-color: #e298ab;
+}
+.check {
+  width: 19.2px;
+  height: 19.2px;
+}
+.cross {
+  width: 14px;
+  height: 14px;
+}
+
+.animal__details-animal-info-check {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+.animal__details-animal-info-check span {
+  font-family: PoppinsRegular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 32px;
+  color: #2b343a;
+  margin-left: -16px;
+}
+
+.animal__details-animal-info-check-container {
+  display: flex;
+}
+
+.animal__details-animal-info-check-container div:first-child {
+  margin-right: 32px;
+}
+
+.animal__details-foster-info {
+  border-radius: 24px;
+  padding: 40px;
+  border: 2px solid #b6cbdb;
+  margin-top: 42px;
+  margin-bottom: 80px;
+}
+
+.animal__details-foster-info p {
+  font-family: PoppinsRegular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 24px;
+  color: #2b343a;
+  max-width: 328px;
+}
+
+.animal__details-foster-info button {
+  padding: 16px 71px;
+  background: #91b2cb;
+  border-radius: 50px;
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 40px;
+  color: #fdfffd;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  margin: 32px 24px;
+}
+
+.animal__details-foster-info h6 {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 25px;
+  line-height: 32px;
+  margin: 0;
+  margin-bottom: 16px;
+  color: #2b343a;
+}
+
+.animal__details-foster-info-bottom-text {
+  opacity: 0.5;
+}
