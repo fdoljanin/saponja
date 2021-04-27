@@ -1,0 +1,90 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("../LandingPage/Assets/fonts/Poppins-Medium.ttf");
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.title__container button:last-child {
+  color: #91b2cb;
+  margin-right: 56px;
+}
+
+.login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.login-background {
+  position: absolute;
+  top: 58px;
+}
+
+.login-dogs {
+  width: 628px;
+  height: auto;
+  position: absolute;
+  top: 40px;
+  z-index: 2;
+}
+
+.login-container {
+  margin-top: 183px;
+  background: #fdfffd;
+  border-radius: 24px;
+  padding: 72px 124px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.login-container-title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 36px;
+}
+
+.login-container-title p {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 39.06px;
+  line-height: 48px;
+  color: #2b343a;
+  margin-right: 24px;
+}
+
+.login-container input {
+  background: #fdfffd;
+  border: 2px solid #91b2cb;
+  box-sizing: border-box;
+  border-radius: 16px;
+  padding: 16px 24px;
+  margin-bottom: 16px;
+  width: 480px;
+}
+
+.login-container-button {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.login-container-button button {
+  background: #91b2cb;
+  border-radius: 50px;
+  padding: 16px 60px;
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 25px;
+  line-height: 40px;
+  color: #fdfffd;
+  border: none;
+  outline: none;
+}

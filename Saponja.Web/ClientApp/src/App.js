@@ -1,10 +1,10 @@
 import React from "react";
 
-import AnimalDetails from './components/AnimalDetails';
+import Login from './components/Login';
 
 const App = () => {
   return (
-    <AnimalDetails />
+    <Login />
   )
 }
 
