@@ -34,6 +34,15 @@ namespace Saponja.Web.Controllers
             return Ok(token);
         }
 
+        [AllowAnonymous]
+        [HttpGet(nameof(RefreshToken))]
+        public ActionResult<string> RefreshToken([FromQuery] string token)
+        {
+            var newToken = _jwtService.GetNewToken(token);
+
+            return Ok(newToken);
+        }
+
         [HttpPut(nameof(OpenNotification))]
         public ActionResult OpenNotification([FromQuery] int notificationId)
         {

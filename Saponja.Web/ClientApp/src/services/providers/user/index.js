@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {parseJwt} from "utils/jwtParser";
-import {useHistory} from "react-router";
+import {history} from "utils/BrowserHistoryWrapper";
 
 const token = localStorage.getItem("token");
 const tokenParsed = parseJwt(token);
@@ -15,8 +15,6 @@ export const UserContext = React.createContext({
 });
 
 const UserProvider = ({ children }) => {
-  const history = useHistory();
-
   const [role, setRole] = useState(initialState.role);
   const [userId, setUserId] = useState(initialState.userId);
 

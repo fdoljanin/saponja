@@ -5,10 +5,9 @@ const useUserContext = () => {
   return useContext(UserContext);
 }
 
-const useUser = () => {
+export const useUser = () => {
   const {
     state: { role, userId },
-    logOut,
   } = useUserContext();
-  return [{role, userId}, logOut];
+  return role ? {role, id: userId} : undefined;
 }
