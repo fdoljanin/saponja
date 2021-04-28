@@ -9,7 +9,7 @@
 }
 
 body {
-  margin: 0;
+  margin: auto;
   box-sizing: border-box;
   max-width: 1440px;
 }
@@ -73,12 +73,14 @@ nav {
 
 .header__banner {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .header__banner-dog {
   margin: 0;
-  width: 100vw;
-  height: auto;
+  max-width: 100%;
 }
 
 .header__banner-heart {
@@ -253,6 +255,9 @@ nav {
 .bottom__section {
   padding: 149px 245px 198px 185px;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottom__section-text {
@@ -265,7 +270,8 @@ nav {
   color: #2b343a;
   max-width: 578px;
   z-index: 1;
-  transform: translate(63px, 75px);
+  top: 185px;
+  left: 248px;
 }
 
 .bottom__section-animals {
