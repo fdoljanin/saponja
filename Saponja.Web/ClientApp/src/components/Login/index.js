@@ -1,5 +1,5 @@
 import React from "react";
-import Paw from './Assets/šapica.svg';
+import Paw from "./Assets/šapica.svg";
 import NavigationBar from "../NavigationBar";
 import LoginBackground from "./Assets/prijavi se pozadina.svg";
 import Doggies from "./Assets/pasici prijava.png";
@@ -19,10 +19,10 @@ const Login = () => {
         <div className="login-container">
           <div className="login-container-title">
             <p>Prijava</p>
-            <img src={Paw} alt="šapa"/>
+            <img src={Paw} alt="šapa" />
           </div>
-          <input placeholder="E-mail"/>
-          <input placeholder="Lozinka"/>
+          <input placeholder="E-mail" />
+          <input placeholder="Lozinka" />
           <div className="login-container-button">
             <button>Prijavi se</button>
           </div>
