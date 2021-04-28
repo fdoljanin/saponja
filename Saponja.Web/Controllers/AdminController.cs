@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Models.ViewModels.Shelter;
 using Saponja.Domain.Repositories.Interfaces;
+using Saponja.Web.Infrastructure;
 
 namespace Saponja.Web.Controllers
 {
-    //[Authorize(Policy = Policies.Admin)]
-    [AllowAnonymous]
+    [Authorize(Policy = Policies.Admin)]
     public class AdminController : ApiController
     {
         private readonly IUserRepository _userRepository;

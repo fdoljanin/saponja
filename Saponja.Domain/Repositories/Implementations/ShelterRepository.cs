@@ -43,7 +43,7 @@ namespace Saponja.Domain.Repositories.Implementations
             shelter.DescriptionFilePath = descriptionFilePath;
             _dbContext.SaveChanges();
 
-            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\ShelterDescription" + descriptionFilePath, model.Description);
+            File.WriteAllText(@"wwwroot\ShelterDescriptions\" + descriptionFilePath, model.Description);
 
             return ResponseResult.Ok;
         }
