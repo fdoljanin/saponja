@@ -12,6 +12,10 @@
   color: #91b2cb;
   margin-right: 56px;
 }
+.title__container button:last-child:after {
+  transition: none !important;
+  width: 100%;
+}
 
 .login {
   display: flex;
