@@ -25,11 +25,10 @@ namespace Saponja.Domain.Helpers
                 Address = adopter.LastName
             };
 
-            var email = new EmailMessageModel();
-            email.Subject = "Potvrdite email";
-            email.SenderAddress = sender;
-            email.ReceiverAddress = receiver;
-            email.Content = content;
+            var email = new EmailMessageModel
+            {
+                Subject = "Potvrdite email", SenderAddress = sender, ReceiverAddress = receiver, Content = content
+            };
 
             return email;
         }
@@ -54,12 +53,14 @@ namespace Saponja.Domain.Helpers
                 Address = adopter.LastName
             };
 
-            var email = new EmailMessageModel();
-            email.Subject = "Potvrdite email";
-            email.SenderAddress = sender;
-            email.ReceiverAddress = receiver;
-            email.Content = content;
-            email.AttachmentPath = adopter.Animal.Shelter.DocumentationFilePath;
+            var email = new EmailMessageModel
+            {
+                Subject = "Potvrdite email",
+                SenderAddress = sender,
+                ReceiverAddress = receiver,
+                Content = content,
+                AttachmentPath = adopter.Animal.Shelter.DocumentationFilePath
+            };
 
             return email;
         }
@@ -84,11 +85,13 @@ namespace Saponja.Domain.Helpers
                 Address = adopter.LastName
             };
 
-            var email = new EmailMessageModel();
-            email.Subject = "Šaponja: odbijeni ste";
-            email.SenderAddress = sender;
-            email.ReceiverAddress = receiver;
-            email.Content = content;
+            var email = new EmailMessageModel
+            {
+                Subject = "Šaponja: odbijeni ste",
+                SenderAddress = sender,
+                ReceiverAddress = receiver,
+                Content = content
+            };
 
             return email;
         }
@@ -113,11 +116,13 @@ namespace Saponja.Domain.Helpers
                 Address = adopter.LastName
             };
 
-            var email = new EmailMessageModel();
-            email.Subject = "Odabrani ste kao udomitelj";
-            email.SenderAddress = sender;
-            email.ReceiverAddress = receiver;
-            email.Content = content;
+            var email = new EmailMessageModel
+            {
+                Subject = "Odabrani ste kao udomitelj",
+                SenderAddress = sender,
+                ReceiverAddress = receiver,
+                Content = content
+            };
 
             return email;
         }

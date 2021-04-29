@@ -8,8 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Converters;
+using Newtonsoft.Json.Serialization;
 using Saponja.Data.Entities;
 using Saponja.Data.Enums;
 using Saponja.Domain.Models.Configurations;
@@ -31,7 +31,6 @@ namespace Saponja.Web
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
@@ -66,15 +65,17 @@ namespace Saponja.Web
 
             services.Configure<JwtConfiguration>(Configuration.GetSection(nameof(JwtConfiguration)));
 
-            services.AddTransient<IClaimProvider, ClaimProvider>();
-            services.AddTransient<IJwtService, JwtService>();
+            services.AddScoped<IClaimProvider, ClaimProvider>();
+            services.AddScoped<IJwtService, JwtService>();
+            services.AddScoped<IAccessValidator, AccessValidator>();
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IAdopterRepository, AdopterRepository>();
             services.AddTransient<IAnimalRepository, AnimalRepository>();
-            services.AddTransient<INotificationRepository, NotificationRepository> (); 
-            services.AddTransient<IPostRepository, PostRepository> ();
-            services.AddTransient<IShelterRepository, ShelterRepository> ();
+            services.AddTransient<INotificationRepository, NotificationRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IShelterRepository, ShelterRepository>();
+
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -93,7 +94,6 @@ namespace Saponja.Web
             services.AddTransient<IEmailService, EmailService>();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseHttpsRedirection();

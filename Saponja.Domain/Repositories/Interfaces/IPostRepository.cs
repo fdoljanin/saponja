@@ -1,7 +1,7 @@
-﻿using Saponja.Domain.Abstractions;
-using Saponja.Domain.Models.ViewModels.Post;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Saponja.Data.Entities.Models;
+using Saponja.Domain.Abstractions;
+using Saponja.Domain.Models.ViewModels.Post;
 
 namespace Saponja.Domain.Repositories.Interfaces
 {

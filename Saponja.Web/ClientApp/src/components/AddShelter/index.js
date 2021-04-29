@@ -42,8 +42,11 @@ const AddShelter = () => {
 
     const shelter = {credentials, info: {...info, geolocation}};
     axios.post("api/Admin/RegisterShelter", shelter)
-    .then(({data}) => {
-      console.log(data);
+    .then(({data: shelterId}) => {
+      const formData = new FormData();
+      formData.append("DocumentationFile", documentation);
+
+      axios.post(`api/Admin/AddShelterDocumentation?shelterId=${shelterId}`, formData);
     })
     .catch(err => console.log(err));
   }

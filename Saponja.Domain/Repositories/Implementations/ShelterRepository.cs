@@ -39,11 +39,12 @@ namespace Saponja.Domain.Repositories.Implementations
             shelter.Oib = model.Oib;
             shelter.Iban = model.Iban;
 
-            var descriptionFilePath = shelter.Id + ".txt";
+            var descriptionFilePath = @$"ShelterDescription\{shelter.Id}.txt";
             shelter.DescriptionFilePath = descriptionFilePath;
             _dbContext.SaveChanges();
 
-            File.WriteAllText(@"wwwroot\ShelterDescriptions\" + descriptionFilePath, model.Description);
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", descriptionFilePath);
+            File.WriteAllText(serverPath, model.Description);
 
             return ResponseResult.Ok;
         }
@@ -64,7 +65,7 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.SaveChanges();
 
             EditShelterDetails(shelter.Id, model.Info);
-    
+
             return new ResponseResult<Shelter>(shelter);
         }
 
@@ -72,13 +73,14 @@ namespace Saponja.Domain.Repositories.Implementations
         {
             var shelter = _dbContext.Shelters.Find(shelterId);
 
-            var documentationExtension = System.IO.Path.GetExtension(documentation.FileName);
-            var documentationFilePath = "shelterDocumentation" + shelter.Id + documentationExtension;
+            var documentationExtension = Path.GetExtension(documentation.FileName);
+            var documentationFilePath = @$"ShelterDocumentation\{shelter.Id}.{documentationExtension}";
 
             shelter.DocumentationFilePath = documentationFilePath;
             _dbContext.SaveChanges();
 
-            var documentationFile = File.Create(@"C:\Users\Korisnik\Desktop\saponja\Storage\" + documentationFilePath);
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", documentationFilePath);
+            var documentationFile = File.Create(serverPath);
             documentation.CopyTo(documentationFile);
 
             return ResponseResult.Ok;
@@ -88,7 +90,7 @@ namespace Saponja.Domain.Repositories.Implementations
         {
             var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
             if (shelter is null)
-                return ResponseResult.Error("Shelter oes not exist");
+                return ResponseResult.Error("Shelter does not exist");
 
             _dbContext.Shelters.Remove(shelter);
             _dbContext.SaveChanges();
@@ -104,7 +106,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var alphabeticalAscComparer = Comparer<Shelter>.Create((x, y) => string.CompareOrdinal(x.Name, y.Name));
             var alphabeticalDescComparer = Comparer<Shelter>.Create((x, y) => -1 * string.CompareOrdinal(x.Name, y.Name));
-            
+
             var sortComparer = filter.SortType switch
             {
                 ShelterSortType.Location => closeLocationComparer,

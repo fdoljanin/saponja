@@ -1,6 +1,6 @@
-﻿using Saponja.Data.Enums;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Saponja.Data.Enums;
 
 namespace Saponja.Data.Entities.Models
 {

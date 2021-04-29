@@ -25,7 +25,7 @@ namespace Saponja.Web.Controllers
 
 
         [HttpGet(nameof(GetAnimalDetails))]
-        public ActionResult<AnimalDetailsModel> GetAnimalDetails([FromQuery]int animalId)
+        public ActionResult<AnimalDetailsModel> GetAnimalDetails([FromQuery] int animalId)
         {
             var result = _animalRepository.GetAnimalDetails(animalId);
             if (result.IsError)
@@ -79,7 +79,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpGet(nameof(GetShelterAnimals))]
-        ActionResult<IEnumerable<AnimalModel>> GetShelterAnimals
+        public ActionResult<IEnumerable<AnimalModel>> GetShelterAnimals
             ([FromQuery] int shelterId, [FromQuery] int pageNumber)
         {
             var result = _shelterRepository.GetShelterAnimals(shelterId, pageNumber);

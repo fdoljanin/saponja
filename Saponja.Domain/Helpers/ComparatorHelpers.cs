@@ -8,7 +8,7 @@ namespace Saponja.Domain.Helpers
         {
             var xDistance = GeolocationHelper.GetDistance(x, user);
             var yDistance = GeolocationHelper.GetDistance(y, user);
-            
+
             return xDistance.CompareTo(yDistance);
         }
     }

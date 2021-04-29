@@ -16,5 +16,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
         public bool IsVaccinated { get; set; }
         public bool IsRequiredExperience { get; set; }
         public bool IsDangerous { get; set; }
+
+        public int ShelterId { get; set; }
     }
 }

@@ -19,20 +19,16 @@ namespace Saponja.Web.Controllers
         public ActionResult ApplyForAnimal(AdopterApplyModel model)
         {
             var result = _adopterRepository.ApplyForAnimal(model);
-            if (result.IsError)
-                return BadRequest(result.Message);
 
-            return Ok();
+            return ResponseToActionResult(result);
         }
 
         [HttpGet(nameof(ConfirmEmail))]
         public ActionResult ConfirmEmail([FromBody] string confirmationToken)
         {
             var result = _adopterRepository.ConfirmEmail(confirmationToken);
-            if (result.IsError)
-                return BadRequest(result.Message);
 
-            return Ok();
+            return ResponseToActionResult(result);
         }
     }
 }

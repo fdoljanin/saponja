@@ -1,7 +1,7 @@
 import axios from "axios";
 import { history } from "../utils/BrowserHistoryWrapper";
 
-const newToken = (token) =>
+export const newToken = (token) =>
   axios.get(`api/Account/RefreshToken?token=${token}`);
 
 const configureAxios = () => {

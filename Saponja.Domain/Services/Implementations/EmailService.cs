@@ -18,7 +18,7 @@ namespace Saponja.Domain.Services.Implementations
 
         public ResponseResult SendEmail(EmailMessageModel emailModel)
         {
-			var message = new MimeMessage();
+            var message = new MimeMessage();
 
             message.To.Add(new MailboxAddress(emailModel.ReceiverAddress.Name, emailModel.ReceiverAddress.Address));
             message.From.Add(new MailboxAddress(emailModel.SenderAddress.Name, emailModel.SenderAddress.Address));
@@ -30,17 +30,15 @@ namespace Saponja.Domain.Services.Implementations
 
             message.Body = builder.ToMessageBody();
 
-            using (var emailClient = new SmtpClient())
-            {
-                emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, false);
-                emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
-                emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
+            using var emailClient = new SmtpClient();
+            emailClient.Connect(_emailConfiguration.SmtpServer, _emailConfiguration.SmtpPort, false);
+            emailClient.AuthenticationMechanisms.Remove("XOAUTH2");
+            emailClient.Authenticate(_emailConfiguration.SmtpUsername, _emailConfiguration.SmtpPassword);
 
-                emailClient.Send(message);
-                emailClient.Disconnect(true);
-            }
+            emailClient.Send(message);
+            emailClient.Disconnect(true);
 
             return ResponseResult.Ok;
-		}
+        }
     }
 }

@@ -7,56 +7,40 @@ using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels.Post;
 using Saponja.Domain.Repositories.Interfaces;
-using Saponja.Domain.Services.Interfaces;
 
 namespace Saponja.Domain.Repositories.Implementations
 {
     public class PostRepository : IPostRepository
     {
         private readonly SaponjaDbContext _dbContext;
-        private readonly IClaimProvider _claimProvider;
-        public PostRepository(SaponjaDbContext dbContext, IClaimProvider claimProvider)
+
+        public PostRepository(SaponjaDbContext dbContext)
         {
             _dbContext = dbContext;
-            _claimProvider = claimProvider;
-        }
-
-        private ResponseResult GetPostIfAuthorized(int postId, out Post post)
-        {
-            post = _dbContext.Posts.FirstOrDefault(p => p.Id == postId);
-            var userId = _claimProvider.GetUserId();
-
-            if (post is null || post.UserId != userId)
-                return ResponseResult.Error("Invalid post");
-
-            return ResponseResult.Ok;
         }
 
         public ResponseResult EditPost(int postId, PostCreateModel model)
         {
-            var findPostResult = GetPostIfAuthorized(postId, out var post);
-            if (findPostResult.IsError)
-                return ResponseResult.Error("Invalid post");
+            var post = _dbContext.Posts.Find(postId);
 
             post.Title = model.Title;
 
-            var contentFilePath = post.Id + ".txt";
+            var contentFilePath = @$"PostContent\{post.Id}.txt";
             post.ContentPath = contentFilePath;
             _dbContext.SaveChanges();
 
-            File.WriteAllText(@"C:\Users\Korisnik\Desktop\saponja\Storage\BlogContent\" + contentFilePath, model.Content);
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", contentFilePath);
+            File.WriteAllText(serverPath, model.Content);
 
             return new ResponseResult<Post>(post);
         }
 
         public ResponseResult<Post> CreatePost(PostCreateModel model)
         {
-            var userId = _claimProvider.GetUserId();
-
             var post = new Post
             {
                 DateTime = DateTime.Now,
-                UserId = userId,
+                UserId = model.UserId,
                 HasBeenApproved = false
             };
 
@@ -68,9 +52,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult RemovePost(int postId)
         {
-            var findPostResult = GetPostIfAuthorized(postId, out var post);
-            if (findPostResult.IsError)
-                return ResponseResult.Error("Unauthorized");
+            var post = _dbContext.Posts.Find(postId);
 
             _dbContext.Posts.Remove(post);
             _dbContext.SaveChanges();
@@ -80,17 +62,16 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult AddPostPhoto(int postId, IFormFile postPhoto)
         {
-            var findPostResult = GetPostIfAuthorized(postId, out var post);
-            if (findPostResult.IsError)
-                return ResponseResult.Error("Unauthorized");
+            var post = _dbContext.Posts.Find(postId);
 
-            var postPhotoExtension = System.IO.Path.GetExtension(postPhoto.FileName);
-            var postPhotoFilePath = post.Id + postPhotoExtension;
+            var postPhotoExtension = Path.GetExtension(postPhoto.FileName);
+            var postPhotoFilePath = @$"PostPhoto\{post.Id}.{postPhotoExtension}";
 
             post.PhotoPath = postPhotoFilePath;
             _dbContext.SaveChanges();
 
-            var postPhotoFile = File.Create(@"C:\Users\Korisnik\Desktop\saponja\Storage\BlogPhotos\" + postPhotoFilePath);
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", postPhotoFilePath);
+            var postPhotoFile = File.Create(serverPath);
             postPhoto.CopyTo(postPhotoFile);
 
             return ResponseResult.Ok;
@@ -127,7 +108,7 @@ namespace Saponja.Domain.Repositories.Implementations
             };
         }
 
-        public ResponseResult<PostModel> GetFullPost (int postId)
+        public ResponseResult<PostModel> GetFullPost(int postId)
         {
             var post = _dbContext.Posts.FirstOrDefault(p => p.Id == postId && p.HasBeenApproved);
 

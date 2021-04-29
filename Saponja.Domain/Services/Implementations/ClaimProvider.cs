@@ -24,15 +24,5 @@ namespace Saponja.Domain.Services.Implementations
 
             return userId;
         }
-
-        public UserRole GetUserRole()
-        {
-            var userRoleString = _httpContextAccessor.HttpContext.User.FindFirst(Claims.Role).Value;
-            var isSuccessful = int.TryParse(userRoleString, out var userRole);
-            if (!isSuccessful)
-                throw new AuthenticationException("Claim non existent");
-
-            return (UserRole) userRole;
-        }
     }
 }

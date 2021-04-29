@@ -17,34 +17,35 @@ namespace Saponja.Web.Controllers
         private readonly IAnimalRepository _animalRepository;
         private readonly IAdopterRepository _adopterRepository;
         private readonly IShelterRepository _shelterRepository;
-        private readonly IClaimProvider _claimProvider;
+        private readonly IAccessValidator _accessValidator;
+        private readonly int _shelterId;
 
         public ShelterController(IAnimalRepository animalRepository, IAdopterRepository adopterRepository,
-            IShelterRepository shelterRepository,IClaimProvider claimProvider)
+            IShelterRepository shelterRepository, IClaimProvider claimProvider, IAccessValidator accessValidator)
         {
             _animalRepository = animalRepository;
             _adopterRepository = adopterRepository;
             _shelterRepository = shelterRepository;
-            _claimProvider = claimProvider;
+
+            _shelterId = claimProvider.GetUserId();
+            _accessValidator = accessValidator;
         }
 
 
         [HttpPut(nameof(EditShelter))]
         public ActionResult EditShelter(ShelterInfoModel model)
         {
-            var shelterId = _claimProvider.GetUserId();
+            var result = _shelterRepository.EditShelterDetails(_shelterId, model);
 
-            var result = _shelterRepository.EditShelterDetails(shelterId, model);
-            if (result.IsError)
-                return BadRequest(result.Message);
-
-            return Ok();
+            return ResponseToActionResult(result);
         }
 
         [HttpPost(nameof(CreateAnimal))]
         public ActionResult CreateAnimal(AnimalCreateModel model)
         {
+            model.ShelterId = _shelterId;
             var result = _animalRepository.CreateAnimal(model);
+
             if (result.IsError)
                 return BadRequest(result.Message);
 
@@ -56,68 +57,84 @@ namespace Saponja.Web.Controllers
         public ActionResult AddAnimalProfilePhoto([FromQuery] int animalId,
             [FromForm(Name = "ProfilePhoto")] IFormFile profilePhoto)
         {
-            var result = _animalRepository.AddAnimalProfilePhoto(animalId, profilePhoto);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAnimalAccess(animalId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _animalRepository.AddAnimalProfilePhoto(animalId, profilePhoto);
+
+            return ResponseToActionResult(result);
         }
 
         [HttpPut(nameof(EditAnimalDetails))]
         public ActionResult EditAnimalDetails([FromQuery] int animalId, [FromBody] AnimalCreateModel model)
         {
-            var result = _animalRepository.EditAnimalDetails(animalId, model);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAnimalAccess(animalId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
-        } 
+            var result = _animalRepository.EditAnimalDetails(animalId, model);
+
+            return ResponseToActionResult(result);
+        }
 
         [HttpDelete(nameof(RemoveAnimal))]
         public ActionResult RemoveAnimal([FromQuery] int animalId)
         {
-            var result = _animalRepository.RemoveAnimal(animalId);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAnimalAccess(animalId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _animalRepository.RemoveAnimal(animalId);
+
+            return ResponseToActionResult(result);
         }
 
         [HttpPost(nameof(AddAnimalPhoto))]
         public ActionResult AddAnimalPhoto([FromQuery] int animalId,
             [FromForm(Name = "Photo")] IFormFile photo)
         {
-            var result = _animalRepository.AddAnimalGalleryPhoto(animalId, photo);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAnimalAccess(animalId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _animalRepository.AddAnimalGalleryPhoto(animalId, photo);
+
+            return ResponseToActionResult(result);
         }
 
         [HttpDelete(nameof(RemoveAnimalPhoto))]
         public ActionResult RemoveAnimalPhoto([FromQuery] string photoPath)
         {
-            var result = _animalRepository.RemoveAnimalGalleryPhoto(photoPath);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var (access, photoId) = _accessValidator.CheckGalleryPhotoAccessAndGetId(photoPath);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _animalRepository.RemoveAnimalGalleryPhoto(photoId);
+
+            return ResponseToActionResult(result);
         }
 
 
         [HttpPut(nameof(SendDocumentationEmail))]
         public ActionResult SendDocumentationEmail([FromQuery] int adopterId)
         {
-            var result = _adopterRepository.SendDocumentation(adopterId);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAdopterAccess(adopterId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _adopterRepository.SendDocumentation(adopterId);
+
+            return ResponseToActionResult(result);
         }
 
         [HttpGet(nameof(GetAnimalAdopters))]
         public ActionResult<IEnumerable<AdopterModel>> GetAnimalAdopters([FromQuery] int animalId)
         {
+            var access = _accessValidator.CheckAnimalAccess(animalId);
+            if (!access)
+                return Forbid();
+
             var result = _animalRepository.GetAnimalAdopters(animalId);
             if (result.IsError)
                 return BadRequest(result.Message);
@@ -128,31 +145,37 @@ namespace Saponja.Web.Controllers
         [HttpDelete(nameof(RefuseAdopter))]
         public ActionResult RefuseAdopter([FromQuery] int adopterId)
         {
-            var result = _adopterRepository.RefuseAdopter(adopterId);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAdopterAccess(adopterId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _adopterRepository.RefuseAdopter(adopterId);
+
+            return ResponseToActionResult(result);
         }
 
         [HttpPut(nameof(SetAnimalAdopter))]
         public ActionResult SetAnimalAdopter([FromQuery] int adopterId)
         {
-            var result = _adopterRepository.SetAnimalAdopter(adopterId);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAdopterAccess(adopterId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _adopterRepository.SetAnimalAdopter(adopterId);
+
+            return ResponseToActionResult(result);
         }
 
         [HttpPut(nameof(SetAnimalAdoptedOutside))]
         public ActionResult SetAnimalAdoptedOutside([FromQuery] int animalId)
         {
-            var result = _adopterRepository.SetAnimalAdoptedOutside(animalId);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var access = _accessValidator.CheckAnimalAccess(animalId);
+            if (!access)
+                return Forbid();
 
-            return Ok();
+            var result = _adopterRepository.SetAnimalAdoptedOutside(animalId);
+
+            return ResponseToActionResult(result);
         }
     }
 }

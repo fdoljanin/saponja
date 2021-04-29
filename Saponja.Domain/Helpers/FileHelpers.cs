@@ -11,7 +11,7 @@ namespace Saponja.Domain.Helpers
             using var reader = new StreamReader(stream, Encoding.UTF8);
 
             var buffer = new char[charCount];
-            var outCharCount = reader.ReadBlock(buffer, 0, charCount);
+            reader.ReadBlock(buffer, 0, charCount);
 
             var result = new string(buffer);
             return result;
