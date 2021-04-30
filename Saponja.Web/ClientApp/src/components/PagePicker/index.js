@@ -23,7 +23,7 @@ const PagePicker = ({ currentPage, pageCount, setPage }) => {
   };
 
   return (
-    <PickerWrapper>
+    <PickerWrapper className="page__picker">
       {currentPage != 1 &&
         <img src={arrowLeftIcon} className="picker-arrow"
           onClick={() => setPage(prev => prev - 1)} />}

@@ -5,7 +5,7 @@ import { ShelterListWrapper } from "./index.styled";
 
 const ShelterList = () => {
   return (
-    <ShelterListWrapper>
+    <ShelterListWrapper className="shelter__list">
       <ShelterCard />
       <ShelterCard />
       <ShelterCard />

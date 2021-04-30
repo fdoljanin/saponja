@@ -3,7 +3,7 @@ import {NormalText, PickerWrapper, RadioOption} from "./index.styled";
 
 const RadioPicker = ({ options, value, setValue }) => {
   return (
-    <PickerWrapper>
+    <PickerWrapper  className="filter-picker">
       {options.map((option, i) =>
         <RadioOption className="picker-option" key={i} isselected={value === i}>
           <div className="picker-circle"

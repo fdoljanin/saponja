@@ -19,7 +19,7 @@ const MultiplePicker = ({ options, values, setValues }) => {
   }
 
   return (
-    <PickerWrapper>
+    <PickerWrapper className="filter-picker">
       {
         options.map((value, i) =>
           <CheckOption className="picker-option" key={i} ischecked={values.some(v => v == i)}>

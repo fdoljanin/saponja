@@ -1,9 +1,12 @@
 import AddShelter from "components/AddShelter";
 import AnimalDetails from "components/AnimalDetails";
-import MultiplePicker from "components/FilterPickers/MultiplePicker";
-import RadioPicker from "components/FilterPickers/RadioPicker";
-import StringInputPicker from "components/FilterPickers/StringInputPicker";
+import MultiplePicker from "components/Filters/MultiplePicker";
+import RadioPicker from "components/Filters/RadioPicker";
+import ShelterFilter from "components/Filters/ShelterFilter";
+import SortPicker from "components/Filters/SortPicker";
+import StringInputPicker from "components/Filters/StringInputPicker";
 import PagePicker from "components/PagePicker";
+import ShelterListing from "components/ShelterListing";
 import ShelterList from "components/ShelterListing/ShelterList";
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
@@ -15,9 +18,10 @@ const App = () => {
   const [values, setValues] = useState("");
   const options = ["konj", "macka", "pas"];
   const [value, setValue] = useState(0);
+  const sortOptions = ["Lokaciji", "A-Z", "Z-A"];
 
   return <BrowserRouter>
-  <RadioPicker value={value} setValue={setValue} options={options}/>
+  <ShelterListing />
   </BrowserRouter>
 
   /*(
