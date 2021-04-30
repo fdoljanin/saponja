@@ -155,20 +155,21 @@ namespace Saponja.Domain.Repositories.Implementations
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            var animalsFilterQuery = _dbContext.Animals
+            var animalsFiltered = _dbContext.Animals
                 .Where(a => !a.HasBeenAdopted
-                            && filter.Type.Any(ft => ft == a.Type)
-                            && filter.Gender.Any(fg => fg == a.Gender)
-                            && filter.Age.Any(fa => fa == a.Age)
-                            && (string.IsNullOrEmpty(filter.Location) || filter.Location.ToLower().Trim() == a.Shelter.City));
+                            && filter.Type.Contains(a.Type)
+                            && filter.Gender.Contains(a.Gender)
+                            && filter.Age.Contains(a.Age))
+                .Include(a => a.Shelter)
+                .AsEnumerable()
+                .Where(a => string.IsNullOrEmpty(filter.Location) || filter.Location.ToLower().Trim() == a.Shelter.City.ToLower());
 
-            var animalsCount = animalsFilterQuery.Count();
+            var animalsCount = animalsFiltered.Count();
 
-            var animalsSelected = animalsFilterQuery
+            var animalsSelected = animalsFiltered
                 .OrderBy(a => a, sortComparer)
                 .Skip(filter.PageNumber * 3)
                 .Take(3)
-                .Include(a => a.Shelter.Name)
                 .Select(a => new AnimalModel(a))
                 .ToList();
 

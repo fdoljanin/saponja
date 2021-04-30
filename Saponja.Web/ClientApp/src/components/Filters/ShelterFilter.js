@@ -12,10 +12,11 @@ const focusModes = {
   none: "none"
 }
 
-const ShelterFilter = ({setFilterOptions}) => {
-  const [chosenLocation, setChosenLocation] = useState("");
-  const [chosenDistance, setChosenDistance] = useState(0);
-  const [chosenName, setChosenName] = useState("");
+const ShelterFilter = ({ filterProps, searchAction }) => {
+  const { chosenLocation, setChosenLocation,
+    chosenDistance, setChosenDistance,
+    chosenName, setChosenName } = filterProps;
+
   const distanceOptions = ["35km ili manje", "50km ili manje", "75km ili manje", "100km ili manje", "250km ili manje"];
   const [focus, setFocus] = useState(focusModes.none);
 
@@ -47,7 +48,7 @@ const ShelterFilter = ({setFilterOptions}) => {
         <StringInputPicker value={chosenName} setValue={setChosenName}
           className="filter-picker" placeholder="Upiši naziv" />
       </FilterOption>
-      <FilterOption className="filter-option">
+      <FilterOption className="filter-option" onClick={() => searchAction()}>
         <p>Pretraži</p>
       </FilterOption>
     </FilterWrapper>

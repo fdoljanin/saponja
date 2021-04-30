@@ -1,8 +1,11 @@
-﻿namespace Saponja.Domain.Models.ViewModels.Shelter
+﻿using Saponja.Data.Entities.Models;
+using Saponja.Domain.Helpers;
+
+namespace Saponja.Domain.Models.ViewModels.Shelter
 {
     public class ShelterCardModel
     {
-        public ShelterCardModel(Data.Entities.Models.Shelter shelter)
+        public ShelterCardModel(Data.Entities.Models.Shelter shelter, Geolocation userGeolocation)
         {
             Id = shelter.Id;
             Name = shelter.Name;
@@ -11,6 +14,7 @@
             Address = shelter.Address;
             ContactPhone = shelter.ContactPhone;
             ContactEmail = shelter.ContactEmail;
+            DistanceFromUser = GeolocationHelper.GetDistance(shelter.Geolocation, userGeolocation);
         }
 
         public int Id { get; set; }
@@ -20,5 +24,6 @@
         public string Address { get; set; }
         public string ContactPhone { get; set; }
         public string ContactEmail { get; set; }
+        public double DistanceFromUser { get; set; }
     }
 }

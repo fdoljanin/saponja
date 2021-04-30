@@ -101,11 +101,11 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ShelterListModel GetFilteredShelters(ShelterFilterModel filter)
         {
-            var closeLocationComparer = Comparer<Shelter>.Create((x, y) =>
-                ComparatorHelpers.CompareRelativeDistances(x.Geolocation, y.Geolocation, filter.UserGeolocation));
+            var closeLocationComparer = Comparer<ShelterCardModel>.Create((x, y) =>
+                x.DistanceFromUser.CompareTo(y.DistanceFromUser));
 
-            var alphabeticalAscComparer = Comparer<Shelter>.Create((x, y) => string.CompareOrdinal(x.Name, y.Name));
-            var alphabeticalDescComparer = Comparer<Shelter>.Create((x, y) => -1 * string.CompareOrdinal(x.Name, y.Name));
+            var alphabeticalAscComparer = Comparer<ShelterCardModel>.Create((x, y) => string.CompareOrdinal(x.Name, y.Name));
+            var alphabeticalDescComparer = Comparer<ShelterCardModel>.Create((x, y) => -1 * string.CompareOrdinal(x.Name, y.Name));
 
             var sortComparer = filter.SortType switch
             {
@@ -115,22 +115,21 @@ namespace Saponja.Domain.Repositories.Implementations
                 _ => throw new ArgumentOutOfRangeException(),
             };
 
-            var sheltersFilterQuery =
+            var sheltersFiltered =
                 _dbContext.Shelters
+                    .Select(s => new ShelterCardModel(s, filter.UserGeolocation))
+                    .AsEnumerable()
                     .Where(s =>
                         (string.IsNullOrEmpty(filter.Name) || s.Name.ToLower() == filter.Name.ToLower())
                         && (string.IsNullOrEmpty(filter.City) || s.City.ToLower() == filter.City.ToLower())
-                        && (GeolocationHelper.GetDistance(filter.UserGeolocation, s.Geolocation) <
-                            filter.DistanceInKilometers));
+                        && (s.DistanceFromUser < filter.DistanceInKilometers));
 
-            var sheltersCount = sheltersFilterQuery.Count();
+            var sheltersCount = sheltersFiltered.Count();
 
-            var sheltersSelected = sheltersFilterQuery
+            var sheltersSelected = sheltersFiltered
                 .OrderBy(s => s, sortComparer)
                 .Skip(filter.PageNumber * 3)
-                .Take(3)
-                .Select(s => new ShelterCardModel(s))
-                .ToList();
+                .Take(3);
 
 
             return new ShelterListModel
