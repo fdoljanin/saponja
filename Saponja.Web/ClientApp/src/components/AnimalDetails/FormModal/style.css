@@ -104,3 +104,28 @@ textarea {
   outline: none;
   cursor: pointer;
 }
+
+@media screen and (max-width: 833px) {
+  .form__modal-container-input div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-input {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 456px) {
+  .form__modal-container {
+    width: 100vw;
+    height: 100vh;
+    border-radius: 0;
+  }
+
+  .form__modal-container-title p {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 32px;
+  }
+}

@@ -94,3 +94,26 @@
 .right-arrow {
   margin-left: 24px;
 }
+
+@media screen and (max-width: 650px) {
+  .left-arrow,
+  .right-arrow {
+    display: none;
+  }
+
+  .animal__photos-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+  }
+
+  .animal__photos-container-title {
+    padding: 16px;
+  }
+
+  .dog-image {
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+}

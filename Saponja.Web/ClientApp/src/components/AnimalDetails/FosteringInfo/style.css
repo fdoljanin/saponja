@@ -30,6 +30,7 @@
   line-height: 24px;
   color: #2b343a;
   max-width: 328px;
+  margin-bottom: 16px;
 }
 
 .animal__details-foster-info button {
@@ -61,4 +62,20 @@
 
 .animal__details-foster-info-bottom-text {
   opacity: 0.5;
+}
+
+@media screen and (max-width: 464px) {
+  .animal__details-foster-info p {
+    font-size: 16px;
+    line-height: 24px;
+    max-width: 270px;
+  }
+
+  .animal__details-foster-info {
+    margin-bottom: 0;
+  }
+
+  .animal__details-foster-info button {
+    margin: 32px 0px;
+  }
 }

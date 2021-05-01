@@ -75,7 +75,7 @@ const AnimalPhotosModal = props => {
               />
             </svg>
           </div>
-          <img src={photos[index]} alt="dog" className="dog-image" />
+          <img src={photos[index]} alt="dog" className="dog-image"/>
         </div>
         <div className="right-arrow" onClick={handleClickRight}>
           <svg
