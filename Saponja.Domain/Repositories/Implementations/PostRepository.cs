@@ -45,6 +45,8 @@ namespace Saponja.Domain.Repositories.Implementations
             };
 
             _dbContext.Add(post);
+            _dbContext.SaveChanges();
+
             EditPost(post.Id, model);
 
             return new ResponseResult<Post>(post);
@@ -65,7 +67,7 @@ namespace Saponja.Domain.Repositories.Implementations
             var post = _dbContext.Posts.Find(postId);
 
             var postPhotoExtension = Path.GetExtension(postPhoto.FileName);
-            var postPhotoFilePath = @$"PostPhoto\{post.Id}.{postPhotoExtension}";
+            var postPhotoFilePath = @$"PostPhoto\{post.Id}{postPhotoExtension}";
 
             post.PhotoPath = postPhotoFilePath;
             _dbContext.SaveChanges();

@@ -7,7 +7,8 @@ namespace Saponja.Domain.Helpers
     {
         public static string ReadFirstFewChars(string filename, int charCount)
         {
-            using var stream = File.OpenRead(filename);
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", filename);
+            using var stream = File.OpenRead(serverPath);
             using var reader = new StreamReader(stream, Encoding.UTF8);
 
             var buffer = new char[charCount];

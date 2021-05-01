@@ -61,7 +61,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpPost(nameof(AddPostPhoto))]
-        public ActionResult AddPostPhoto([FromForm(Name = "PostId")] int postId,
+        public ActionResult AddPostPhoto([FromQuery] int postId,
             [FromForm(Name = "Photo")] IFormFile postPhoto)
         {
             var access = _accessValidator.CheckPostAccess(postId);
