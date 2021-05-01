@@ -29,7 +29,7 @@ namespace Saponja.Domain.Repositories.Implementations
             var animal = _dbContext.Animals.Find(animalId);
 
             animal.Name = model.Name;
-            animal.Type = model.Type;
+            animal.Specie = model.Specie;
             animal.Age = model.Age;
             animal.Gender = model.Gender;
             animal.IsSterilized = model.IsSterilized;
@@ -157,7 +157,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var animalsFiltered = _dbContext.Animals
                 .Where(a => !a.HasBeenAdopted
-                            && filter.Type.Contains(a.Type)
+                            && filter.Specie.Contains(a.Specie)
                             && filter.Gender.Contains(a.Gender)
                             && filter.Age.Contains(a.Age))
                 .Include(a => a.Shelter)

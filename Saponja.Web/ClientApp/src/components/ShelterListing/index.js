@@ -6,31 +6,27 @@ import ShelterList from "./ShelterList"
 import { ShelterListingWrapper } from "./index.styled";
 import SortPicker from "components/Filters/SortPicker";
 import { useHistory, useParams } from "react-router";
-import { history } from "utils/BrowserHistoryWrapper";
 import axios from "axios";
-
-const SORT_OPTIONS = ["Lokaciji", "A-Z", "Z-A"];
-const LOCATION_VALUES = [35, 50, 75, 100, 25009];
-
-const defaultGeolocation = {
-  latitude: 43.508133,
-  longitude: 16.440193
-}
+import { SHELTER_DISTANCE_VALUES, SORT_TYPES } from "consts/modelEnums";
+import { DEFAULT_GEOLOCATION } from "consts/constants";
+import { getNumberOfPages } from "utils/mathHelpers";
 
 const ShelterListing = () => {
   const params = useParams();
   const history = useHistory();
 
-  const [chosenLocation, setChosenLocation] = useState(params.location?.trim() || "");
-  const [chosenDistance, setChosenDistance] = useState(+params.distance?.trim() || 0);
-  const [chosenName, setChosenName] = useState(params.name?.trim() || "");
+  const initialState = {
+    location: params.location?.trim() || "",
+    distance: +params.distance?.trim() || 0,
+    name: params.name?.trim() || "",
+    sortType: +params.sort?.trim() || 1,
+    currentPage: +params.page?.trim() || 1
+  }
 
-  const [sortType, setSortType] = useState(+params.sort?.trim() || 1);
-  const [currentPage, setCurrentPage] = useState(+params.page?.trim() || 1);
-  const [pageCount, setPageCount] = useState();
 
-  const [geolocation, setGeolocation] = useState(defaultGeolocation);
-  const [filteredShelters, setFilteredShelters] = useState([]);
+  const [chosenLocation, setChosenLocation] = useState(initialState.location);
+  const [chosenDistance, setChosenDistance] = useState(initialState.distance);
+  const [chosenName, setChosenName] = useState(initialState.chosenName);
 
   const filterProps = {
     chosenLocation, setChosenLocation,
@@ -38,10 +34,25 @@ const ShelterListing = () => {
     chosenName, setChosenName
   };
 
+  const [sortType, setSortType] = useState(initialState.sortType);
+  const [currentPage, setCurrentPage] = useState(initialState.currentPage);
+  const [pageCount, setPageCount] = useState(0);
+
+  const [geolocation, setGeolocation] = useState(DEFAULT_GEOLOCATION);
   navigator.geolocation.getCurrentPosition(p => setGeolocation(p.coords));
 
+  const [filteredShelters, setFilteredShelters] = useState([]);
+
   const searchAction = () => {
-    history.push(`/shelter/filter/${chosenLocation || " "}/${chosenDistance || " "}/${chosenName || " "}/${sortType || " "}/${currentPage || " "}`);
+    const props = {
+      location: chosenLocation || " ",
+      distance: chosenDistance,
+      name: chosenName || " ",
+      sort: sortType,
+      page: currentPage
+    }
+
+    history.push(`/shelter/filter/${props.location}/${props.distance}/${props.name}/${props.sort}/${props.page}`);
   }
 
   useEffect(searchAction, [currentPage]);
@@ -49,28 +60,28 @@ const ShelterListing = () => {
   useEffect(() => {
     const shelterFilterModel = {
       city: chosenLocation,
-      distanceInKilometers: LOCATION_VALUES[chosenDistance],
+      distanceInKilometers: SHELTER_DISTANCE_VALUES[chosenDistance],
       name: chosenName,
       sortType,
-      pageNumber: currentPage-1,
+      pageNumber: currentPage - 1,
       userGeolocation: geolocation
     }
 
     axios.post("api/Visitor/GetFilteredShelters", shelterFilterModel)
-    .then(({data}) => {
-      setPageCount(Math.ceil(data.sheltersCount/3));
-      setFilteredShelters(data.shelters);
-    });
+      .then(({ data }) => {
+        setPageCount(getNumberOfPages(data.sheltersCount));
+        setFilteredShelters(data.shelters);
+      });
   }, [params]);
 
   return (
     <ShelterListingWrapper>
       <div className="listing-options">
         <ShelterFilter filterProps={filterProps} searchAction={searchAction} />
-        <SortPicker options={SORT_OPTIONS} value={sortType} setValue={setSortType} />
+        <SortPicker options={SORT_TYPES.shelter} value={sortType} setValue={setSortType} />
       </div>
-      {filteredShelters.length ? <PagePicker pageCount={pageCount} currentPage={currentPage} setPage={setCurrentPage} /> : null}
-      <ShelterList shelterList={filteredShelters}/>
+      {pageCount ? <PagePicker pageCount={pageCount} currentPage={currentPage} setPage={setCurrentPage} /> : null}
+      <ShelterList shelterList={filteredShelters} />
     </ShelterListingWrapper>
   )
 }

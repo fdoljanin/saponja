@@ -7,7 +7,7 @@ import continueIcon from "assets/svgs/continue.svg";
 const ShelterCard = ({ shelter }) => {
   return (
     <ShelterCardWrapper>
-      <img src={pawIcon} className="card-image--paw" />
+      <img src={pawIcon} className="card-image--paw" alt="Paw icon"/>
       <div className="card-header">
         <h2 className="card-title">{shelter.name}</h2>
         <Link to={shelter.websiteUrl}>
@@ -24,7 +24,7 @@ const ShelterCard = ({ shelter }) => {
           <p>Mail: <span>{shelter.contactEmail}</span></p>
         </div>
         <Link className="card-continue" to={`/shelter/${shelter.id}`}>
-          <img src={continueIcon} />
+          <img src={continueIcon} alt="See details"/>
         </Link>
       </div>
 

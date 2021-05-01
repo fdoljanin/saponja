@@ -4,7 +4,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
 {
     public class AnimalCreateModel
     {
-        public AnimalType Type { get; set; }
+        public AnimalSpecie Specie { get; set; }
         public string Name { get; set; }
         public AnimalGender Gender { get; set; }
         public AnimalAge Age { get; set; }

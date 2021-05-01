@@ -25,7 +25,7 @@ const PagePicker = ({ currentPage, pageCount, setPage }) => {
   return (
     <PickerWrapper className="page__picker">
       {currentPage != 1 &&
-        <img src={arrowLeftIcon} className="picker-arrow"
+        <img src={arrowLeftIcon} className="picker-arrow" alt="Turn page left"
           onClick={() => setPage(prev => prev - 1)} />}
       {options.map((value, i) =>
         neededNumberOfPages[i] <= pageCount &&
@@ -36,7 +36,7 @@ const PagePicker = ({ currentPage, pageCount, setPage }) => {
 
       )}
       {currentPage != pageCount &&
-        <img src={arrowRightIcon} className="picker-arrow"
+        <img src={arrowRightIcon} className="picker-arrow" alt="Turn page right"
           onClick={() => setPage(prev => prev + 1)} />}
     </PickerWrapper>
   )

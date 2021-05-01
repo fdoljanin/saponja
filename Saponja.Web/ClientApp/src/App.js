@@ -15,12 +15,18 @@ import { BrowserRouter, Route } from "react-router-dom";
 import UserProvider from "services/providers/user";
 import { setTextRange } from "typescript";
 import Login from './components/Login';
+import { getArrayFromBase32, getBase32FromArray, getSequenceFromArray } from "utils/arrayHelpers";
+import { ANIMAL_ENUMS } from "consts/modelEnums";
+import { filterType } from "consts/enums";
+import AnimalFilter from "components/Filters/AnimalFilter";
+import AnimalListing from "components/AnimalListing";
 
 const App = () => {
+
   return <BrowserRouter>
-    <Route path="/shelter/filter/:location?/:distance?/:name?/:sort?/:page?">
-      <ShelterListing />
-    </Route>
+      <Route exact path="/animal/filter/:specie?/:gender?/:age?/:location?/:sort?/:page?">
+        <AnimalListing />
+      </Route>
   </BrowserRouter>
 
   /*(

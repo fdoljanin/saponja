@@ -7,7 +7,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
 {
     public class AnimalFilterModel
     {
-        public IEnumerable<AnimalType> Type { get; set; }
+        public IEnumerable<AnimalSpecie> Specie { get; set; }
         public IEnumerable<AnimalGender> Gender { get; set; }
         public IEnumerable<AnimalAge> Age { get; set; }
         public string Location { get; set; }

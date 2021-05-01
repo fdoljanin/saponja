@@ -8,7 +8,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
     {
         public AnimalDetailsModel(Data.Entities.Models.Animal animal) : base(animal)
         {
-            Type = animal.Type;
+            Specie = animal.Specie;
             IsSterilized = animal.IsSterilized;
             IsGoodWithChildren = animal.IsGoodWithChildren;
             IsGoodWithCats = animal.IsGoodWithCats;
@@ -22,7 +22,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
             Description = System.IO.File.ReadAllText(animal.DescriptionFilePath);
         }
 
-        public AnimalType Type { get; set; }
+        public AnimalSpecie Specie { get; set; }
         public string Description { get; set; }
         public bool IsSterilized { get; set; }
         public bool IsGoodWithChildren { get; set; }

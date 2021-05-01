@@ -5,9 +5,9 @@ import arrowIcon from "assets/svgs/arrowDrop.svg"
 const SortPicker = ({ options, value, setValue }) => {
   return (
     <SortPickerWrapper className="sort__picker">
-      <p class="sort-title">Poredaj po</p>
-      <img src={arrowIcon} className="sort-arrow" />
-      <div class="sort-options">
+      <p className="sort-title">Poredaj po</p>
+      <img src={arrowIcon} className="sort-arrow" alt="Dropdown icon"/>
+      <div className="sort-options">
         {options.map((option, i) =>
           <SortOption onClick={() => setValue(i)} isSelected={i === value} key={i}>
             {option}

@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { getSequenceFromArray } from "utils/arrayHelpers";
 import { PickerWrapper, CheckOption, NormalText } from "./index.styled";
 
 const MultiplePicker = ({ options, values, setValues }) => {
@@ -15,14 +16,14 @@ const MultiplePicker = ({ options, values, setValues }) => {
   }
 
   const selectAll = () => {
-    setValues(allSelected ? [] : Array(options.length).fill(0).map((e, i) => i));
+    setValues(allSelected ? [] : getSequenceFromArray(options));
   }
 
   return (
     <PickerWrapper className="filter-picker">
       {
         options.map((value, i) =>
-          <CheckOption className="picker-option" key={i} ischecked={values.some(v => v == i)}>
+          <CheckOption className="picker-option" key={i} ischecked={values.some(v => v === i)}>
             <div className="picker-checkbox"
               onClick={() => toggleCheck(i)} />
             <NormalText className="picker-value">{value}</NormalText>

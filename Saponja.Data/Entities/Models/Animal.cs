@@ -7,7 +7,7 @@ namespace Saponja.Data.Entities.Models
     public class Animal
     {
         public int Id { get; set; }
-        public AnimalType Type { get; set; }
+        public AnimalSpecie Specie { get; set; }
         public string Name { get; set; }
         public AnimalGender Gender { get; set; }
         public AnimalAge Age { get; set; }
