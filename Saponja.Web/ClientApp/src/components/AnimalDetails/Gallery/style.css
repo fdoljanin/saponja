@@ -1,0 +1,98 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("../../../assets/fonts/Poppins-Medium.ttf");
+}
+
+.gallery {
+  display: flex;
+}
+
+.first-dog {
+  height: 340px;
+  width: auto;
+  border-radius: 24px;
+  margin-right: 13.06px;
+}
+
+.gallery-container-grid {
+  display: grid;
+  grid-template:
+    ". ."
+    ". .";
+  grid-gap: 13.06px;
+  position: relative;
+}
+.gallery-container {
+  cursor: pointer;
+}
+.gallery-container:hover > .gallery-container-grid {
+  animation: Blur 0.5s ease-in-out forwards;
+}
+
+@keyframes Blur {
+  0% {
+    filter: none;
+  }
+  100% {
+    filter: blur(5px);
+  }
+}
+
+.search-bar-container {
+  position: absolute;
+  z-index: 1;
+  top: 135px;
+  right: 19.5%;
+}
+
+.search-bar-container--hovered {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  left: calc(100% - 585px);
+  top: 275px;
+  z-index: 2;
+}
+
+.search-text {
+  display: none;
+}
+
+.search-text--hovered {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  text-decoration-line: underline;
+  color: #2b343a;
+  animation: none !important;
+}
+
+.search-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(253, 255, 253, 0.5);
+  border-radius: 50%;
+}
+
+.search {
+  width: 16px;
+  height: 16px;
+}
+
+.search--hovered {
+  width: 24px;
+  height: 24px;
+}
+
+.gallery-image {
+  border-radius: 24px;
+  width: 224px;
+  height: 162px;
+  object-fit: cover;
+}

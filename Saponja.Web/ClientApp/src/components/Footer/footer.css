@@ -1,3 +1,8 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("../../assets/fonts/Poppins-Medium.ttf");
+}
+
 footer {
   background-color: #b6cbdb;
   padding: 68px 150px;
@@ -10,4 +15,30 @@ footer {
   line-height: 40px;
   color: #fefefe;
   margin: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  footer {
+    padding: 50px 87px;
+  }
+}
+
+@media screen and (max-width: 688px) {
+  .footer__text {
+    font-family: PoppinsMedium;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 32px;
+    color: #fefefe;
+  }
+  footer {
+    padding: 41px 55px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  footer {
+    padding: 32px 24px;
+  }
 }

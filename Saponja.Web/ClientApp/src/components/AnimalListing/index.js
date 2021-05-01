@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AnimalFilter from "components/Filters/AnimalFilter";
 import PagePicker from "components/PagePicker";
 import { ANIMAL_ENUMS, SORT_TYPES } from "consts/modelEnums";

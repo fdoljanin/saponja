@@ -1,0 +1,12 @@
+<svg width="366" height="116" viewBox="0 0 366 116" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0" mask-type="alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="366" height="116">
+<rect width="366" height="116" fill="#C4C4C4"/>
+</mask>
+<g mask="url(#mask0)">
+<ellipse cx="327.864" cy="71.4939" rx="29.375" ry="29.8565" transform="rotate(90 327.864 71.4939)" fill="#E298AB"/>
+<circle cx="162.564" cy="26.368" r="16.8106" transform="rotate(90 162.564 26.368)" fill="#E298AB"/>
+<path d="M342.68 119.315C351.506 158.618 338.558 220.755 340.534 259.572C344.013 327.916 363.359 360.903 332.101 404.184C300.843 447.465 233.396 388.721 186.832 408.331C169.875 415.472 87.1597 441.212 49.6773 415.817C-2.26772 380.623 32.1738 314.741 19.1607 225.119C-2.35535 76.9374 29.6358 61.3983 165.515 35.6496C293.786 11.3428 331.648 70.1851 342.68 119.315Z" fill="#B3DDCC"/>
+<ellipse cx="288.086" cy="10.3665" rx="10.3665" ry="10.0864" transform="rotate(90 288.086 10.3665)" fill="#FFF385"/>
+<circle cx="19.0865" cy="61.2053" r="10.0864" transform="rotate(90 19.0865 61.2053)" fill="#FFF385"/>
+</g>
+</svg>

@@ -1,0 +1,13 @@
+.cross-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #e298ab;
+}
+.cross {
+  width: 14px;
+  height: 14px;
+}

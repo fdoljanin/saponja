@@ -5,6 +5,7 @@ import StringInputPicker from "./StringInputPicker";
 import { FilterWrapper, FilterOption } from "./index.styled";
 import closeIcon from "assets/svgs/cross.svg";
 import { filterType } from "consts/enums";
+import { SHELTER_ENUMS } from "consts/modelEnums";
 
 
 const ShelterFilter = ({ filterProps, searchAction }) => {
@@ -21,7 +22,7 @@ const ShelterFilter = ({ filterProps, searchAction }) => {
 
   return (
     <FilterWrapper className="shelter__filer">
-      <FilterOption className="filter-option" onClick={() => setFocus(filterfilterType.LOCATION)} focused={focus === filterType.LOCATION}>
+      <FilterOption className="filter-option" onClick={() => setFocus(filterType.LOCATION)} focused={focus === filterType.LOCATION}>
         <img src={closeIcon} className="filter-close" onClick={closeModul} alt="Close module sign" />
         <p className="filter-name">Lokacija</p>
         <p className="filter-explain">Upiši lokaciju</p>
@@ -33,7 +34,7 @@ const ShelterFilter = ({ filterProps, searchAction }) => {
         <p className="filter-name">Udaljenost</p>
         <p className="filter-explain">Odaberi daljinu</p>
         <RadioPicker value={chosenDistance} setValue={setChosenDistance}
-          className="filter-picker" options={distanceOptions} />
+          className="filter-picker" options={SHELTER_ENUMS.distance} />
       </FilterOption>
       <FilterOption className="filter-option" onClick={() => setFocus(filterType.NAME)} focused={focus === filterType.NAME}>
         <img src={closeIcon} className="filter-close" onClick={closeModul} alt="Close module sign" />
