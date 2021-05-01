@@ -1,0 +1,14 @@
+.check-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #b3ddcc;
+}
+
+.check {
+  width: 19.2px;
+  height: 19.2px;
+}

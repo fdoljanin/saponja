@@ -1,0 +1,44 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+.title__container button:nth-child(2) {
+  color: #91b2cb;
+  margin-right: 56px;
+}
+
+.title__container button:nth-child(2):after {
+  transition: none !important;
+  width: 100%;
+}
+
+.animal__details {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 88px 208px 107px;
+}
+
+.animal__details-background {
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.animal__details-container {
+  background-color: #fdfffd;
+  padding: 42px 40px;
+  border-radius: 24px;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.animal__details-info-container {
+  display: flex;
+}
+
+footer {
+  margin-top: 110px;
+}

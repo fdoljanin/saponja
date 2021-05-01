@@ -1,0 +1,103 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("../../../assets/fonts/Poppins-Medium.ttf");
+}
+
+.bottom__section {
+  padding: 149px 245px 198px 185px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bottom__section-text {
+  position: absolute;
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 39.06px;
+  line-height: 56px;
+  color: #2b343a;
+  max-width: 578px;
+  z-index: 1;
+  top: 185px;
+  left: 248px;
+}
+
+.bottom__section-animals {
+  position: absolute;
+  top: 0;
+  transform: translate(63px, 256px);
+}
+
+@media screen and (max-width: 1050px) {
+  .bottom__section-text {
+    top: 128px;
+    left: 136px;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .bottom__section {
+    overflow-x: hidden;
+  }
+  .bottom__section-animals-background {
+    width: 250%;
+  }
+  .bottom__section-animals {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .bottom__section-animals-background {
+    width: 300%;
+  }
+}
+
+@media screen and (max-width: 688px) {
+  .bottom__section-text {
+    top: 72px;
+    left: 24px;
+  }
+
+  .bottom__section-animals-background {
+    width: 688px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .bottom__section-text {
+    font-family: PoppinsMedium;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 31.25px;
+    line-height: 56px;
+    color: #2b343a;
+  }
+  .bottom__section-animals {
+    width: 414px;
+  }
+
+  .bottom__section-animals-background {
+    margin-left: 100px;
+    width: 514px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .bottom__section-animals {
+    width: 390px;
+    margin-left: -40px;
+  }
+
+  .bottom__section-animals-background {
+    margin-left: 50px;
+    width: 494px;
+  }
+
+  .bottom__section-text {
+    max-width: 400px;
+  }
+}

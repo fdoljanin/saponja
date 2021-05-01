@@ -1,0 +1,105 @@
+@font-face {
+  font-family: Hurme;
+  src: url("../../../assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
+}
+
+header {
+  position: relative;
+}
+
+.header-dog {
+  margin: 0;
+  width: 100%;
+}
+
+.header-heart {
+  position: absolute;
+  height: 258px;
+  width: 180px;
+  top: 292px;
+  right: 150px;
+  transform: translate(150px, 292px);
+  animation: UpAndDown 2s linear infinite;
+}
+
+.header__mobile {
+  display: none;
+}
+
+.mobile-corgi {
+  display: none;
+}
+
+@keyframes UpAndDown {
+  0%,
+  100% {
+    transform: translateY(-25px);
+  }
+  50% {
+    transform: translateY(25px);
+  }
+}
+
+@media screen and (max-width: 1300px) {
+  .header-heart {
+    height: 184px;
+    width: auto;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .header__desktop {
+    display: none;
+  }
+
+  .header__mobile {
+    display: block;
+  }
+  .ipad-corgi {
+    width: 100%;
+  }
+
+  .header__mobile p {
+    font-family: Hurme;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 61.04px;
+    line-height: 80px;
+    color: #fdfffd;
+    position: absolute;
+    top: 33%;
+    right: 33%;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .header__mobile {
+    position: relative;
+    height: 506.913px;
+  }
+
+  .ipad-corgi {
+    position: absolute;
+    width: 1024px;
+    top: 0;
+    right: 0;
+    overflow: hidden;
+  }
+  .header__mobile p {
+    right: 350px;
+  }
+}
+
+@media screen and (max-width: 414px) {
+  .ipad-corgi {
+    display: none;
+  }
+
+  .header__mobile p {
+    top: 220px;
+    left: 20px;
+  }
+  .mobile-corgi {
+    display: block;
+  }
+}
