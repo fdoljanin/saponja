@@ -1,6 +1,6 @@
 @font-face {
   font-family: PoppinsMedium;
-  src: url("../Assets/fonts/Poppins-Medium.ttf");
+  src: url("../../../assets/fonts/Poppins-Medium.ttf");
 }
 
 * {
@@ -9,12 +9,16 @@
 }
 
 .animal__photos {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(43, 52, 58, 0.55);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
 }
 
 .animal__photos-container {
@@ -44,10 +48,49 @@
   display: flex;
   align-items: center;
   color: #2b343a;
+  margin-right: 8px;
+  user-select: none;
 }
 
-.animal__photos img {
+.animal__photos-container-title img {
+  user-select: none;
+}
+
+.dog-image {
   width: 463.69px;
   height: 347.36px;
   border-radius: 24px;
+  user-select: none;
+}
+
+.arrow-container {
+  display: flex;
+  align-items: center;
+}
+
+.arrow-container svg {
+  cursor: pointer;
+}
+
+.left-arrow,
+.right-arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #91b2cb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-arrow:active,
+.right-arrow:active {
+  transform: translateY(4px);
+}
+.left-arrow {
+  margin-right: 24px;
+}
+
+.right-arrow {
+  margin-left: 24px;
 }

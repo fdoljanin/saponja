@@ -1,8 +1,8 @@
 import React from 'react';
-import Corgi from "../Assets/header.png";
-import Heart from "../Assets/srce.svg";
-import CorgiMobile from '../Assets/corgi mobile crop.png';
-import CorgiIpad from "../Assets/corgi mobile.png";
+import Corgi from "../../../assets/landingPage_assets/header.png";
+import Heart from "../../../assets/landingPage_assets/srce.svg";
+import CorgiMobile from '../../../assets/landingPage_assets/corgi mobile crop.png';
+import CorgiIpad from "../../../assets/landingPage_assets/corgi mobile.png";
 
 import "./style.css";
 

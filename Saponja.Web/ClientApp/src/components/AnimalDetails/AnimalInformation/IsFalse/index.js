@@ -1,7 +1,7 @@
 import React from "react";
-import './animalDetails.css';
+import './style.css';
 
-const False = () => {
+const IsFalse = () => {
   return (
     <div className="cross-box">
       <svg
@@ -22,4 +22,4 @@ const False = () => {
   );
 };
 
-export default False;
+export default IsFalse;

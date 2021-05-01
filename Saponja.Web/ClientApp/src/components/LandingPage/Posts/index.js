@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
-import IconRight from "../Assets/icons/icon angle right.svg";
-import Chocolate from "../Assets/cokolada.jpeg";
+import IconRight from "../../../assets/icons/icon angle right.svg";
+import Chocolate from "../../../assets/landingPage_assets/cokolada.jpeg";
 
 const Posts = () => {
   return (

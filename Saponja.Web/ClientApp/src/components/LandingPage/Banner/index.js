@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
-import BulldogBackground from "../Assets/pozadina za bulldoga.svg";
-import Bulldog from "../Assets/bulldog bez pozadine.png";
+import BulldogBackground from "../../../assets/landingPage_assets/pozadina za bulldoga.svg";
+import Bulldog from "../../../assets/landingPage_assets/bulldog bez pozadine.png";
 
 const Banner = () => {
   return (

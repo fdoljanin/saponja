@@ -1,9 +1,12 @@
 import React from "react";
-import Paw from "./Assets/šapica.svg";
+
+import Paw from "../../assets/icons/šapica.svg";
+import LoginBackground from "../../assets/login_assets/prijavi se pozadina.svg";
+import LoginBackgroundMobile from '../../assets/login_assets/puppy geng pozadina.svg';
+import Doggies from "../../assets/login_assets/pasici prijava.png";
+
 import NavigationBar from "../NavigationBar";
-import LoginBackground from "./Assets/prijavi se pozadina.svg";
-import Doggies from "./Assets/pasici prijava.png";
-import "./login.css";
+import "./style.css";
 
 const Login = () => {
   return (
@@ -15,8 +18,12 @@ const Login = () => {
           alt="background"
           className="login-background"
         />
+        <img src={LoginBackgroundMobile}
+          alt="background mobile"
+          className="login-background-mobile"
+        />
         <img src={Doggies} alt="doggies" className="login-dogs" />
-        <div className="login-container">
+        <form className="login-container">
           <div className="login-container-title">
             <p>Prijava</p>
             <img src={Paw} alt="šapa" />
@@ -26,7 +33,7 @@ const Login = () => {
           <div className="login-container-button">
             <button>Prijavi se</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   );

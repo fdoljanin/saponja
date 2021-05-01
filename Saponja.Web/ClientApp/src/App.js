@@ -1,10 +1,10 @@
 import React from "react";
 
-import AnimalDetails from './components/AnimalDetails';
+import LandingPage from './components/LandingPage/MainScreen';
 
 const App = () => {
   return (
-    <AnimalDetails />
+    <LandingPage/>
   )
 }
 

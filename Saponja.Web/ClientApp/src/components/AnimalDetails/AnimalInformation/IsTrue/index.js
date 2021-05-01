@@ -1,7 +1,7 @@
 import React from "react";
-import "./animalDetails.css";
+import "./style.css";
 
-const True = () => {
+const IsTrue = () => {
   return (
     <div className="check-box">
       <svg
@@ -22,4 +22,4 @@ const True = () => {
   );
 };
 
-export default True;
+export default IsTrue;

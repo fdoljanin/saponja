@@ -1,6 +1,6 @@
 @font-face {
   font-family: PoppinsMedium;
-  src: url("../Assets/fonts/Poppins-Medium.ttf");
+  src: url("../../../assets/fonts/Poppins-Medium.ttf");
 }
 
 * {
@@ -9,12 +9,16 @@
 }
 
 .form__modal {
-  width: 100vw;
-  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(43, 52, 58, 0.55);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2;
 }
 
 .form__modal-container {
@@ -43,6 +47,10 @@
   line-height: 32px;
   color: #2b343a;
   margin-right: 8px;
+}
+
+.form__modal-container-title svg {
+  cursor: pointer;
 }
 
 .form__modal-container-input div {
@@ -94,4 +102,5 @@ textarea {
   color: #fdfffd;
   border: none;
   outline: none;
+  cursor: pointer;
 }

@@ -1,0 +1,84 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("../../../../assets/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: PoppinsRegular;
+  src: url("../../../../assets/fonts/Poppins-Regular.ttf");
+}
+
+.animal-info {
+  margin-right: 100px;
+}
+
+.animal-info-name {
+  display: flex;
+  align-items: center;
+}
+.animal-info p {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+  margin-bottom: 16px;
+  color: #2b343a;
+}
+
+.animal-info span {
+  font-family: PoppinsRegular;
+  font-weight: normal;
+}
+
+.shelter-info {
+  text-decoration-line: underline;
+  color: #91b2cb;
+  cursor: pointer;
+}
+
+.animal-description {
+  display: block;
+  width: 416px;
+  margin-top: 10px;
+  margin-bottom: 26px;
+}
+
+.animal-info-name p {
+  font-family: PoppinsMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 39.06px;
+  line-height: 48px;
+  color: #2b343a;
+  margin: 32px 0px;
+  margin-right: 8px;
+}
+
+.animal-info-name img {
+  width: 57.07px;
+  height: 56px;
+}
+
+.animal-info-check {
+  display: flex;
+  align-items: center;
+  margin-top: 14px;
+}
+.animal-info-check span {
+  font-family: PoppinsRegular;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 32px;
+  color: #2b343a;
+  margin-left: -16px;
+}
+
+.animal-info-check-container {
+  display: flex;
+}
+
+.animal-info-check-container div:first-child {
+  margin-right: 32px;
+}

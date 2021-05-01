@@ -1,3 +1,13 @@
+@font-face {
+  font-family: PoppinsMedium;
+  src: url("../../../assets/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: PoppinsRegular;
+  src: url("../../../assets/fonts/Poppins-Regular.ttf");
+}
+
 .banner {
   display: flex;
   justify-content: center;

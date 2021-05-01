@@ -1,11 +1,6 @@
 @font-face {
   font-family: PoppinsMedium;
-  src: url("./Assets/fonts/Poppins-Medium.ttf");
-}
-
-@font-face {
-  font-family: HurmeBold;
-  src: url("../LandingPage/Assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
+  src: url("../../assets/fonts/Poppins-Medium.ttf");
 }
 * {
   margin: 0;

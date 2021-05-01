@@ -1,8 +1,8 @@
 import React from "react";
-import Logo from './Assets/logo.svg';
-import MobileLogo from "../LandingPage/Assets/logo mobile.svg";
-import Hamburger from '../LandingPage/Assets/icons/icon menu burger.svg';
-import './navigationBar.css';
+import Logo from '../../assets/navigationBar_assets/logo.svg';
+import MobileLogo from "../../assets/navigationBar_assets/logo mobile.svg";
+import Hamburger from '../../assets/icons/icon menu burger.svg';
+import './style.css';
 
 const NavigationBar = () => {
   return (

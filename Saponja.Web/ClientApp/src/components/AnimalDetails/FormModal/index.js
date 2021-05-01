@@ -1,8 +1,11 @@
 import React from "react";
-import Paw from "../Assets/šapa.svg";
-import "./formModal.css";
+import Paw from "../../../assets/icons/šapa.svg";
+import "./style.css";
 
-const FormModal = () => {
+const FormModal = (props) => {
+  if (!props.showForm) {
+    return null;
+  }
   return (
     <div className="form__modal">
       <div className="form__modal-container">
@@ -17,6 +20,7 @@ const FormModal = () => {
             viewBox="0 0 24 24"
             width="16px"
             height="16px"
+            onClick={props.onClose}
           >
             <title>180 cross</title>
             <path
@@ -27,7 +31,7 @@ const FormModal = () => {
             />
           </svg>
         </div>
-        <div className="form__modal-container-input">
+        <form className="form__modal-container-input">
           <div>
             <input className="modal-input" placeholder="Ime" />
             <input className="modal-input" placeholder="Prezime" />
@@ -35,10 +39,10 @@ const FormModal = () => {
             <input className="modal-input" placeholder="Adresa" />
           </div>
           <textarea rows="7" placeholder="Poruka" />
-        </div>
-        <div className="form__modal-container-button">
+          <div className="form__modal-container-button">
           <button>Pošalji</button>
         </div>
+        </form>
       </div>
     </div>
   );
