@@ -1,11 +1,40 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import Paw from "../../../assets/icons/šapa.svg";
 import "./style.css";
 
-const FormModal = (props) => {
-  if (!props.showForm) {
+const initialState = {
+  adopter: {
+    firstName: "",
+    lastName: "",
+    email: "",
+    city: "",
+    motivation: ""
+  }
+}
+
+const FormModal = ({ showForm, onClose, animalId }) => {
+  const [adopter, setAdopter] = useState(initialState.adopter);
+
+  if (!showForm) {
     return null;
   }
+
+
+
+  const handleChange = ({ target: { name, value } }) => {
+    setAdopter((prevState) => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios.post("api/Adopter/ApplyForAnimal", { ...adopter, animalId })
+      .then(r => console.log(r))
+  }
+
   return (
     <div className="form__modal">
       <div className="form__modal-container">
@@ -20,7 +49,7 @@ const FormModal = (props) => {
             viewBox="0 0 24 24"
             width="16px"
             height="16px"
-            onClick={props.onClose}
+            onClick={onClose}
           >
             <title>180 cross</title>
             <path
@@ -31,17 +60,17 @@ const FormModal = (props) => {
             />
           </svg>
         </div>
-        <form className="form__modal-container-input">
+        <form className="form__modal-container-input" onSubmit={handleSubmit}>
           <div>
-            <input className="modal-input" placeholder="Ime" />
-            <input className="modal-input" placeholder="Prezime" />
-            <input className="modal-input" placeholder="Email" />
-            <input className="modal-input" placeholder="Adresa" />
+            <input className="modal-input" placeholder="Ime" name="firstName" onChange={handleChange} />
+            <input className="modal-input" placeholder="Prezime" name="lastName" onChange={handleChange} />
+            <input className="modal-input" placeholder="Email" name="email" onChange={handleChange} />
+            <input className="modal-input" placeholder="Prebivalište" name="city" onChange={handleChange} />
           </div>
-          <textarea rows="7" placeholder="Poruka" />
+          <textarea rows="7" placeholder="Poruka" name="motivation" onChange={handleChange} />
           <div className="form__modal-container-button">
-          <button>Pošalji</button>
-        </div>
+            <button type="submit">Pošalji</button>
+          </div>
         </form>
       </div>
     </div>

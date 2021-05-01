@@ -1,8 +1,8 @@
 import React from "react";
-
+import { Link } from "react-router-dom";
 import "./style.css";
 
-const FosteringInfo = ({onShowForm}) => {
+const FosteringInfo = ({ onShowForm, downloadLink }) => {
   return (
     <div className="animal__details-foster-info">
       <h6>Želiš me udomiti?</h6>
@@ -13,7 +13,7 @@ const FosteringInfo = ({onShowForm}) => {
         daljnjim uputama i potrebnom dokumentacijom.
       </p>
       <p>
-        Potrebnu dokumentaciju možeš i odmah preuzeti <span>ovdje.</span>
+        Potrebnu dokumentaciju možeš i odmah preuzeti <a href={downloadLink} download><span>ovdje.</span></a>
       </p>
       <button onClick={onShowForm}>Raspitaj se</button>
       <p className="animal__details-foster-info-bottom-text">

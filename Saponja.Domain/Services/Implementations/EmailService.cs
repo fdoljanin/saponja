@@ -25,7 +25,8 @@ namespace Saponja.Domain.Services.Implementations
             message.Subject = emailModel.Subject;
 
             var builder = new BodyBuilder();
-            builder.Attachments.Add(emailModel.AttachmentPath);
+            if (emailModel.AttachmentPath != null)
+                builder.Attachments.Add(emailModel.AttachmentPath);
             builder.HtmlBody = emailModel.Content;
 
             message.Body = builder.ToMessageBody();

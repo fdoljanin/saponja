@@ -185,6 +185,7 @@ namespace Saponja.Domain.Repositories.Implementations
         {
             var animal = _dbContext.Animals
                 .Include(a => a.Shelter)
+                .Include(a => a.AnimalPhotos)
                 .FirstOrDefault(a => a.Id == animalId && !a.HasBeenAdopted);
 
             if (animal is null)

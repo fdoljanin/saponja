@@ -8,7 +8,7 @@ namespace Saponja.Domain.Helpers
         public static EmailMessageModel ConstructConfirmationEmail(Adopter adopter)
         {
             var content = @"
-
+Potvrdite mail
 
 
 
@@ -22,7 +22,7 @@ namespace Saponja.Domain.Helpers
             var receiver = new EmailAddressModel()
             {
                 Name = adopter.FirstName,
-                Address = adopter.LastName
+                Address = adopter.Email
             };
 
             var email = new EmailMessageModel
@@ -50,7 +50,7 @@ namespace Saponja.Domain.Helpers
             var receiver = new EmailAddressModel()
             {
                 Name = adopter.FirstName,
-                Address = adopter.LastName
+                Address = adopter.Email
             };
 
             var email = new EmailMessageModel

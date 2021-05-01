@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Saponja.Data.Enums;
 
@@ -19,7 +20,9 @@ namespace Saponja.Domain.Models.ViewModels.Animal
             ShelterId = animal.Shelter.Id;
             DocumentationLink = animal.Shelter.DocumentationFilePath;
             GalleryPhotoPaths = animal.AnimalPhotos.Select(p => p.PhotoPath).ToList();
-            Description = System.IO.File.ReadAllText(animal.DescriptionFilePath);
+
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", animal.DescriptionFilePath);
+            Description = System.IO.File.ReadAllText(serverPath);
         }
 
         public AnimalSpecie Specie { get; set; }

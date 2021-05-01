@@ -6,6 +6,7 @@ import MainScreen from "components/LandingPage/MainScreen";
 import Login from "components/Login";
 import AddPost from "components/AddPost";
 import UserProvider from "services/providers/user";
+import AnimalDetails from "components/AnimalDetails/MainScreen";
 
 const App = () => {
 
@@ -22,6 +23,9 @@ const App = () => {
       </Route>
       <Route exact path="/">
         <MainScreen />
+      </Route>
+      <Route exact path="/animal/:id">
+        <AnimalDetails />
       </Route>
     </UserProvider>
   </BrowserRouter>

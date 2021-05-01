@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
@@ -23,7 +24,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult ApplyForAnimal(AdopterApplyModel model)
         {
-            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == model.AnimalId && !a.HasBeenAdopted);
+            var animal = _dbContext.Animals
+                .Include(a => a.Adopters)
+                .FirstOrDefault(a => a.Id == model.AnimalId && !a.HasBeenAdopted);
             if (animal is null)
                 return ResponseResult.Error("Animal not available");
 
@@ -46,7 +49,13 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.Adopters.Add(adopter);
             _dbContext.SaveChanges();
 
-            var emailToAdopter = EmailConstructor.ConstructConfirmationEmail(adopter);
+
+            var fullAdopter = _dbContext.Adopters
+                .Include(a => a.Animal)
+                .ThenInclude(an => an.Shelter)
+                .First(a => a.Id == adopter.Id);
+
+            var emailToAdopter = EmailConstructor.ConstructConfirmationEmail(fullAdopter);
             _emailService.SendEmail(emailToAdopter);
 
             return ResponseResult.Ok;
