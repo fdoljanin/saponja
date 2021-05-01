@@ -12,6 +12,7 @@ export const PageNumber = styled.div`
   text-align: center;
 
   color: ${({ isCurrent }) => isCurrent ? "2B343A" : "#2b343a9a"};
+  cursor: ${({ isClickable }) => isClickable ? "pointer" : "default"};
   text-decoration: ${props => !props.isCurrent && props.isClickable ? "underline" : "none"};
   background-image: url(${({ isCurrent }) => isCurrent ? pawIcon : ""});
   background-size: 36px 36px;
@@ -26,5 +27,6 @@ export const PickerWrapper = styled.div`
     height: 24px;
     width: 24px;
     margin: 0 8px;
+    cursor: pointer;
   }
 `;
