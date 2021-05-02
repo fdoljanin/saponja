@@ -8,9 +8,10 @@
   margin: auto;
 }
 
-.first-dog {
+.first-animal {
   height: 340px;
-  width: auto;
+  width: 464.94;
+  object-fit: cover;
   border-radius: 24px;
   margin-right: 13.06px;
 }
@@ -141,7 +142,7 @@
 }
 
 @media screen and (max-width: 1000px) {
-  .first-dog {
+  .first-animal {
     width: 400px;
     height: 300px;
     object-fit: cover;
@@ -163,7 +164,7 @@
 }
 
 @media screen and (max-width: 880px) {
-  .first-dog {
+  .first-animal {
     width: 350px;
     height: 250px;
   }
@@ -193,7 +194,7 @@
     display: flex;
   }
 
-  .first-dog {
+  .first-animal {
     width: 506px;
     height: 404px;
     margin-bottom: 24px;
@@ -226,7 +227,7 @@
 }
 
 @media screen and (max-width: 570px) {
-  .first-dog {
+  .first-animal {
     width: 366px;
     height: 264px;
   }
