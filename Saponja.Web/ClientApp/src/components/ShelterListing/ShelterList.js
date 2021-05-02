@@ -6,7 +6,7 @@ import { ShelterListWrapper } from "./index.styled";
 const ShelterList = ({shelterList}) => {
   return (
     <ShelterListWrapper className="shelter__list">
-      {shelterList.map((shelter, i) => <ShelterCard shelter={shelter} key={i}/>)}
+      {shelterList.map(shelter => <ShelterCard shelter={shelter} key={shelter.id}/>)}
     </ShelterListWrapper>
   )
 }

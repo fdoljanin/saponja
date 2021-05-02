@@ -3,8 +3,6 @@ import arrowLeftIcon from "assets/svgs/arrowLeft.svg";
 import arrowRightIcon from "assets/svgs/arrowRight.svg";
 import { PickerWrapper, PageNumber } from "./index.styled";
 
-
-
 const PagePicker = ({ currentPage, pageCount, setPage }) => {
   const options = [
     1,

@@ -1,8 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { ANIMAL_ENUMS } from "consts/modelEnums";
 import continueIcon from "assets/svgs/continue.svg";
 import { AnimalCardWrapper } from "./index.styled";
-import { ANIMAL_ENUMS } from "consts/modelEnums";
-import { Link } from "react-router-dom";
 
 
 const AnimalCard = ({ animal }) => {

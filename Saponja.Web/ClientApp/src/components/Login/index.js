@@ -1,15 +1,16 @@
 import React, { useState } from "react";
-import { useUser } from "services/providers/user/hooks";
-import { Redirect } from "react-router";
 import axios from "axios";
+import { Redirect } from "react-router";
+
+import NavigationBar from "../NavigationBar";
+
 import { history } from "utils/BrowserHistoryWrapper";
+import { useUser } from "services/providers/user/hooks";
 
 import Paw from "../../assets/icons/šapica.svg";
 import LoginBackground from "../../assets/login_assets/prijavi se pozadina.svg";
 import LoginBackgroundMobile from '../../assets/login_assets/puppy geng pozadina.svg';
 import Doggies from "../../assets/login_assets/pasici prijava.png";
-
-import NavigationBar from "../NavigationBar";
 import "./style.css";
 
 const initialState = {
@@ -24,7 +25,7 @@ const Login = () => {
 
   const user = useUser();
   if (user) {
-    return <Redirect to="/home" />
+    return <Redirect to="/" />
   }
 
   const handleChange = ({ target: { name, value } }) => {

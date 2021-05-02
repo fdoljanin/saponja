@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Background from "../../../assets/animalDetails_assets/pozadina.svg";
 
 import NavigationBar from "../../NavigationBar";
@@ -12,29 +12,38 @@ import FormModal from '../FormModal';
 import "./style.css";
 import { useParams } from "react-router";
 import axios from "axios";
+import { useUser } from "services/providers/user/hooks";
 
-const AnimalDetails = () => { 
+const AnimalDetails = () => {
   const [show, setShow] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [animal, setAnimal] = useState();
-  const {id:animalId} = useParams();
+  const { id: animalId } = useParams();
+
+  const user = useUser();
 
   const handleShowForm = () => {
     setShowForm(true);
   }
 
+  
   useEffect(() => {
     axios.get(`api/Visitor/GetAnimalDetails?animalId=${animalId}`)
-    .then(({data}) => setAnimal(data));
+    .then(({ data }) => setAnimal(data));
   }, []);
-
+  
   if (!animal) {
     return <h1>Loading</h1>
   }
-
+  
+  const showAdoptPopupOrNull = () => {
+    return animal.shelterId != user.id
+      ? <FormModal onClose={() => setShowForm(false)} showForm={showForm} animalId={animalId} />
+      : null;
+  }
+  
   return (
     <div>
-      <NavigationBar />
       <div className="animal__details">
         <img
           src={Background}
@@ -42,16 +51,15 @@ const AnimalDetails = () => {
           className="animal__details-background"
         />
         <div className="animal__details-container">
-          <Gallery animal={animal} onShowGallery={() => setShow(true)}/>
+          <Gallery animal={animal} onShowGallery={() => setShow(true)} />
           <div className="animal__details-info-container">
-            <AnimalInformation animal={animal}/>
-            <FosteringInfo onShowForm={handleShowForm} downloadLink={animal.documentationLink}/>
+            <AnimalInformation animal={animal} />
+            <FosteringInfo onShowForm={handleShowForm} downloadLink={animal.documentationLink} />
           </div>
         </div>
       </div>
-      <Footer />
-      <AnimalPhotosModal onClose={() => setShow(false)} shouldShow={show} animal={animal}/>
-      <FormModal onClose={() => setShowForm(false)} showForm={showForm} animalId={animalId}/>
+      <AnimalPhotosModal onClose={() => setShow(false)} shouldShow={show} animal={animal} />
+      {showAdoptPopupOrNull}
     </div>
   );
 };

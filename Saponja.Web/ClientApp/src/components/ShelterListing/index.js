@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
-import PagePicker from "components/PagePicker"
-import { useState } from "react"
-import ShelterFilter from "../Filters/ShelterFilter"
-import ShelterList from "./ShelterList"
-import { ShelterListingWrapper } from "./index.styled";
-import SortPicker from "components/Filters/SortPicker";
+import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import axios from "axios";
+
+import PagePicker from "components/PagePicker";
+import ShelterFilter from "../Filters/ShelterFilter";
+import ShelterList from "./ShelterList";
+import SortPicker from "components/Filters/SortPicker";
+
 import { SHELTER_DISTANCE_VALUES, SORT_TYPES } from "consts/modelEnums";
 import { DEFAULT_GEOLOCATION } from "consts/constants";
 import { getNumberOfPages } from "utils/mathHelpers";
+import { ShelterListingWrapper } from "./index.styled";
 
 const ShelterListing = () => {
   const params = useParams();
@@ -58,7 +59,7 @@ const ShelterListing = () => {
   useEffect(searchAction, [currentPage]);
 
   useEffect(() => {
-    const shelterFilterModel = {
+    const filterModel = {
       city: chosenLocation,
       distanceInKilometers: SHELTER_DISTANCE_VALUES[chosenDistance],
       name: chosenName,
@@ -67,7 +68,7 @@ const ShelterListing = () => {
       userGeolocation: geolocation
     }
 
-    axios.post("api/Visitor/GetFilteredShelters", shelterFilterModel)
+    axios.post("api/Visitor/GetFilteredShelters", filterModel)
       .then(({ data }) => {
         setPageCount(getNumberOfPages(data.sheltersCount));
         setFilteredShelters(data.shelters);

@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router";
+import axios from "axios";
+
 import AnimalFilter from "components/Filters/AnimalFilter";
 import PagePicker from "components/PagePicker";
-import { ANIMAL_ENUMS, SORT_TYPES } from "consts/modelEnums";
-import { useHistory, useParams } from "react-router";
-import { getArrayFromBase32, getBase32FromArray, getSequenceFromArray } from "utils/arrayHelpers";
 import SortPicker from "components/Filters/SortPicker";
-import { AnimalCardWrapper, AnimalListingWrapper } from "./index.styled";
-import { DEFAULT_GEOLOCATION } from "consts/constants";
-import AnimalCard from "./AnimalCard";
 import AnimalList from "./AnimalList";
-import axios from "axios";
+
+import { ANIMAL_ENUMS, SORT_TYPES } from "consts/modelEnums";
+import { DEFAULT_GEOLOCATION } from "consts/constants";
+import { getArrayFromBase32, getBase32FromArray, getSequenceFromArray } from "utils/arrayHelpers";
 import { getNumberOfPages } from "utils/mathHelpers";
+import { AnimalListingWrapper } from "./index.styled";
 
 const AnimalListing = () => {
   const params = useParams();
@@ -66,7 +67,7 @@ const AnimalListing = () => {
       specie: chosenSpecie,
       gender: chosenGender,
       age: chosenAge,
-      location: chosenLocation,
+      location: chosenLocation.trim(),
       sortType,
       userGeolocation: geolocation,
       pageNumber: currentPage-1

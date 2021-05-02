@@ -12,8 +12,6 @@ const AnimalInformation = ({ animal }) => {
     return bool ? <IsTrue /> : <IsFalse />;
   }
 
-  console.log(animal.specie);
-
   return (
     <div className="animal-info">
       <div className="animal-info-name">

@@ -2,15 +2,6 @@
   margin: 0;
   box-sizing: border-box;
 }
-.title__container button:nth-child(2) {
-  color: #91b2cb;
-  margin-right: 56px;
-}
-
-.title__container button:nth-child(2):after {
-  transition: none !important;
-  width: 100%;
-}
 
 .animal__details {
   position: relative;

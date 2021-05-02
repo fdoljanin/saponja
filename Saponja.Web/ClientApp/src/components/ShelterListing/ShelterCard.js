@@ -1,8 +1,8 @@
 import React from "react";
-import { ShelterCardWrapper } from "./index.styled";
 import { Link } from "react-router-dom";
 import pawIcon from "assets/svgs/paw.svg";
 import continueIcon from "assets/svgs/continue.svg";
+import { ShelterCardWrapper } from "./index.styled";
 
 const ShelterCard = ({ shelter }) => {
   return (
