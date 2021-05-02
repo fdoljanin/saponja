@@ -10,8 +10,8 @@ using Saponja.Data.Entities;
 namespace Saponja.Data.Migrations
 {
     [DbContext(typeof(SaponjaDbContext))]
-    [Migration("20210427204311_mig5")]
-    partial class mig5
+    [Migration("20210502120153_DbMigration")]
+    partial class DbMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -114,7 +114,7 @@ namespace Saponja.Data.Migrations
                     b.Property<int>("ShelterId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Type")
+                    b.Property<int>("Specie")
                         .HasColumnType("int");
 
                     b.HasKey("Id");

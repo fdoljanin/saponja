@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.ViewModels.Notification;
@@ -27,7 +28,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public IEnumerable<NotificationModel> GetUnopenedNotifications(int userId)
         {
-            var user = _dbContext.Users.Find(userId);
+            var user = _dbContext.Users
+                .Include(u => u.Notifications)
+                .FirstOrDefault(u => u.Id == userId);
 
             var notifications = user.Notifications
                 .Where(n => !n.HasBeenOpened)

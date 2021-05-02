@@ -6,7 +6,6 @@ width: 976px;
 padding: 40px 136px;
 border-radius: 24px;
 margin-bottom: 24px;
-
 background: #FDFFFD;
 
 display: flex;
@@ -81,6 +80,7 @@ export const ShelterListingWrapper = styled.main`
 display: flex;
 flex-direction: column;
 align-items: center;
+min-height: 80vh;
 
 .listing-options {
   display: flex;

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Constants;
 using Saponja.Domain.Enums;
 using Saponja.Domain.Helpers;
 using Saponja.Domain.Models.ViewModels.Adopter;
@@ -126,7 +127,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult RemoveAnimal(int animalId)
         {
-            var animal = _dbContext.Animals.First(a => a.Id == animalId);
+            var animal = _dbContext.Animals
+                .Include(a => a.AnimalPhotos)
+                .First(a => a.Id == animalId);
 
             foreach (var animalPhoto in animal.AnimalPhotos)
             {
@@ -169,8 +172,8 @@ namespace Saponja.Domain.Repositories.Implementations
                 .Include(a => a.Shelter)
                 .AsEnumerable()
                 .OrderBy(a => a, sortComparer)
-                .Skip(filter.PageNumber * 3)
-                .Take(3)
+                .Skip(filter.PageNumber * UXNumbers.ResultPerPage)
+                .Take(UXNumbers.ResultPerPage)
                 .Select(a => new AnimalModel(a));
 
             return new AnimalListModel

@@ -46,7 +46,7 @@ namespace Saponja.Domain.Helpers
 
             var email = new EmailMessageModel
             {
-                Subject = "Potvrdite email",
+                Subject = $"Dokumentacija za{adopter.Animal.Name}",
                 SenderAddress = sender,
                 ReceiverAddress = receiver,
                 Content = content,
@@ -68,7 +68,7 @@ namespace Saponja.Domain.Helpers
             var receiver = new EmailAddressModel()
             {
                 Name = adopter.FirstName,
-                Address = adopter.LastName
+                Address = adopter.Email
             };
 
             var email = new EmailMessageModel
@@ -94,7 +94,7 @@ namespace Saponja.Domain.Helpers
             var receiver = new EmailAddressModel()
             {
                 Name = adopter.FirstName,
-                Address = adopter.LastName
+                Address = adopter.Email
             };
 
             var email = new EmailMessageModel

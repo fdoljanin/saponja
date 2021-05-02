@@ -1,4 +1,6 @@
-﻿namespace Saponja.Domain.Models.ViewModels.Shelter
+﻿using System.IO;
+
+namespace Saponja.Domain.Models.ViewModels.Shelter
 {
     public class ShelterModel : ShelterInfoModel
     {
@@ -12,7 +14,9 @@
             ContactEmail = shelter.ContactEmail;
             Oib = shelter.Oib;
             Geolocation = shelter.Geolocation;
-            Description = System.IO.File.ReadAllText(shelter.DescriptionFilePath);
+
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", shelter.DocumentationFilePath);
+            Description = File.ReadAllText(serverPath);
             AnimalsCount = animalsCount;
         }
 

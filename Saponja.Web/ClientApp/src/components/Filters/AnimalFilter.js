@@ -24,7 +24,7 @@ const AnimalFilter = ({ filterProps, searchAction }) => {
   }
 
   return (
-    <FilterWrapper className="shelter__filer">
+    <FilterWrapper className="animal__filter">
       <FilterOption className="filter-option" onClick={() => setFocus(filterType.SPECIE)} focused={focus === filterType.SPECIE}>
         <img src={closeIcon} className="filter-close" onClick={closeModul} alt="Close module sign" />
         <p className="filter-name">Vrsta</p>

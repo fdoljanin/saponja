@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace Saponja.Domain.Models.ViewModels.Post
 {
@@ -7,11 +8,13 @@ namespace Saponja.Domain.Models.ViewModels.Post
         public PostModel(Data.Entities.Models.Post post, Data.Entities.Models.Shelter shelter)
         {
             Title = post.Title;
-            Content = System.IO.File.ReadAllText(post.ContentPath);
             PhotoPath = post.PhotoPath;
             Timestamp = post.DateTime;
             ShelterName = shelter.Name;
             ShelterId = shelter.Id;
+
+            var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", post.ContentPath);
+            Content = File.ReadAllText(serverPath);
         }
 
         public string Title;

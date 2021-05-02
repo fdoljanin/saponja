@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Data.Enums;
 using Saponja.Domain.Abstractions;
+using Saponja.Domain.Constants;
 using Saponja.Domain.Enums;
 using Saponja.Domain.Helpers;
 using Saponja.Domain.Models.ViewModels.Animal;
@@ -128,8 +130,8 @@ namespace Saponja.Domain.Repositories.Implementations
 
             var sheltersSelected = sheltersFiltered
                 .OrderBy(s => s, sortComparer)
-                .Skip(filter.PageNumber * 3)
-                .Take(3);
+                .Skip(filter.PageNumber * UXNumbers.ResultPerPage)
+                .Take(UXNumbers.ResultPerPage);
 
 
             return new ShelterListModel
@@ -141,11 +143,12 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult<ShelterModel> GetShelterDetails(int shelterId)
         {
-            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            var shelter = _dbContext.Shelters
+                .FirstOrDefault(s => s.Id == shelterId);
             if (shelter is null)
                 return ResponseResult<ShelterModel>.Error("Shelter does not exist");
 
-            var animalCount = _dbContext.Shelters.Find(shelterId).Animals.Count;
+            var animalCount = _dbContext.Animals.Count(a => a.ShelterId == shelter.Id && !a.HasBeenAdopted);
             var shelterModel = new ShelterModel(shelter, animalCount);
 
             return new ResponseResult<ShelterModel>(shelterModel);
@@ -153,15 +156,18 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult<IEnumerable<AnimalModel>> GetShelterAnimals(int shelterId, int pageNumber)
         {
-            var shelter = _dbContext.Shelters.FirstOrDefault(s => s.Id == shelterId);
+            var shelter = _dbContext.Shelters
+                .Include(s => s.Animals)
+                .FirstOrDefault(s => s.Id == shelterId);
+
             if (shelter is null)
                 return ResponseResult<IEnumerable<AnimalModel>>.Error("Shelter does not exist");
 
             var animalList = _dbContext.Animals
                 .Where(a => a.ShelterId == shelter.Id && !a.HasBeenAdopted)
                 .OrderBy(a => a.DateTime)
-                .Skip(3 * pageNumber)
-                .Take(3)
+                .Skip(UXNumbers.ResultPerPage * pageNumber)
+                .Take(UXNumbers.ResultPerPage)
                 .Select(a => new AnimalModel(a))
                 .ToList();
 

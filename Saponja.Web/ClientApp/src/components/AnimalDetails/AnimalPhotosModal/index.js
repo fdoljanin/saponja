@@ -15,7 +15,6 @@ const AnimalPhotosModal = ({shouldShow, animal, onClose}) => {
     return null;
   }
 
-
   const decrementIndex = index => (index - 1 + photos.length) % photos.length;
   const incrementIndex = index => (index + 1) % photos.length;
 
