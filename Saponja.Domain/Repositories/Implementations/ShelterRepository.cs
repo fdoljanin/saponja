@@ -144,12 +144,11 @@ namespace Saponja.Domain.Repositories.Implementations
         public ResponseResult<ShelterModel> GetShelterDetails(int shelterId)
         {
             var shelter = _dbContext.Shelters
-                .Include(s => s.Animals)
                 .FirstOrDefault(s => s.Id == shelterId);
             if (shelter is null)
                 return ResponseResult<ShelterModel>.Error("Shelter does not exist");
 
-            var animalCount = shelter.Animals.Count;
+            var animalCount = _dbContext.Animals.Count(a => a.ShelterId == shelter.Id && !a.HasBeenAdopted);
             var shelterModel = new ShelterModel(shelter, animalCount);
 
             return new ResponseResult<ShelterModel>(shelterModel);

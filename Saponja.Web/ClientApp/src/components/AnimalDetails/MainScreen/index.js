@@ -32,11 +32,11 @@ const AnimalDetails = () => {
   useEffect(() => {
     axios.get(`api/Visitor/GetAnimalDetails?animalId=${animalId}`)
       .then(({ data }) => setAnimal(data))
-      .catch(history.push("/404"));
+      .catch(e => history.push("/404"));
   }, []);
 
   if (!animal) {
-    return <h1>Loading</h1>
+    return <h1>Loading</h1> //loading component
   }
 
   return (

@@ -30,6 +30,9 @@ const AddShelter = () => {
   const [geolocation, setGeolocation] = useState(initialState.geolocation);
   const [documentation, setDocumentation] = useState();
 
+  if (user.role !== userRole.ADMIN)
+  return <Redirect to="/" />;
+
   const handleChange = (setter) => ({ target: { name, value } }) => {
     setter(prevState => ({
       ...prevState,
