@@ -32,8 +32,6 @@ const AnimalDetails = () => {
     return <h1>Loading</h1>
   }
 
-  const photos = [...animal.galleryPhotoPaths, animal.profilePhotoPath];
-
   return (
     <div>
       <NavigationBar />
@@ -52,7 +50,7 @@ const AnimalDetails = () => {
         </div>
       </div>
       <Footer />
-      <AnimalPhotosModal onClose={() => setShow(false)} shouldShow={show} photos={photos}/>
+      <AnimalPhotosModal onClose={() => setShow(false)} shouldShow={show} animal={animal}/>
       <FormModal onClose={() => setShowForm(false)} showForm={showForm} animalId={animalId}/>
     </div>
   );

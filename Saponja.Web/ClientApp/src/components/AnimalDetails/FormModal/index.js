@@ -20,8 +20,6 @@ const FormModal = ({ showForm, onClose, animalId }) => {
     return null;
   }
 
-
-
   const handleChange = ({ target: { name, value } }) => {
     setAdopter((prevState) => ({
       ...prevState,
@@ -32,7 +30,7 @@ const FormModal = ({ showForm, onClose, animalId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post("api/Adopter/ApplyForAnimal", { ...adopter, animalId })
-      .then(r => console.log(r))
+      .then(onClose)
   }
 
   return (

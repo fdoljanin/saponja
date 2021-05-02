@@ -7,8 +7,9 @@ import ThirdDog from "../../../assets/animalDetails_assets/dog_images/pas 3.png"
 import FourthDog from "../../../assets/animalDetails_assets/dog_images/pas 4.png";
 import FifthDog from "../../../assets/animalDetails_assets/dog_images/pas 5.png";
 
-const AnimalPhotosModal = ({shouldShow, photos, onClose}) => {
+const AnimalPhotosModal = ({shouldShow, animal, onClose}) => {
   const [index, setIndex] = useState(0);
+  const photos = [...animal.galleryPhotoPaths, animal.profilePhotoPath];
 
   if (!shouldShow) {
     return null;
@@ -41,7 +42,7 @@ const AnimalPhotosModal = ({shouldShow, photos, onClose}) => {
         <div className="animal__photos-container">
           <div className="animal__photos-container-title">
             <div>
-              <p>Špiro</p>
+              <p>{animal.name}</p>
               <img src={Paw} alt="šapa" />
             </div>
             <svg

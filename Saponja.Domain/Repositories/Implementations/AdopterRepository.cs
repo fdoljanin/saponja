@@ -49,13 +49,7 @@ namespace Saponja.Domain.Repositories.Implementations
             _dbContext.Adopters.Add(adopter);
             _dbContext.SaveChanges();
 
-
-            var fullAdopter = _dbContext.Adopters
-                .Include(a => a.Animal)
-                .ThenInclude(an => an.Shelter)
-                .First(a => a.Id == adopter.Id);
-
-            var emailToAdopter = EmailConstructor.ConstructConfirmationEmail(fullAdopter);
+            var emailToAdopter = EmailConstructor.ConstructConfirmationEmail(adopter);
             _emailService.SendEmail(emailToAdopter);
 
             return ResponseResult.Ok;

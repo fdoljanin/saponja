@@ -5,8 +5,12 @@ import { ANIMAL_ENUMS, SORT_TYPES } from "consts/modelEnums";
 import { useHistory, useParams } from "react-router";
 import { getArrayFromBase32, getBase32FromArray, getSequenceFromArray } from "utils/arrayHelpers";
 import SortPicker from "components/Filters/SortPicker";
-import { AnimalListingWrapper } from "./index.styled";
+import { AnimalCardWrapper, AnimalListingWrapper } from "./index.styled";
 import { DEFAULT_GEOLOCATION } from "consts/constants";
+import AnimalCard from "./AnimalCard";
+import AnimalList from "./AnimalList";
+import axios from "axios";
+import { getNumberOfPages } from "utils/mathHelpers";
 
 const AnimalListing = () => {
   const params = useParams();
@@ -57,6 +61,24 @@ const AnimalListing = () => {
 
   useEffect(searchAction, [currentPage]);
 
+  useEffect(() => {
+    const filterModel = {
+      specie: chosenSpecie,
+      gender: chosenGender,
+      age: chosenAge,
+      location: chosenLocation,
+      sortType,
+      userGeolocation: geolocation,
+      pageNumber: currentPage-1
+    }
+
+    axios.post("api/Visitor/GetFilteredAnimals", filterModel)
+    .then(({data}) => {
+      setFilteredAnimals(data.animals);
+      setPageCount(getNumberOfPages(data.animalsCount));
+    });
+  }, [params]);
+
   return (
     <AnimalListingWrapper>
       <div className="listing-options">
@@ -64,6 +86,7 @@ const AnimalListing = () => {
         <SortPicker options={SORT_TYPES.animal} value={sortType} setValue={setSortType} />
       </div>
       {pageCount ? <PagePicker pageCount={pageCount} currentPage={currentPage} setPage={setCurrentPage} /> : null}
+      <AnimalList animals={filteredAnimals} />
     </AnimalListingWrapper>
   )
 }

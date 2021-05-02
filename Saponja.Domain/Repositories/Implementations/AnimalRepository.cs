@@ -142,7 +142,8 @@ namespace Saponja.Domain.Repositories.Implementations
         public AnimalListModel GetFilteredAnimals(AnimalFilterModel filter)
         {
             var closeLocationComparer = Comparer<Animal>.Create((x, y) =>
-                ComparatorHelpers.CompareRelativeDistances(x.Shelter.Geolocation, y.Shelter.Geolocation, filter.UserGeolocation));
+                ComparatorHelpers.CompareRelativeDistances(x.Shelter.Geolocation, y.Shelter.Geolocation,
+                    filter.UserGeolocation));
 
             var oldestComparer = Comparer<Animal>.Create((x, y) => DateTime.Compare(x.DateTime, y.DateTime));
             var newestComparer = Comparer<Animal>.Create((x, y) => -1 * DateTime.Compare(x.DateTime, y.DateTime));
@@ -155,30 +156,28 @@ namespace Saponja.Domain.Repositories.Implementations
                 _ => throw new ArgumentOutOfRangeException()
             };
 
-            var animalsFiltered = _dbContext.Animals
+            var animalsFilterQuery = _dbContext.Animals
                 .Where(a => !a.HasBeenAdopted
                             && filter.Specie.Contains(a.Specie)
                             && filter.Gender.Contains(a.Gender)
-                            && filter.Age.Contains(a.Age))
+                            && filter.Age.Contains(a.Age)
+                            && (filter.Location == "" || filter.Location.ToLower() == a.Shelter.City.ToLower()));
+
+            var animalsCount = animalsFilterQuery.Count();
+
+            var animalsSelected = animalsFilterQuery
                 .Include(a => a.Shelter)
                 .AsEnumerable()
-                .Where(a => string.IsNullOrEmpty(filter.Location) || filter.Location.ToLower().Trim() == a.Shelter.City.ToLower());
-
-            var animalsCount = animalsFiltered.Count();
-
-            var animalsSelected = animalsFiltered
                 .OrderBy(a => a, sortComparer)
                 .Skip(filter.PageNumber * 3)
                 .Take(3)
-                .Select(a => new AnimalModel(a))
-                .ToList();
+                .Select(a => new AnimalModel(a));
 
             return new AnimalListModel
             {
                 AnimalsCount = animalsCount,
                 Animals = animalsSelected
             };
-
         }
 
         public ResponseResult<AnimalDetailsModel> GetAnimalDetails(int animalId)
