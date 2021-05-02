@@ -57,7 +57,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult ConfirmEmail(string confirmationToken)
         {
-            var adopter = _dbContext.Adopters.FirstOrDefault(a =>
+            var adopter = _dbContext.Adopters
+                .Include(a => a.Animal)
+                .FirstOrDefault(a =>
                     !a.HasConfirmedMail
                     && a.ConfirmationToken == confirmationToken
                     && !a.Animal.HasBeenAdopted);
@@ -96,7 +98,9 @@ namespace Saponja.Domain.Repositories.Implementations
 
         private void RefuseAllAdopters(int animalId)
         {
-            var animal = _dbContext.Animals.First(a => a.Id == animalId);
+            var animal = _dbContext.Animals
+                .Include(a => a.Adopters)
+                .First(a => a.Id == animalId);
             animal.HasBeenAdopted = true;
 
             foreach (var animalAdopter in animal.Adopters)
@@ -114,13 +118,13 @@ namespace Saponja.Domain.Repositories.Implementations
             var animal = adopter.Animal;
             animal.HasBeenAdopted = true;
 
-            _dbContext.Adopters.Remove(adopter);
-            RefuseAllAdopters(animal.Id);
-
-            _dbContext.SaveChanges();
             var emailToAdopter = EmailConstructor.ConstructAdoptedEmail(adopter);
             _emailService.SendEmail(emailToAdopter);
 
+            _dbContext.Adopters.Remove(adopter);
+            _dbContext.SaveChanges();
+
+            RefuseAllAdopters(animal.Id);
             return ResponseResult.Ok;
         }
 
@@ -137,7 +141,10 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult SendDocumentation(int adopterId)
         {
-            var adopter = _dbContext.Adopters.First(a => a.Id == adopterId);
+            var adopter = _dbContext.Adopters
+                .Include(a => a.Animal)
+                .ThenInclude(an => an.Shelter)
+                .First(a => a.Id == adopterId);
 
             var emailToAdopter = EmailConstructor.ConstructDocumentationEmail(adopter);
             _emailService.SendEmail(emailToAdopter);

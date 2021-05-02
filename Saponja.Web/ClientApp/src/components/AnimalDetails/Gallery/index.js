@@ -1,11 +1,5 @@
 import React, { useState } from "react";
 import SearchIcon from "../../../assets/icons/zoom in.svg";
-import FirstDog from "../../../assets/animalDetails_assets/dog_images/pas 1.png";
-import SecondDog from "../../../assets/animalDetails_assets/dog_images/pas 2.png";
-import ThirdDog from "../../../assets/animalDetails_assets/dog_images/pas 3.png";
-import FourthDog from "../../../assets/animalDetails_assets/dog_images/pas 4.png";
-import FifthDog from "../../../assets/animalDetails_assets/dog_images/pas 5.png";
-
 import "./style.css";
 
 const Gallery = ({ animal, onShowGallery }) => {

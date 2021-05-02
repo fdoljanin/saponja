@@ -24,7 +24,7 @@ namespace Saponja.Web.Controllers
         }
 
         [HttpGet(nameof(ConfirmEmail))]
-        public ActionResult ConfirmEmail([FromBody] string confirmationToken)
+        public ActionResult ConfirmEmail([FromQuery] string confirmationToken)
         {
             var result = _adopterRepository.ConfirmEmail(confirmationToken);
 

@@ -13,6 +13,7 @@ export const AnimalListingWrapper = styled.main`
 display: flex;
 flex-direction: column;
 align-items: center;
+min-height: 80vh;
 
 .listing-options {
   display: flex;

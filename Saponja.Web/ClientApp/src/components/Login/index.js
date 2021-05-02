@@ -42,8 +42,7 @@ const Login = () => {
         localStorage.setItem("token", data);
         history.push("/");
       })
-      .catch((e) => {
-        console.log(e); //implement error message
+      .catch((e) => { //implement error message
         alert("Pogrešni mail ili šifra!");
       });
   }

@@ -28,6 +28,11 @@ input:focus {
   outline: none;
 }
 
-body {
+body, html {
   background: #f6f6fb;
+  position: relative;
+}
+
+.content {
+  overflow-x: hidden;
 }

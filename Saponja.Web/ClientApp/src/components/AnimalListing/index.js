@@ -44,7 +44,7 @@ const AnimalListing = () => {
 
   const [geolocation, setGeolocation] = useState(DEFAULT_GEOLOCATION);
   navigator.geolocation.getCurrentPosition(p => setGeolocation(p.coords));
-  
+
   const [filteredAnimals, setFilteredAnimals] = useState([]);
 
   const searchAction = () => {
@@ -60,7 +60,10 @@ const AnimalListing = () => {
     history.push(`/animal/filter/${props.specie}/${props.gender}/${props.age}/${props.location}/${props.sort}/${props.page}`);
   }
 
-  useEffect(searchAction, [currentPage]);
+  useEffect(() => {
+    if (currentPage !== 1)
+      searchAction();
+  }, [currentPage]);
 
   useEffect(() => {
     const filterModel = {
@@ -70,14 +73,14 @@ const AnimalListing = () => {
       location: chosenLocation.trim(),
       sortType,
       userGeolocation: geolocation,
-      pageNumber: currentPage-1
+      pageNumber: currentPage - 1
     }
 
     axios.post("api/Visitor/GetFilteredAnimals", filterModel)
-    .then(({data}) => {
-      setFilteredAnimals(data.animals);
-      setPageCount(getNumberOfPages(data.animalsCount));
-    });
+      .then(({ data }) => {
+        setFilteredAnimals(data.animals);
+        setPageCount(getNumberOfPages(data.animalsCount));
+      });
   }, [params]);
 
   return (

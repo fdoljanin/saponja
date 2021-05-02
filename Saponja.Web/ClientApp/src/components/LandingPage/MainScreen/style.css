@@ -1,0 +1,16 @@
+.landing-main {
+  position: relative;
+}
+
+.landing-main .animal__filter {
+  position: absolute;
+  top: 24px;
+  left: 50vw;
+  transform: translateX(-50%);
+}
+
+@media screen and (max-width: 1023px) {
+  .landing-main .animal__filter {
+    display: none;
+  }
+}

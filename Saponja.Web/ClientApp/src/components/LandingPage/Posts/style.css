@@ -51,6 +51,7 @@
 .posts__container-image {
   width: 393px;
   height: 320px;
+  object-fit: cover;
   border-radius: 24px;
   margin-right: 77px;
 }

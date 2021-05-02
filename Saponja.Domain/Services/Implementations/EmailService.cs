@@ -1,4 +1,5 @@
-﻿using MailKit.Net.Smtp;
+﻿using System.IO;
+using MailKit.Net.Smtp;
 using MimeKit;
 using Saponja.Domain.Abstractions;
 using Saponja.Domain.Models.Configurations;
@@ -26,7 +27,10 @@ namespace Saponja.Domain.Services.Implementations
 
             var builder = new BodyBuilder();
             if (emailModel.AttachmentPath != null)
-                builder.Attachments.Add(emailModel.AttachmentPath);
+            {
+                var serverPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", emailModel.AttachmentPath);
+                builder.Attachments.Add(serverPath);
+            }
             builder.HtmlBody = emailModel.Content;
 
             message.Body = builder.ToMessageBody();

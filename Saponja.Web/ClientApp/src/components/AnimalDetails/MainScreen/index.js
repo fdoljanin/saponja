@@ -13,6 +13,8 @@ import "./style.css";
 import { useParams } from "react-router";
 import axios from "axios";
 import { useUser } from "services/providers/user/hooks";
+import {history} from "utils/BrowserHistoryWrapper";
+
 
 const AnimalDetails = () => {
   const [show, setShow] = useState(false);
@@ -29,7 +31,8 @@ const AnimalDetails = () => {
 
   useEffect(() => {
     axios.get(`api/Visitor/GetAnimalDetails?animalId=${animalId}`)
-      .then(({ data }) => setAnimal(data));
+      .then(({ data }) => setAnimal(data))
+      .catch(history.push("/404"));
   }, []);
 
   if (!animal) {
