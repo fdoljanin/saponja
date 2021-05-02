@@ -13,8 +13,8 @@ import ShelterListing from "components/ShelterListing";
 
 const App = () => {
   return <BrowserRouter>
-  <NavigationBar />
     <UserProvider>
+      <NavigationBar />
       <Route exact path="/animal/filter/:specie?/:gender?/:age?/:location?/:sort?/:page?">
         <AnimalListing />
       </Route>

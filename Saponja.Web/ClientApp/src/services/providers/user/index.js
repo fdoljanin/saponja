@@ -21,6 +21,7 @@ const UserProvider = ({ children }) => {
   const [userId, setUserId] = useState(initialState.userId);
 
   const logOut = () => {
+    console.log("?whta");
     localStorage.removeItem("token");
     setRole(null);
     setUserId(null);

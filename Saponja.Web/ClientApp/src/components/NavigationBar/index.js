@@ -5,12 +5,14 @@ import Logo from '../../assets/navigationBar_assets/logo.svg';
 import MobileLogo from "../../assets/navigationBar_assets/logo mobile.svg";
 import Hamburger from '../../assets/icons/icon menu burger.svg';
 import { NavBarWrapper } from "./index.styled.js";
+import { useLogoutUser} from "services/providers/user/hooks";
 
 const reversedPaths = ["login", "donate", "news", "shelter", "animal", ""];
 
 const NavigationBar = () => {
   const { pathname: currentPath } = useLocation();
   const currentSectionIndex = reversedPaths.length - reversedPaths.findIndex(p => currentPath.includes(p));
+  const [user, logoutUser] = useLogoutUser();
 
   return (
     <NavBarWrapper currentSection={currentSectionIndex}>
@@ -26,7 +28,9 @@ const NavigationBar = () => {
         <Link className="section-link" to="/shelter/filter">Azili</Link>
         <Link className="section-link" to="/">Novosti</Link>
         <Link className="section-link" to="/">Doniraj</Link>
-        <Link className="section-link" to="/">Prijavi se</Link>
+        {!user
+          ? <Link className="section-link" to="/login">Prijavi se</Link>
+          : <p className="section-link" onClick={() => logoutUser()}>Odjavi se</p>}
         <img src={Hamburger} alt="hamburger" className="title__container-hamburger" />
       </div>
     </NavBarWrapper>

@@ -40,18 +40,16 @@ const Login = () => {
     axios.post("api/Account/Login", credentialsForm)
       .then(({ data }) => {
         localStorage.setItem("token", data);
-        console.log(data);
-        history.push("/home");
+        history.push("/");
       })
       .catch((e) => {
         console.log(e); //implement error message
-        alert("Err");
+        alert("Pogrešni mail ili šifra!");
       });
   }
 
   return (
     <div>
-      <NavigationBar />
       <div className="login">
         <img
           src={LoginBackground}

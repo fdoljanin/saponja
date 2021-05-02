@@ -26,22 +26,16 @@ const AnimalDetails = () => {
     setShowForm(true);
   }
 
-  
+
   useEffect(() => {
     axios.get(`api/Visitor/GetAnimalDetails?animalId=${animalId}`)
-    .then(({ data }) => setAnimal(data));
+      .then(({ data }) => setAnimal(data));
   }, []);
-  
+
   if (!animal) {
     return <h1>Loading</h1>
   }
-  
-  const showAdoptPopupOrNull = () => {
-    return animal.shelterId != user.id
-      ? <FormModal onClose={() => setShowForm(false)} showForm={showForm} animalId={animalId} />
-      : null;
-  }
-  
+
   return (
     <div>
       <div className="animal__details">
@@ -59,7 +53,9 @@ const AnimalDetails = () => {
         </div>
       </div>
       <AnimalPhotosModal onClose={() => setShow(false)} shouldShow={show} animal={animal} />
-      {showAdoptPopupOrNull}
+      {animal.shelterId !== user?.id
+        ? <FormModal onClose={() => setShowForm(false)} showForm={showForm} animalId={animalId} />
+        : null}
     </div>
   );
 };

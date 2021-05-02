@@ -114,16 +114,7 @@ namespace Saponja.Domain.Helpers
         public static string Confirmation(string token)
         {
             return @"<html>
-  <body>
-    <h1>Potvrdite mail klikom na gumb</h1>
-    <p>
-      Poštovani, <br/> <br/> Hvala vam na prijavi za udomljavanje. Kako biste nastavili s
-      procesom udomljvanja molimo vas potvrdite svoj e-mail.
-    </p>
-    <a href='www.saponja.ga\confirmEmail\" + token + @"'>
-      <button>Prijavi se</button>
-    </a>
-  </body>
+<head>
   <style>
   @font-face {
     font-family: 'Poppins';
@@ -168,6 +159,17 @@ namespace Saponja.Domain.Helpers
   }
   
   </style>
+</head>
+  <body>
+    <h1>Potvrdite mail klikom na gumb</h1>
+    <p>
+      Poštovani, <br/> <br/> Hvala vam na prijavi za udomljavanje. Kako biste nastavili s
+      procesom udomljvanja molimo vas potvrdite svoj e-mail.
+    </p>
+    <a href='www.saponja.ga\confirmEmail\" + token + @"'>
+      <button>Prijavi se</button>
+    </a>
+  </body>
 </html>
 ";
         }
