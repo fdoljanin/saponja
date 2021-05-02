@@ -19,7 +19,7 @@ const Gallery = ({onShowGallery}) => {
   };
   return (
     <div className="gallery">
-      <img src={FirstDog} alt="dog-one" className="first-dog" />
+      <img src={FirstDog} alt="dog-one" className="first-animal" />
       <div
         className="gallery-container"
         onMouseEnter={(e) => handleMouseOver()}

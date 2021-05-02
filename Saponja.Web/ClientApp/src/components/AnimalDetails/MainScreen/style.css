@@ -42,3 +42,28 @@
 footer {
   margin-top: 110px;
 }
+
+@media screen and (max-width: 1024px) {
+  .animal__details-background {
+    display: none;
+  }
+
+  .animal__details {
+    padding: 40px 24px 40px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .animal__details-info-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+@media screen and (max-width: 464px) {
+  footer {
+    margin-top: 0;
+  }
+}

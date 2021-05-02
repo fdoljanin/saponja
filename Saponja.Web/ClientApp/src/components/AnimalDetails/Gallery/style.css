@@ -5,11 +5,13 @@
 
 .gallery {
   display: flex;
+  margin: auto;
 }
 
-.first-dog {
+.first-animal {
   height: 340px;
-  width: auto;
+  width: 464.94;
+  object-fit: cover;
   border-radius: 24px;
   margin-right: 13.06px;
 }
@@ -95,4 +97,163 @@
   width: 224px;
   height: 162px;
   object-fit: cover;
+}
+
+@media screen and (max-width: 1300px) {
+  .search-bar-container {
+    right: 13.5%;
+  }
+
+  .search-bar-container--hovered {
+    right: 17%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .search-bar-container {
+    right: 11%;
+  }
+
+  .search-bar-container--hovered {
+    right: 10.5%;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  .search-bar-container {
+    top: 89px;
+    right: 50px;
+  }
+
+  .search-bar-container--hovered {
+    left: 580px;
+    top: 225px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .search-bar-container {
+    top: 89px;
+  }
+
+  .search-bar-container--hovered {
+    top: 225px;
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .first-animal {
+    width: 400px;
+    height: 300px;
+    object-fit: cover;
+  }
+
+  .gallery-image {
+    width: 204px;
+    height: 142px;
+  }
+
+  .search-bar-container--hovered {
+    left: 510px;
+    top: 200px;
+  }
+
+  .search-bar-container {
+    right: 30px;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .first-animal {
+    width: 350px;
+    height: 250px;
+  }
+
+  .gallery-image {
+    width: 184px;
+    height: 122px;
+  }
+
+  .search-bar-container--hovered {
+    left: 450px;
+    top: 180px;
+  }
+}
+
+@media screen and (max-width: 780px) {
+  .gallery {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-bar-container--hovered {
+    display: none;
+  }
+
+  .gallery-container-grid {
+    display: flex;
+  }
+
+  .first-animal {
+    width: 506px;
+    height: 404px;
+    margin-bottom: 24px;
+  }
+
+  .gallery-image {
+    width: 115.77px;
+    height: 110px;
+  }
+
+  .gallery-container:hover > .gallery-container-grid {
+    animation: none;
+  }
+
+  .search-bar-container {
+    right: 140px;
+  }
+}
+
+@media screen and (max-width: 700px) {
+  .search-bar-container {
+    right: 100px;
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .search-bar-container {
+    right: 75px;
+  }
+}
+
+@media screen and (max-width: 570px) {
+  .first-animal {
+    width: 366px;
+    height: 264px;
+  }
+
+  .gallery-image {
+    width: 85.77px;
+    height: 80px;
+  }
+
+  .gallery-container-grid {
+    grid-gap: 7px;
+  }
+}
+
+@media screen and (max-width: 464px) {
+  .search-box {
+    width: 64px;
+    height: 64px;
+  }
+
+  .search {
+    width: 32px;
+    height: 32px;
+  }
+
+  .search-bar-container {
+    right: 35px;
+  }
 }

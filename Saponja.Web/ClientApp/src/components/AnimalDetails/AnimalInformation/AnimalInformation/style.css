@@ -82,3 +82,24 @@
 .animal-info-check-container div:first-child {
   margin-right: 32px;
 }
+
+@media screen and (max-width: 1000px) {
+  .animal-info {
+    margin-right: 0;
+  }
+}
+
+@media screen and (max-width: 464px) {
+  .animal-description {
+    max-width: 370px;
+  }
+
+  .animal-info-check-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .animal-info {
+    margin-left: 15px;
+  }
+}
