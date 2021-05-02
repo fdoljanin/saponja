@@ -1,2 +1,2 @@
 # saponja
-Project for IC hell!
+This is a project a group of interns made for a competition called IC. IC stands for Internship Cup and it happens at the end of every DUMP internship. Our team decided to make a web aplication that presents an easier way for people to adopt animals online. It would group up all registered shelters in our country in one place and simplify the process of filling out documentation. The project is not remotely close to being over, as we have many more things to implement in the future, but it is a great start in our careers as young developers, designers and project managers. 
