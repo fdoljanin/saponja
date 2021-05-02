@@ -8,22 +8,16 @@ import FifthDog from "../../../assets/animalDetails_assets/dog_images/pas 5.png"
 
 import "./style.css";
 
-const Gallery = ({onShowGallery}) => {
+const Gallery = ({ animal, onShowGallery }) => {
   const [hover, setHover] = useState(false);
 
-  const handleMouseOver = (e) => {
-    setHover(true);
-  };
-  const handleMouseLeave = (e) => {
-    setHover(false);
-  };
   return (
     <div className="gallery">
-      <img src={FirstDog} alt="dog-one" className="first-animal" />
+      <img src={animal.profilePhotoPath} alt="dog-one" className="first-animal" />
       <div
         className="gallery-container"
-        onMouseEnter={(e) => handleMouseOver()}
-        onMouseLeave={(e) => handleMouseLeave()}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
         onClick={onShowGallery}
       >
         <div
@@ -43,10 +37,9 @@ const Gallery = ({onShowGallery}) => {
           </p>
         </div>
         <div className="gallery-container-grid">
-          <img className="gallery-image" src={SecondDog} alt="dog-two" />
-          <img className="gallery-image" src={ThirdDog} alt="dog-three" />
-          <img className="gallery-image" src={FourthDog} alt="dog-four" />
-          <img className="gallery-image" src={FifthDog} alt="dog-five" />
+          {animal.galleryPhotoPaths.map(path =>
+            <img className="gallery-image" src={path} key={path} />)
+          }
         </div>
       </div>
     </div>

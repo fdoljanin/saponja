@@ -7,35 +7,22 @@ import ThirdDog from "../../../assets/animalDetails_assets/dog_images/pas 3.png"
 import FourthDog from "../../../assets/animalDetails_assets/dog_images/pas 4.png";
 import FifthDog from "../../../assets/animalDetails_assets/dog_images/pas 5.png";
 
-const AnimalPhotosModal = props => {
+const AnimalPhotosModal = ({shouldShow, animal, onClose}) => {
   const [index, setIndex] = useState(0);
-  const photos = [FirstDog, SecondDog, ThirdDog, FourthDog, FifthDog];
+  const photos = [...animal.galleryPhotoPaths, animal.profilePhotoPath];
 
-  if(!props.show) {
+  if (!shouldShow) {
     return null;
   }
 
-  const checkNumber = (number) => {
-    if (number > photos.length - 1) {
-      return 0;
-    }
-    if (number < 0) {
-      return photos.length - 1;
-    }
-    return number;
-  };
 
-  const handleClickLeft = () => {
-    setIndex(index => checkNumber(index - 1));
-  };
-  const handleClickRight = () => {
-    setIndex(index => checkNumber(index + 1));
-  };
+  const decrementIndex = index => (index - 1 + photos.length) % photos.length;
+  const incrementIndex = index => (index + 1) % photos.length;
 
   return (
     <div className="animal__photos">
       <div className="arrow-container">
-        <div className="left-arrow" onClick={handleClickLeft}>
+        <div className="left-arrow" onClick={() => setIndex(decrementIndex)}>
           <svg
             id="Filled"
             xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +42,7 @@ const AnimalPhotosModal = props => {
         <div className="animal__photos-container">
           <div className="animal__photos-container-title">
             <div>
-              <p>Špiro</p>
+              <p>{animal.name}</p>
               <img src={Paw} alt="šapa" />
             </div>
             <svg
@@ -64,7 +51,7 @@ const AnimalPhotosModal = props => {
               viewBox="0 0 24 24"
               width="16px"
               height="16px"
-              onClick={props.onClose}
+              onClick={onClose}
             >
               <title>180 cross</title>
               <path
@@ -77,7 +64,7 @@ const AnimalPhotosModal = props => {
           </div>
           <img src={photos[index]} alt="dog" className="animal-image"/>
         </div>
-        <div className="right-arrow" onClick={handleClickRight}>
+        <div className="right-arrow" onClick={() => setIndex(incrementIndex)}>
           <svg
             id="Filled"
             xmlns="http://www.w3.org/2000/svg"

@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Saponja.Domain.Models.User;
-using Saponja.Domain.Models.ViewModels.Notification;
 using Saponja.Domain.Repositories.Interfaces;
 using Saponja.Domain.Services.Interfaces;
 
@@ -11,13 +9,11 @@ namespace Saponja.Web.Controllers
     public class AccountController : ApiController
     {
         private readonly IUserRepository _userRepository;
-        private readonly INotificationRepository _notificationRepository;
         private readonly IJwtService _jwtService;
 
-        public AccountController(IUserRepository userRepository, INotificationRepository notificationRepository,  IJwtService jwtService)
+        public AccountController(IUserRepository userRepository, IJwtService jwtService)
         {
             _userRepository = userRepository;
-            _notificationRepository = notificationRepository;
             _jwtService = jwtService;
         }
 
@@ -34,21 +30,13 @@ namespace Saponja.Web.Controllers
             return Ok(token);
         }
 
-        [HttpPut(nameof(OpenNotification))]
-        public ActionResult OpenNotification([FromQuery] int notificationId)
+        [AllowAnonymous]
+        [HttpGet(nameof(RefreshToken))]
+        public ActionResult<string> RefreshToken([FromQuery] string token)
         {
-            var result = _notificationRepository.OpenNotification(notificationId);
-            if (result.IsError)
-                return BadRequest(result.Message);
+            var newToken = _jwtService.GetNewToken(token);
 
-            return Ok();
-        }
-
-        [HttpGet(nameof(GetNotifications))]
-        public ActionResult<ICollection<NotificationModel>> GetNotifications()
-        {
-            var notifications = _notificationRepository.GetUnopenedNotifications();
-            return Ok(notifications);
+            return Ok(newToken);
         }
     }
 }

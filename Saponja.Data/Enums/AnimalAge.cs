@@ -5,6 +5,7 @@
         BelowSixMonths,
         BetweenSixAndTwelveMonths,
         BetweenOneAndThreeYears,
-        FourYearsPlus
+        BetweenFourAndFiveYears,
+        MoreThanFiveYears
     }
 }

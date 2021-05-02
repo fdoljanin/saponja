@@ -1,66 +1,69 @@
 import React from "react";
-import Paw from '../../../../assets/icons/šapa.svg';
+import Paw from 'assets/icons/šapa.svg';
 import IsTrue from '../IsTrue';
 import IsFalse from '../IsFalse';
 import "./style.css";
+import { ANIMAL_ENUMS } from "consts/modelEnums";
+import { Link } from "react-router-dom";
 
-const AnimalInformation = () => {
+const AnimalInformation = ({ animal }) => {
+
+  const showTruethiness = (bool) => {
+    return bool ? <IsTrue /> : <IsFalse />;
+  }
+
   return (
     <div className="animal-info">
       <div className="animal-info-name">
-        <p>Špiro</p>
+        <p>{animal.name}</p>
         <img src={Paw} alt="sapa" />
       </div>
       <p>
-        Vrsta: <span>Pas</span>
+        Vrsta: <span>{ANIMAL_ENUMS.specie[animal.specie]}</span>
       </p>
       <p>
-        Spol: <span>Muško</span>
+        Spol: <span>{ANIMAL_ENUMS.gender[animal.gender]}</span>
       </p>
       <p>
-        Starost: <span>6-12 mjeseci</span>
+        Starost: <span>{ANIMAL_ENUMS.age[animal.age]}</span>
       </p>
+      <Link to={`/shelter/${animal.shelterId}`}>
       <p>
-        Azil: <span className="shelter-info">Dumovec</span>
+        Azil: <span className="shelter-info">{animal.shelterName}</span>
       </p>
+      </Link>
       <p>
         Moja priča:{" "}
         <span className="animal-description">
-          Špiro ima 11 mjeseci, naučen je na kućni red, slaže se sa ostalim
-          pesekima i macama, ljude obožava a za djecu ima posebnu ljubav!
-          Obožava se maziti i davati puse, vrlo je poslušan, sluša naredbe te
-          lijepo hoda na povodcu. Potpuno je veterinarski obrađen te čeka na
-          kastraciju. U početku je bio strašno nepovjerljiv prema ljudima, no
-          sada, mjesec dana od preuzimanja, on je pokazao da je najnježniji pas
-          na svijetu!
+          {animal.description}
         </span>
       </p>
       <div className="animal-info-check-container">
         <div>
           <div className="animal-info-check">
-            <IsFalse />
+            {showTruethiness(animal.isSterilized)}
             <span>Steriliziran</span>
           </div>
           <div className="animal-info-check">
-            <IsTrue />
+            {showTruethiness(animal.isVaccinated)}
             <span>Cijepljen</span>
           </div>
           <div className="animal-info-check">
-            <IsFalse />
+            {showTruethiness(animal.isRequiredExperience)}
             <span>Zahtjeva iskustvo</span>
           </div>
         </div>
         <div>
           <div className="animal-info-check">
-            <IsTrue />
+            {showTruethiness(animal.isGoodWithChildren)}
             <span>Dobar s djecom</span>
           </div>
           <div className="animal-info-check">
-            <IsTrue />
-            <span>Dobar s psima</span>
+            {showTruethiness(animal.isGoodWithDogs)}
+            <span>Dobar sa psima</span>
           </div>
           <div className="animal-info-check">
-            <IsFalse />
+            {showTruethiness(animal.isGoodWithCats)}
             <span>Dobar s mačkama</span>
           </div>
         </div>

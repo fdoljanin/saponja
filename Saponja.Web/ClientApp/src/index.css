@@ -1,0 +1,33 @@
+@font-face {
+  font-family: Poppins;
+  font-weight: 500;
+  src: url("./assets/fonts/Poppins-Medium.ttf");
+}
+
+@font-face {
+  font-family: HurmeBold;
+  src: url("./assets/fonts/Hurme\ Geometric\ Sans\ 4\ W00\ Bold.ttf");
+}
+
+@font-face {
+  font-family: Poppins;
+  font-weight: normal;
+  src: url("./assets/fonts/Poppins-Regular.ttf");
+}
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+input:focus {
+  outline: none;
+}
+
+body {
+  background: #f6f6fb;
+}

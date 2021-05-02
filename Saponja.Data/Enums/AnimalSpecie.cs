@@ -1,6 +1,6 @@
 ﻿namespace Saponja.Data.Enums
 {
-    public enum AnimalType
+    public enum AnimalSpecie
     {
         Cat,
         Dog,

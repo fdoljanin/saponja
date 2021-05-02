@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Saponja.Data.Entities;
 using Saponja.Data.Entities.Models;
 using Saponja.Domain.Abstractions;
@@ -13,33 +14,23 @@ namespace Saponja.Domain.Repositories.Implementations
     public class AdopterRepository : IAdopterRepository
     {
         private readonly SaponjaDbContext _dbContext;
-        private readonly IClaimProvider _claimProvider;
         private readonly IEmailService _emailService;
 
-        public AdopterRepository(SaponjaDbContext dbContext, IClaimProvider claimProvider)
+        public AdopterRepository(SaponjaDbContext dbContext, IEmailService emailService)
         {
             _dbContext = dbContext;
-            _claimProvider = claimProvider;
-        }
-
-        private ResponseResult GetAdopterIfAuthorized(int adopterId, out Adopter adopter)
-        {
-            var shelterId = _claimProvider.GetUserId();
-            adopter = _dbContext.Adopters.FirstOrDefault(a => a.Id == adopterId);
-
-            if (adopter is null || adopter.Animal.ShelterId != shelterId || adopter.Animal.HasBeenAdopted)
-                return ResponseResult.Error("Invalid adopter");
-
-            return ResponseResult.Ok;;
+            _emailService = emailService;
         }
 
         public ResponseResult ApplyForAnimal(AdopterApplyModel model)
         {
-            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == model.AnimalId && !a.HasBeenAdopted);
+            var animal = _dbContext.Animals
+                .Include(a => a.Adopters)
+                .FirstOrDefault(a => a.Id == model.AnimalId && !a.HasBeenAdopted);
             if (animal is null)
                 return ResponseResult.Error("Animal not available");
 
-            if (animal.Adopters.Any(a => a.Email == model.Email.ToLower().Trim()))  
+            if (animal.Adopters.Any(a => a.Email == model.Email.ToLower().Trim()))
                 return ResponseResult.Error("Already applied for animal");
 
             var adopter = new Adopter
@@ -67,11 +58,11 @@ namespace Saponja.Domain.Repositories.Implementations
         public ResponseResult ConfirmEmail(string confirmationToken)
         {
             var adopter = _dbContext.Adopters.FirstOrDefault(a =>
-                    !a.HasConfirmedMail 
+                    !a.HasConfirmedMail
                     && a.ConfirmationToken == confirmationToken
                     && !a.Animal.HasBeenAdopted);
 
-            if (adopter is null) 
+            if (adopter is null)
                 return ResponseResult.Error("Token not valid!");
 
             var notification = new Notification
@@ -92,43 +83,37 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult RefuseAdopter(int adopterId)
         {
-            var findAdopterResult = GetAdopterIfAuthorized(adopterId, out var adopter);
-            if (findAdopterResult.IsError)
-                return ResponseResult.Error("Unauthorized");
-
-            _dbContext.Adopters.Remove(adopter);
+            var adopter = _dbContext.Adopters.First(a => a.Id == adopterId);
 
             var emailToAdopter = EmailConstructor.ConstructRejectEmail(adopter);
             _emailService.SendEmail(emailToAdopter);
 
+            _dbContext.Adopters.Remove(adopter);
+            _dbContext.SaveChanges();
+
             return ResponseResult.Ok;
         }
 
-        private ResponseResult RefuseAllAdopters(int animalId)
+        private void RefuseAllAdopters(int animalId)
         {
-            var animal = _dbContext.Animals.Find(animalId);
+            var animal = _dbContext.Animals.First(a => a.Id == animalId);
             animal.HasBeenAdopted = true;
 
             foreach (var animalAdopter in animal.Adopters)
             {
-                // send email
-                _dbContext.Adopters.Remove(animalAdopter);
+                RefuseAdopter(animalAdopter.Id);
             }
 
             _dbContext.SaveChanges();
-            return ResponseResult.Ok;
         }
 
         public ResponseResult SetAnimalAdopter(int adopterId)
         {
-            var findAdopterResult = GetAdopterIfAuthorized(adopterId, out var adopter);
-            if (findAdopterResult.IsError)
-                return ResponseResult.Error("Unauthorized");
+            var adopter = _dbContext.Adopters.First(a => a.Id == adopterId);
 
             var animal = adopter.Animal;
             animal.HasBeenAdopted = true;
 
-            //send email to adopter
             _dbContext.Adopters.Remove(adopter);
             RefuseAllAdopters(animal.Id);
 
@@ -141,11 +126,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult SetAnimalAdoptedOutside(int animalId)
         {
-            var animal = _dbContext.Animals.FirstOrDefault(a => a.Id == animalId && !a.HasBeenAdopted); //can be used that func from anima
-            var shelterId = _claimProvider.GetUserId();
-
-            if (animal is null || animal.ShelterId != shelterId)
-                return ResponseResult.Error("Invalid animal");
+            var animal = _dbContext.Animals.Find(animalId);
 
             RefuseAllAdopters(animal.Id);
             animal.HasBeenAdopted = true;
@@ -156,9 +137,7 @@ namespace Saponja.Domain.Repositories.Implementations
 
         public ResponseResult SendDocumentation(int adopterId)
         {
-            var findAdopterResult = GetAdopterIfAuthorized(adopterId, out var adopter);
-            if (findAdopterResult.IsError || adopter.HasReceivedDocumentation)
-                return ResponseResult.Error("Unauthorized");
+            var adopter = _dbContext.Adopters.First(a => a.Id == adopterId);
 
             var emailToAdopter = EmailConstructor.ConstructDocumentationEmail(adopter);
             _emailService.SendEmail(emailToAdopter);

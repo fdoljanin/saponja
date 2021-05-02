@@ -6,12 +6,11 @@ namespace Saponja.Data.Entities
 {
     public class SaponjaDbContext : DbContext
     {
-        public SaponjaDbContext (DbContextOptions<SaponjaDbContext> options) : base(options)
+        public SaponjaDbContext(DbContextOptions<SaponjaDbContext> options) : base(options)
         {
         }
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Admin> Admins { get; set; }
         public DbSet<Shelter> Shelters { get; set; }
         public DbSet<Adopter> Adopters { get; set; }
         public DbSet<Animal> Animals { get; set; }

@@ -21,9 +21,9 @@ namespace Saponja.Domain.Helpers
                 + Math.Cos(aInRadians.Latitude) * Math.Cos(bInRadians.Latitude) *
                 Math.Pow(Math.Sin(longitudeDifference / 2.0), 2.0);
 
-            var distanceInMeters = 6376500.0 * (2.0 * Math.Atan2(Math.Sqrt(result), Math.Sqrt(1.0 - result)));
+            var distanceInKilometers = 6376.5 * (2.0 * Math.Atan2(Math.Sqrt(result), Math.Sqrt(1.0 - result)));
 
-            return distanceInMeters;
+            return distanceInKilometers;
         }
     }
 }

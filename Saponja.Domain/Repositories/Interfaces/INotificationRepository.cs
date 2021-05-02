@@ -7,6 +7,6 @@ namespace Saponja.Domain.Repositories.Interfaces
     public interface INotificationRepository
     {
         ResponseResult OpenNotification(int notificationId);
-        IEnumerable<NotificationModel> GetUnopenedNotifications();
+        IEnumerable<NotificationModel> GetUnopenedNotifications(int userId);
     }
 }

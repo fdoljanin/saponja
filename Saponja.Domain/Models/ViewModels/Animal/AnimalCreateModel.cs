@@ -4,7 +4,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
 {
     public class AnimalCreateModel
     {
-        public AnimalType Type { get; set; }
+        public AnimalSpecie Specie { get; set; }
         public string Name { get; set; }
         public AnimalGender Gender { get; set; }
         public AnimalAge Age { get; set; }
@@ -16,5 +16,7 @@ namespace Saponja.Domain.Models.ViewModels.Animal
         public bool IsVaccinated { get; set; }
         public bool IsRequiredExperience { get; set; }
         public bool IsDangerous { get; set; }
+
+        public int ShelterId { get; set; }
     }
 }

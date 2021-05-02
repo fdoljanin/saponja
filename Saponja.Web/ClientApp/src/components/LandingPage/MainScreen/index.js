@@ -11,12 +11,10 @@ import './style.css';
 const MainScreen = () => {
   return (
     <div>
-     <NavigationBar />
       <Header />
       <Banner />
       <Posts />
       <BottomSection />
-      <Footer />
     </div>
   );
 };

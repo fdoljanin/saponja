@@ -26,7 +26,8 @@ namespace Saponja.Domain.Services.Implementations
         public JwtService(
             IOptions<JwtConfiguration> jwtConfigurationOptions,
             IUserRepository userRepository
-        ) {
+        )
+        {
             _jwtConfiguration = jwtConfigurationOptions.Value;
             _userRepository = userRepository;
         }

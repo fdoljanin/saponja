@@ -1,4 +1,5 @@
-﻿using Saponja.Domain.Helpers;
+﻿using System;
+using Saponja.Domain.Helpers;
 
 namespace Saponja.Domain.Models.ViewModels.Post
 {
@@ -9,12 +10,14 @@ namespace Saponja.Domain.Models.ViewModels.Post
             Id = post.Id;
             Title = post.Title;
             PhotoPath = post.PhotoPath;
-            ContentPreview = FileHelpers.ReadFirstFewChars(post.ContentPath, 130);
+            Timestamp = post.DateTime;
+            ContentPreview = FileHelpers.ReadFirstFewChars(post.ContentPath, 250);
         }
 
         public int Id { get; set; }
         public string Title { get; set; }
         public string ContentPreview { get; set; }
         public string PhotoPath { get; set; }
+        public DateTime Timestamp { get; set; }
     }
 }

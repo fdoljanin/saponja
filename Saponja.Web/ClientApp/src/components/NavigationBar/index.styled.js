@@ -1,17 +1,11 @@
-@font-face {
-  font-family: PoppinsMedium;
-  src: url("../../assets/fonts/Poppins-Medium.ttf");
-}
-* {
-  margin: 0;
-  box-sizing: border-box;
-}
-nav {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px 152px;
-}
+import styled from "styled-components";
+
+export const NavBarWrapper = styled.nav`
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 16px 152px;
+
 
 .logo__container {
   width: 164px;
@@ -22,8 +16,8 @@ nav {
   display: none;
 }
 
-.title__container button {
-  font-family: PoppinsMedium;
+.section-link {
+  font-family: Poppins;
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
@@ -41,11 +35,16 @@ nav {
   height: 24px;
 }
 
-.title__container button:last-child {
+.section-link {
+  display: inline-block;
+  color: #2B343A;
+}
+
+.section-link:last-child {
   margin-right: 0;
 }
 
-.title__container button::after {
+.section-link::after {
   content: "";
   display: block;
   width: 0;
@@ -55,14 +54,22 @@ nav {
   transition: width 0.3s;
 }
 
-.title__container button:hover::after {
+.section-link:hover::after {
+  width: 100%;
+}
+
+.section-link:nth-child(${props => props.currentSection}) {
+  color: #91b2cb;
+  margin-right: 56px;
+}
+
+.section-link:nth-child(${props => props.currentSection}):after {
+  transition: none !important;
   width: 100%;
 }
 
 @media only screen and (max-width: 1300px) {
-  nav {
-    padding: 16px 88px;
-  }
+  padding: 16px 88px;
 
   .logo__container-logo {
     display: none;
@@ -74,11 +81,9 @@ nav {
 }
 
 @media only screen and (max-width: 1200px) {
-  nav {
-    padding: 16px 56px;
-  }
+  padding: 16px 56px;
 
-  .title__container button {
+  .section-link {
     display: none;
   }
 
@@ -88,7 +93,5 @@ nav {
 }
 
 @media screen and (max-width: 441px) {
-  nav {
-    padding: 16px 24px;
-  }
-}
+  padding: 16px 24px;
+}`;

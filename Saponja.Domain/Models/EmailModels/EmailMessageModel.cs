@@ -1,6 +1,6 @@
 ﻿namespace Saponja.Domain.Models.EmailModels
 {
-	public class EmailMessageModel
+    public class EmailMessageModel
     {
         public EmailAddressModel SenderAddress { get; set; }
         public EmailAddressModel ReceiverAddress { get; set; }

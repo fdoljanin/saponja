@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import {parseJwt} from "utils/jwtParser";
-import {useHistory} from "react-router";
+import { parseJwt } from "utils/jwtParser";
+import { history } from "utils/BrowserHistoryWrapper";
+import axios from "axios";
+import { newToken } from "services/axiosConfiguration";
 
 const token = localStorage.getItem("token");
 const tokenParsed = parseJwt(token);
@@ -11,21 +13,28 @@ const initialState = {
 
 export const UserContext = React.createContext({
   state: { ...initialState },
-  logOut: () => {},
+  logOut: () => { },
 });
 
 const UserProvider = ({ children }) => {
-  const history = useHistory();
-
   const [role, setRole] = useState(initialState.role);
   const [userId, setUserId] = useState(initialState.userId);
 
   const logOut = () => {
+    console.log("?whta");
     localStorage.removeItem("token");
     setRole(null);
     setUserId(null);
     history.push("/login");
   };
+
+  const refreshToken = () => newToken(token)
+    .then(({ data }) => localStorage.setItem("token", data))
+    .catch(logOut);
+
+  if (token) {
+    refreshToken();
+  }
 
   const value = {
     state: { role, userId },

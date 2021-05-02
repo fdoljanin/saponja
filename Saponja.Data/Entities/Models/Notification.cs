@@ -10,6 +10,6 @@ namespace Saponja.Data.Entities.Models
         public DateTime Timestamp { get; set; }
         public bool HasBeenOpened { get; set; }
         public int UserId { get; set; }
-        public User User {get; set; }
+        public User User { get; set; }
     }
 }
